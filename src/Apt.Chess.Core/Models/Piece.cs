@@ -1,4 +1,4 @@
-﻿namespace Apt.Chess.Game;
+﻿namespace Apt.Chess.Core.Models;
 
 /// <summary>
 /// Define a record for a piece

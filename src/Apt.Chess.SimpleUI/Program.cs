@@ -1,7 +1,7 @@
 ﻿//#define USE_STOCK_BOARD
-using Apt.Chess.Game;
-using Apt.Chess.Game.Services;
-using Apt.Chess.Game.Services.Standard;
+
+using Apt.Chess.Core.Models;
+using Apt.Chess.Core.Services.Standard;
 
 // Console.WriteLine("Welcome to Apt Chess. There is nothing here yet. Enjoy the silence.");
 

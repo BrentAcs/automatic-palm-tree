@@ -1,4 +1,4 @@
-﻿namespace Apt.Chess.Game;
+﻿namespace Apt.Chess.Core.Models;
 
 /// <summary>
 /// Define the two colors in a chess game, black and white.

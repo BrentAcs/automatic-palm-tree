@@ -1,6 +1,6 @@
-﻿using Apt.Chess.Game.Models;
+﻿using Apt.Chess.Core.Models;
 
-namespace Apt.Chess.Game.Services;
+namespace Apt.Chess.Core.Services;
 
 public interface IBoardModelFactory
 {

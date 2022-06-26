@@ -1,5 +1,5 @@
-﻿using Apt.Chess.Game.Services;
-using Apt.Chess.Game.Services.Standard;
+﻿using Apt.Chess.Core.Models;
+using Apt.Chess.Core.Services.Standard;
 using FluentAssertions;
 
 namespace Apt.Chess.Game.Tests.Services;

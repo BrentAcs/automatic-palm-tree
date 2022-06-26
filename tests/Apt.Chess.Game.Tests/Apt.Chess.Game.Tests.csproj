@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Apt.Chess.Game\Apt.Chess.Game.csproj" />
+    <ProjectReference Include="..\..\src\Apt.Chess.Core\Apt.Chess.Core.csproj" />
   </ItemGroup>
 
 </Project>

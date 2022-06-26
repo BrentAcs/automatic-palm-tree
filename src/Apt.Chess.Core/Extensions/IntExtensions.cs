@@ -1,4 +1,4 @@
-﻿namespace Apt.Chess.Game.Extensions;
+﻿namespace Apt.Chess.Core.Extensions;
 
 public static class IntExtensions
 {

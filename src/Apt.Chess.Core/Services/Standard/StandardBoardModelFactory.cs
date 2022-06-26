@@ -1,8 +1,8 @@
-﻿using Apt.Chess.Game.Extensions;
-using Apt.Chess.Game.Models;
-using Apt.Chess.Game.Models.Standard;
+﻿using Apt.Chess.Core.Extensions;
+using Apt.Chess.Core.Models;
+using Apt.Chess.Core.Models.Standard;
 
-namespace Apt.Chess.Game.Services.Standard;
+namespace Apt.Chess.Core.Services.Standard;
 
 public class StandardBoardModelFactory : BoardModelFactory
 {

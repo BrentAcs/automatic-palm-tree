@@ -1,4 +1,4 @@
-﻿namespace Apt.Chess.Game.Models.Standard;
+﻿namespace Apt.Chess.Core.Models.Standard;
 
 public class StandardBoardModel : BoardModel
 {

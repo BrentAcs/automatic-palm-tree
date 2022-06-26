@@ -1,4 +1,4 @@
-﻿namespace Apt.Chess.Game.Models;
+﻿namespace Apt.Chess.Core.Models;
 
 public interface IBoardModel
 {

@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apt.Chess.Game", "src\Apt.Chess.Game\Apt.Chess.Game.csproj", "{269962B9-B8F7-4790-AFCA-A3B92F385BDF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apt.Chess.Core", "src\Apt.Chess.Core\Apt.Chess.Core.csproj", "{269962B9-B8F7-4790-AFCA-A3B92F385BDF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{DCF09436-2D27-4255-A462-A1353B97C954}"
 EndProject
