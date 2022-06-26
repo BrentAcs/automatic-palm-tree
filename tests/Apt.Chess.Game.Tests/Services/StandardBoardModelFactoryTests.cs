@@ -73,4 +73,25 @@ public class StandardBoardModelFactoryTests
       var h8 = board[ ChessFile.H, ChessRank._8 ];
       h8?.SquareColor.Should().Be(ChessColor.Black);
    }
+   
+   [Fact]
+   public void Create_WillReturn_Board_WithValidCornerSquares_ViaFileAndRankIndexer()
+   {
+      var sut = new StandardBoardModelFactory();
+
+      var board = sut.Create();
+
+      var a1 = board[ new FileAndRank(ChessFile.A, ChessRank._1)  ];
+      a1?.SquareColor.Should().Be(ChessColor.Black);
+      
+      var a8 = board[ new FileAndRank(ChessFile.A, ChessRank._8) ];
+      a8?.SquareColor.Should().Be(ChessColor.White);
+      
+      var h1 = board[ new FileAndRank(ChessFile.H, ChessRank._1) ];
+      h1?.SquareColor.Should().Be(ChessColor.White);
+      
+      var h8 = board[ new FileAndRank(ChessFile.H, ChessRank._8) ];
+      h8?.SquareColor.Should().Be(ChessColor.Black);
+   }
+   
 }

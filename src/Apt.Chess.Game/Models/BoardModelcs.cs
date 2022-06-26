@@ -7,6 +7,7 @@ public interface IBoardModel
 
    Square[ , ] Squares { get; }
    Square this[ ChessFile file, ChessRank rank] { get; }
+   Square this[FileAndRank position] { get; }
 }
 
 /// <summary>
@@ -28,5 +29,8 @@ public abstract class BoardModel : IBoardModel
    [JsonIgnore]
    public Square this[ChessFile file, ChessRank rank]
       => Squares[ (int)file, (int)rank ];
-}
 
+   [JsonIgnore]
+   public Square this[FileAndRank position]
+      => Squares[(int) position.File, (int) position.Rank];
+}
