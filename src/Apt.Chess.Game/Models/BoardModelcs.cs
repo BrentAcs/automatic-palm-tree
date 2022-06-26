@@ -1,13 +1,13 @@
-﻿namespace Apt.Chess.Game;
+﻿namespace Apt.Chess.Game.Models;
 
 public interface IBoardModel
 {
    int MaxRank { get; }
    int MaxFile { get; }
 
-   Square[ , ] Squares { get; }
-   Square this[ ChessFile file, ChessRank rank] { get; }
-   Square this[FileAndRank position] { get; }
+   Square[ , ] Squares { get; set; }
+   Square this[ChessFile file, ChessRank rank] { get; set; }
+   Square this[FileAndRank position] { get; set; }
 }
 
 /// <summary>
@@ -28,9 +28,16 @@ public abstract class BoardModel : IBoardModel
 
    [JsonIgnore]
    public Square this[ChessFile file, ChessRank rank]
-      => Squares[ (int)file, (int)rank ];
+   {
+      get => Squares[ (int)file, (int)rank ];
+      set => Squares[ (int)file, (int)rank ] = value;
+   }
+
 
    [JsonIgnore]
    public Square this[FileAndRank position]
-      => Squares[(int) position.File, (int) position.Rank];
+   {
+      get => Squares[ (int)position.File, (int)position.Rank ];
+      set => Squares[ (int)position.File, (int)position.Rank ] = value;
+   }
 }

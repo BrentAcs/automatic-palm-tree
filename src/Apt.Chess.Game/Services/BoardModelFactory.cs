@@ -1,4 +1,5 @@
 ﻿using Apt.Chess.Game.Extensions;
+using Apt.Chess.Game.Models;
 
 namespace Apt.Chess.Game.Services;
 
@@ -10,8 +11,15 @@ public interface IBoardModelFactory
 public abstract class BoardModelFactory : IBoardModelFactory
 {
    protected abstract IBoardModel CreateEmptyBoard();
-   protected void PopulateInitialPieces(IBoardModel board, IDictionary<FileAndRank, Piece>? initialPieces = null)
+   protected virtual void PopulateInitialPieces(IBoardModel board, IDictionary<FileAndRank, Piece>? initialPieces = null)
    {
+      if (initialPieces is null)
+         return;
+
+      foreach (var initialPiece in initialPieces)
+      {
+         board[ initialPiece.Key ].Piece = initialPiece.Value;
+      }
    }
 
    public IBoardModel Create(IDictionary<FileAndRank, Piece>? initialPieces = null)

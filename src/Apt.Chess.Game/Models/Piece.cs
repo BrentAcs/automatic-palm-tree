@@ -5,6 +5,4 @@
 /// </summary>
 public record Piece(PieceType Type, ChessColor Player)
 {
-   public PieceType Type { get; init; }
-   public ChessColor Player { get; init; }
 }

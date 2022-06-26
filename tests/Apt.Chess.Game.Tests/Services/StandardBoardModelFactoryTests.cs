@@ -16,7 +16,7 @@ public class StandardBoardModelFactoryTests
       board.MaxRank.Should().Be(8);
       board.MaxFile.Should().Be(8);
    }
-   
+
    [Fact]
    public void Create_WillReturn_Board_WithNonNullSquares()
    {
@@ -33,7 +33,7 @@ public class StandardBoardModelFactoryTests
          }
       }
    }
-   
+
    [Fact]
    public void Create_WillReturn_Board_WithValidCornerSquares()
    {
@@ -43,17 +43,17 @@ public class StandardBoardModelFactoryTests
 
       var a1 = board.Squares[ 0, 0 ];
       a1?.SquareColor.Should().Be(ChessColor.Black);
-      
+
       var a8 = board.Squares[ 0, 7 ];
       a8?.SquareColor.Should().Be(ChessColor.White);
-      
+
       var h1 = board.Squares[ 7, 0 ];
       h1?.SquareColor.Should().Be(ChessColor.White);
-      
+
       var h8 = board.Squares[ 7, 7 ];
       h8?.SquareColor.Should().Be(ChessColor.Black);
    }
-   
+
    [Fact]
    public void Create_WillReturn_Board_WithValidCornerSquares_ViaIndexer()
    {
@@ -63,17 +63,17 @@ public class StandardBoardModelFactoryTests
 
       var a1 = board[ ChessFile.A, ChessRank._1 ];
       a1?.SquareColor.Should().Be(ChessColor.Black);
-      
+
       var a8 = board[ ChessFile.A, ChessRank._8 ];
       a8?.SquareColor.Should().Be(ChessColor.White);
-      
+
       var h1 = board[ ChessFile.H, ChessRank._1 ];
       h1?.SquareColor.Should().Be(ChessColor.White);
-      
+
       var h8 = board[ ChessFile.H, ChessRank._8 ];
       h8?.SquareColor.Should().Be(ChessColor.Black);
    }
-   
+
    [Fact]
    public void Create_WillReturn_Board_WithValidCornerSquares_ViaFileAndRankIndexer()
    {
@@ -81,17 +81,33 @@ public class StandardBoardModelFactoryTests
 
       var board = sut.Create();
 
-      var a1 = board[ new FileAndRank(ChessFile.A, ChessRank._1)  ];
+      var a1 = board[ new FileAndRank(ChessFile.A, ChessRank._1) ];
       a1?.SquareColor.Should().Be(ChessColor.Black);
-      
+
       var a8 = board[ new FileAndRank(ChessFile.A, ChessRank._8) ];
       a8?.SquareColor.Should().Be(ChessColor.White);
-      
+
       var h1 = board[ new FileAndRank(ChessFile.H, ChessRank._1) ];
       h1?.SquareColor.Should().Be(ChessColor.White);
-      
+
       var h8 = board[ new FileAndRank(ChessFile.H, ChessRank._8) ];
       h8?.SquareColor.Should().Be(ChessColor.Black);
    }
-   
+
+
+   [Fact]
+   public void Create_WillReturn_Board_WithSinglePiece_InitiallyPlaced()
+   {
+      var position = new FileAndRank(ChessFile.D, ChessRank._4);
+      var piece = new Piece(PieceType.Pawn, ChessColor.White);
+      var initialPieces = new Dictionary<FileAndRank, Piece> {{position, piece}};
+      var sut = new StandardBoardModelFactory();
+
+      var board = sut.Create(initialPieces);
+      var square = board[ position ];
+
+      square.Piece.Should().NotBeNull();
+      square.Piece?.Type.Should().Be(PieceType.Pawn);
+      square.Piece?.Player.Should().Be(ChessColor.White);
+   }
 }
