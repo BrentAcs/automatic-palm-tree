@@ -5,6 +5,7 @@ namespace Apt.Chess.Game.Services;
 
 public interface IBoardModelFactory
 {
+   IBoardModel CreateEmpty();
    IBoardModel Create(IDictionary<FileAndRank, Piece>? initialPieces=null);
 }
 
@@ -22,6 +23,9 @@ public abstract class BoardModelFactory : IBoardModelFactory
       }
    }
 
+   public IBoardModel CreateEmpty()
+      => Create(null);
+   
    public IBoardModel Create(IDictionary<FileAndRank, Piece>? initialPieces = null)
    {
       var board = CreateEmptyBoard();
