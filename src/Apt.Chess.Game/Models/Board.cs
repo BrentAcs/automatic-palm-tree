@@ -18,6 +18,8 @@ public interface IBoardModel
    int MaxFile { get; }
 
    Square[ , ] Squares { get; }
+
+   Square this[ ChessFile file, ChessRank rank] { get; }
 }
 
 /// <summary>
@@ -35,11 +37,15 @@ public abstract class BoardModel : IBoardModel
    public int MaxRank => Squares.GetLength(0);
    public int MaxFile => Squares.GetLength(1);
    public Square[ , ] Squares { get; set; }
+
+   [JsonIgnore]
+   public Square this[ChessFile file, ChessRank rank]
+      => Squares[ (int)file, (int)rank ];
 }
 
 public class StandardBoardModel : BoardModel
 {
-   public StandardBoardModel() 
+   public StandardBoardModel()
       : base(new Square[ 8, 8 ])
    {
    }
