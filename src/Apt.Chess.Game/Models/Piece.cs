@@ -3,7 +3,7 @@
 /// <summary>
 /// Define a record for a piece
 /// </summary>
-public record Piece
+public record Piece(PieceType Type, ChessColor Player)
 {
    public PieceType Type { get; init; }
    public ChessColor Player { get; init; }

@@ -4,17 +4,27 @@ namespace Apt.Chess.Game.Services;
 
 public interface IBoardModelFactory
 {
-   IBoardModel Create();
+   IBoardModel Create(IDictionary<FileAndRank, Piece>? initialPieces=null);
 }
 
 public abstract class BoardModelFactory : IBoardModelFactory
 {
-   public abstract IBoardModel Create();
+   protected abstract IBoardModel CreateEmptyBoard();
+   protected void PopulateInitialPieces(IBoardModel board, IDictionary<FileAndRank, Piece>? initialPieces = null)
+   {
+   }
+
+   public IBoardModel Create(IDictionary<FileAndRank, Piece>? initialPieces = null)
+   {
+      var board = CreateEmptyBoard();
+      PopulateInitialPieces(board, initialPieces);
+      return board;
+   }
 }
 
 public class StandardBoardModelFactory : BoardModelFactory
 {
-   public override IBoardModel Create()
+   protected override IBoardModel CreateEmptyBoard()
    {
       var board = new StandardBoardModel();
 
