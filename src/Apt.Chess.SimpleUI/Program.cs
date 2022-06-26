@@ -8,6 +8,7 @@ using Apt.Chess.Game.Services;
 var board = new StandardBoardModelFactory()
    .Create();
 
+// NOTE: this is VERY tacky and will be heavily refactored and/or thrown out.
 const int boardTop = 1;
 const int boardLeft = 10;
 

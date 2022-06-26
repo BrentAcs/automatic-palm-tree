@@ -4,9 +4,10 @@ namespace Apt.Chess.Game.Services;
 
 public interface IBoardModelFactory
 {
+   IBoardModel Create();
 }
 
-public abstract class BoardModelFactory
+public abstract class BoardModelFactory : IBoardModelFactory
 {
    public abstract IBoardModel Create();
 }
