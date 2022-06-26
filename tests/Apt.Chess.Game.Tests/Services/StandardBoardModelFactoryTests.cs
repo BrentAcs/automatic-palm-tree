@@ -1,4 +1,5 @@
 ﻿using Apt.Chess.Game.Services;
+using Apt.Chess.Game.Services.Standard;
 using FluentAssertions;
 
 namespace Apt.Chess.Game.Tests.Services;
@@ -98,7 +99,7 @@ public class StandardBoardModelFactoryTests
    [Fact]
    public void Create_WillReturn_Board_WithSinglePiece_InitiallyPlaced()
    {
-      var position = new FileAndRank(ChessFile.D, ChessRank._4);
+      var position = new FileAndRank(ChessFile.D, ChessRank._2);
       var piece = new Piece(PieceType.Pawn, ChessColor.White);
       var initialPieces = new Dictionary<FileAndRank, Piece> {{position, piece}};
       var sut = new StandardBoardModelFactory();

@@ -1,6 +1,4 @@
-﻿using Apt.Chess.Game.Models;
-
-namespace Apt.Chess.Game;
+﻿namespace Apt.Chess.Game.Models.Standard;
 
 public class StandardBoardModel : BoardModel
 {

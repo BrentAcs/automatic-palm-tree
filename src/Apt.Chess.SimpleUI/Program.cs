@@ -1,6 +1,7 @@
 ﻿//#define USE_STOCK_BOARD
 using Apt.Chess.Game;
 using Apt.Chess.Game.Services;
+using Apt.Chess.Game.Services.Standard;
 
 // Console.WriteLine("Welcome to Apt Chess. There is nothing here yet. Enjoy the silence.");
 
@@ -12,7 +13,7 @@ var board = new StandardBoardModelFactory()
 #else
 var initialPieces = new Dictionary<FileAndRank, Piece>
 {
-   {new FileAndRank(ChessFile.D, ChessRank._4), new Piece(PieceType.Pawn, ChessColor.White)}
+   {new FileAndRank(ChessFile.D, ChessRank._2), new Piece(PieceType.Pawn, ChessColor.White)}
 };
 var board = new StandardBoardModelFactory()
    .Create(initialPieces);
