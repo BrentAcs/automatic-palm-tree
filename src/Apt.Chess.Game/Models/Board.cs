@@ -14,7 +14,10 @@
 
 public interface IBoardModel
 {
-   Square[ , ]? Squares { get; set; }
+   int MaxRank { get; }
+   int MaxFile { get; }
+
+   Square[ , ] Squares { get; }
 }
 
 /// <summary>
@@ -24,22 +27,21 @@ public interface IBoardModel
 /// </summary>
 public abstract class BoardModel : IBoardModel
 {
-   protected abstract int MaximumRank { get; }
-   protected abstract int MaximumFile { get; }
-   public Square[ , ]? Squares { get; set; }
+   protected BoardModel(Square[ , ] squares)
+   {
+      Squares = squares;
+   }
+
+   public int MaxRank => Squares.GetLength(0);
+   public int MaxFile => Squares.GetLength(1);
+   public Square[ , ] Squares { get; set; }
 }
 
 public class StandardBoardModel : BoardModel
 {
-   private const int MaxRank = 8;
-   private const int MaxFile = 8;
-   
-   protected override int MaximumRank => MaxRank;
-   protected override int MaximumFile => MaxFile;
-
-   public StandardBoardModel()
+   public StandardBoardModel() 
+      : base(new Square[ 8, 8 ])
    {
-      Squares = new Square[ MaxRank, MaxFile ];
    }
 }
 
