@@ -1,54 +1,22 @@
-﻿using Apt.Chess.Game;
+﻿//#define USE_STOCK_BOARD
+using Apt.Chess.Game;
 using Apt.Chess.Game.Services;
 
 // Console.WriteLine("Welcome to Apt Chess. There is nothing here yet. Enjoy the silence.");
 
 // NOTE: Starting out, this will be VERY PoC. basically to visually show something after tests prove it.
 
-// var initialPieces = new Dictionary<FileAndRank, Piece>
-// {
-//    // {new FileAndRank(ChessFile.D, ChessRank._4), new Piece(PieceType.Pawn, ChessColor.White)}
-//
-//    // Black Back row
-//    {new FileAndRank(ChessFile.A, ChessRank._8), new Piece(PieceType.Rook, ChessColor.Black)},
-//    {new FileAndRank(ChessFile.B, ChessRank._8), new Piece(PieceType.Knight, ChessColor.Black)},
-//    {new FileAndRank(ChessFile.C, ChessRank._8), new Piece(PieceType.Bishop, ChessColor.Black)},
-//    {new FileAndRank(ChessFile.D, ChessRank._8), new Piece(PieceType.King, ChessColor.Black)},
-//    {new FileAndRank(ChessFile.E, ChessRank._8), new Piece(PieceType.Queen, ChessColor.Black)},
-//    {new FileAndRank(ChessFile.F, ChessRank._8), new Piece(PieceType.Bishop, ChessColor.Black)},
-//    {new FileAndRank(ChessFile.G, ChessRank._8), new Piece(PieceType.Knight, ChessColor.Black)},
-//    {new FileAndRank(ChessFile.H, ChessRank._8), new Piece(PieceType.Rook, ChessColor.Black)},
-//    // Black Pawn row
-//    {new FileAndRank(ChessFile.A, ChessRank._7), new Piece(PieceType.Pawn, ChessColor.Black)},
-//    {new FileAndRank(ChessFile.B, ChessRank._7), new Piece(PieceType.Pawn, ChessColor.Black)},
-//    {new FileAndRank(ChessFile.C, ChessRank._7), new Piece(PieceType.Pawn, ChessColor.Black)},
-//    {new FileAndRank(ChessFile.D, ChessRank._7), new Piece(PieceType.Pawn, ChessColor.Black)},
-//    {new FileAndRank(ChessFile.E, ChessRank._7), new Piece(PieceType.Pawn, ChessColor.Black)},
-//    {new FileAndRank(ChessFile.F, ChessRank._7), new Piece(PieceType.Pawn, ChessColor.Black)},
-//    {new FileAndRank(ChessFile.G, ChessRank._7), new Piece(PieceType.Pawn, ChessColor.Black)},
-//    {new FileAndRank(ChessFile.H, ChessRank._7), new Piece(PieceType.Pawn, ChessColor.Black)},
-//    // White Pawn row
-//    {new FileAndRank(ChessFile.A, ChessRank._2), new Piece(PieceType.Pawn, ChessColor.White)},
-//    {new FileAndRank(ChessFile.B, ChessRank._2), new Piece(PieceType.Pawn, ChessColor.White)},
-//    {new FileAndRank(ChessFile.C, ChessRank._2), new Piece(PieceType.Pawn, ChessColor.White)},
-//    {new FileAndRank(ChessFile.D, ChessRank._2), new Piece(PieceType.Pawn, ChessColor.White)},
-//    {new FileAndRank(ChessFile.E, ChessRank._2), new Piece(PieceType.Pawn, ChessColor.White)},
-//    {new FileAndRank(ChessFile.F, ChessRank._2), new Piece(PieceType.Pawn, ChessColor.White)},
-//    {new FileAndRank(ChessFile.G, ChessRank._2), new Piece(PieceType.Pawn, ChessColor.White)},
-//    {new FileAndRank(ChessFile.H, ChessRank._2), new Piece(PieceType.Pawn, ChessColor.White)},
-//    // White Back row
-//    {new FileAndRank(ChessFile.A, ChessRank._1), new Piece(PieceType.Rook, ChessColor.White)},
-//    {new FileAndRank(ChessFile.B, ChessRank._1), new Piece(PieceType.Knight, ChessColor.White)},
-//    {new FileAndRank(ChessFile.C, ChessRank._1), new Piece(PieceType.Bishop, ChessColor.White)},
-//    {new FileAndRank(ChessFile.D, ChessRank._1), new Piece(PieceType.Queen, ChessColor.White)},
-//    {new FileAndRank(ChessFile.E, ChessRank._1), new Piece(PieceType.King, ChessColor.White)},
-//    {new FileAndRank(ChessFile.F, ChessRank._1), new Piece(PieceType.Bishop, ChessColor.White)},
-//    {new FileAndRank(ChessFile.G, ChessRank._1), new Piece(PieceType.Knight, ChessColor.White)},
-//    {new FileAndRank(ChessFile.H, ChessRank._1), new Piece(PieceType.Rook, ChessColor.White)}
-// };
-
+#if USE_STOCK_BOARD
 var board = new StandardBoardModelFactory()
    .CreateStock();
+#else
+var initialPieces = new Dictionary<FileAndRank, Piece>
+{
+   {new FileAndRank(ChessFile.D, ChessRank._4), new Piece(PieceType.Pawn, ChessColor.White)}
+};
+var board = new StandardBoardModelFactory()
+   .Create(initialPieces);
+#endif
 
 // NOTE: this is VERY tacky and will be heavily refactored and/or thrown out.
 const int boardTop = 1;
