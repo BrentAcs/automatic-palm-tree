@@ -7,7 +7,7 @@ public interface IBoardModelFactory
    IBoardModel CreateEmpty();
    IBoardModel CreateStock();
    IBoardModel Create(IDictionary<FileAndRank, Piece>? initialPieces = null);
-   IBoardModel Create(IEnumerable<string>? initialPieces);
+   IBoardModel Create(IEnumerable<string> notations);
 }
 
 public abstract class BoardModelFactory : IBoardModelFactory
@@ -39,10 +39,18 @@ public abstract class BoardModelFactory : IBoardModelFactory
       return board;
    }
 
-   public IBoardModel Create(IEnumerable<string>? initialPieces)
+   public IBoardModel Create(IEnumerable<string> notations)
    {
       var board = CreateEmptyBoard();
-      //PopulateInitialPieces(board, initialPieces);
+
+      var initialPieces = new Dictionary<FileAndRank, Piece>();
+      foreach (var notation in notations)
+      {
+         SimpleNotationParser.Parse(notation, out var far, out var color, out var piece);
+         initialPieces.Add( far, new Piece(piece.Value, color.Value));
+      }
+      
+      PopulateInitialPieces(board, initialPieces);
       return board;
    }
 }

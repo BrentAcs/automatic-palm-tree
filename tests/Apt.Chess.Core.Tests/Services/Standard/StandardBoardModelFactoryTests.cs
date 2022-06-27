@@ -110,4 +110,17 @@ public class StandardBoardModelFactoryTests
       square.Piece?.Type.Should().Be(ChessPiece.Pawn);
       square.Piece?.Player.Should().Be(ChessColor.White);
    }
+   
+   [Fact]
+   public void Create_WillReturn_Board_WithSinglePiece_InitiallyPlaced_ByNotations()
+   {
+      var sut = new StandardBoardModelFactory();
+
+      var board = sut.Create(new[]{"d2-w-p"});
+      var square = board[ ChessFile.D, ChessRank._2 ];
+
+      square.Piece.Should().NotBeNull();
+      square.Piece?.Type.Should().Be(ChessPiece.Pawn);
+      square.Piece?.Player.Should().Be(ChessColor.White);
+   }
 }
