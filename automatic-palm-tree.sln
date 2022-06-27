@@ -8,7 +8,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apt.Chess.SimpleUI", "src\A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{C5D2CC53-8F53-4E4B-AD3A-E0D1A6EE37A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apt.Chess.Game.Tests", "tests\Apt.Chess.Game.Tests\Apt.Chess.Game.Tests.csproj", "{8943FF2A-7BC9-4C57-86D6-4BD3A999AE7D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apt.Chess.Core.Tests", "tests\Apt.Chess.Core.Tests\Apt.Chess.Core.Tests.csproj", "{8943FF2A-7BC9-4C57-86D6-4BD3A999AE7D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{FE1B3693-A6DC-4744-BC61-64C135BFAD6A}"
 	ProjectSection(SolutionItems) = preProject

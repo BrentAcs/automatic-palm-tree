@@ -13,7 +13,7 @@ var board = new StandardBoardModelFactory()
 #else
 var initialPieces = new Dictionary<FileAndRank, Piece>
 {
-   {new FileAndRank(ChessFile.D, ChessRank._2), new Piece(PieceType.Pawn, ChessColor.White)}
+   {new FileAndRank(ChessFile.D, ChessRank._2), new Piece(ChessPiece.Pawn, ChessColor.White)}
 };
 var board = new StandardBoardModelFactory()
    .Create(initialPieces);
@@ -56,15 +56,15 @@ Console.ReadKey();
 
 public static class PieceTypeExtensions
 {
-   public static string ToDisplay(this PieceType type) =>
+   public static string ToDisplay(this ChessPiece type) =>
       type switch
       {
-         PieceType.King => "K",
-         PieceType.Queen => "Q",
-         PieceType.Rook => "R",
-         PieceType.Bishop => "B",
-         PieceType.Knight => "N",
-         PieceType.Pawn => "p",
+         ChessPiece.King => "K",
+         ChessPiece.Queen => "Q",
+         ChessPiece.Rook => "R",
+         ChessPiece.Bishop => "B",
+         ChessPiece.Knight => "N",
+         ChessPiece.Pawn => "p",
          _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
       };
 }

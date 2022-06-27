@@ -2,7 +2,7 @@
 using Apt.Chess.Core.Services.Standard;
 using FluentAssertions;
 
-namespace Apt.Chess.Game.Tests.Services;
+namespace Apt.Chess.Core.Tests.Services.Standard;
 
 public class StandardBoardModelFactoryTests
 {
@@ -94,13 +94,12 @@ public class StandardBoardModelFactoryTests
       var h8 = board[ new FileAndRank(ChessFile.H, ChessRank._8) ];
       h8?.SquareColor.Should().Be(ChessColor.Black);
    }
-
-
+                    
    [Fact]
    public void Create_WillReturn_Board_WithSinglePiece_InitiallyPlaced()
    {
       var position = new FileAndRank(ChessFile.D, ChessRank._2);
-      var piece = new Piece(PieceType.Pawn, ChessColor.White);
+      var piece = new Piece(ChessPiece.Pawn, ChessColor.White);
       var initialPieces = new Dictionary<FileAndRank, Piece> {{position, piece}};
       var sut = new StandardBoardModelFactory();
 
@@ -108,7 +107,7 @@ public class StandardBoardModelFactoryTests
       var square = board[ position ];
 
       square.Piece.Should().NotBeNull();
-      square.Piece?.Type.Should().Be(PieceType.Pawn);
+      square.Piece?.Type.Should().Be(ChessPiece.Pawn);
       square.Piece?.Player.Should().Be(ChessColor.White);
    }
 }

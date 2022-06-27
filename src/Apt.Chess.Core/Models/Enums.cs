@@ -12,7 +12,7 @@ public enum ChessColor
 /// <summary>
 /// Define the types of pieces.
 /// </summary>
-public enum PieceType
+public enum ChessPiece
 {
    King = 1,
    Queen,

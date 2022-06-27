@@ -7,6 +7,7 @@ public interface IBoardModelFactory
    IBoardModel CreateEmpty();
    IBoardModel CreateStock();
    IBoardModel Create(IDictionary<FileAndRank, Piece>? initialPieces = null);
+   IBoardModel Create(IEnumerable<string>? initialPieces);
 }
 
 public abstract class BoardModelFactory : IBoardModelFactory
@@ -35,6 +36,13 @@ public abstract class BoardModelFactory : IBoardModelFactory
    {
       var board = CreateEmptyBoard();
       PopulateInitialPieces(board, initialPieces);
+      return board;
+   }
+
+   public IBoardModel Create(IEnumerable<string>? initialPieces)
+   {
+      var board = CreateEmptyBoard();
+      //PopulateInitialPieces(board, initialPieces);
       return board;
    }
 }
