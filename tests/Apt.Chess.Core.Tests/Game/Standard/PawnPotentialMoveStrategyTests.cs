@@ -89,18 +89,10 @@ public class PawnPotentialMoveStrategyTests : StandardPotentialMoveStrategyTests
          .ToList();
 
       moves.Should().HaveCount(validPotentials.Count());
-      // foreach (string validPotential in validPotentials)
-      // {
-      //    var far = validPotential.ToFileAndRank();
-      //    
-      //
-      // }
-      
-      // moves[ 0 ].File.Should().Be(ChessFile.C);
-      // moves[ 0 ].Rank.Should().Be(ChessRank._3);
-      //
-      // moves[ 1 ].File.Should().Be(ChessFile.C);
-      // moves[ 1 ].Rank.Should().Be(ChessRank._4);
+      foreach (var validPotential in validPotentials)
+      {
+         moves.Should().Contain(m => m == validPotential.ToFileAndRank());
+      }
    }
 
    public static IEnumerable<object[]> ValidPawnMoves =>
