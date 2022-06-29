@@ -1,10 +1,13 @@
-﻿namespace Apt.Chess.Core.Models;
+﻿using System.Diagnostics;
+
+namespace Apt.Chess.Core.Models;
 
 /// <summary>
 /// Define a square on a board.
 /// </summary>
+[DebuggerDisplay("{SquareColor} - {Piece}")]
 public class Square
 {
    public ChessColor SquareColor { get; set; }
-   public Piece? Piece { get; set; }
+   public ChessPiece? Piece { get; set; }
 }

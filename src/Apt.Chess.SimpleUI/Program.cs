@@ -11,9 +11,9 @@ using Apt.Chess.Core.Services.Standard;
 var board = new StandardBoardModelFactory()
    .CreateStock();
 #else
-var initialPieces = new Dictionary<FileAndRank, Piece>
+var initialPieces = new Dictionary<FileAndRank, ChessPiece>
 {
-   {new FileAndRank(ChessFile.D, ChessRank._2), new Piece(ChessPiece.Pawn, ChessColor.White)}
+   {new FileAndRank(ChessFile.D, ChessRank._2), new ChessPiece(ChessPieceType.Pawn, ChessColor.White)}
 };
 var board = new StandardBoardModelFactory()
    .Create(initialPieces);
@@ -56,15 +56,15 @@ Console.ReadKey();
 
 public static class PieceTypeExtensions
 {
-   public static string ToDisplay(this ChessPiece type) =>
+   public static string ToDisplay(this ChessPieceType type) =>
       type switch
       {
-         ChessPiece.King => "K",
-         ChessPiece.Queen => "Q",
-         ChessPiece.Rook => "R",
-         ChessPiece.Bishop => "B",
-         ChessPiece.Knight => "N",
-         ChessPiece.Pawn => "p",
+         ChessPieceType.King => "K",
+         ChessPieceType.Queen => "Q",
+         ChessPieceType.Rook => "R",
+         ChessPieceType.Bishop => "B",
+         ChessPieceType.Knight => "N",
+         ChessPieceType.Pawn => "p",
          _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
       };
 }

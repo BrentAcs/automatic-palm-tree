@@ -99,15 +99,15 @@ public class StandardBoardModelFactoryTests
    public void Create_WillReturn_Board_WithSinglePiece_InitiallyPlaced()
    {
       var position = new FileAndRank(ChessFile.D, ChessRank._2);
-      var piece = new Piece(ChessPiece.Pawn, ChessColor.White);
-      var initialPieces = new Dictionary<FileAndRank, Piece> {{position, piece}};
+      var piece = new ChessPiece(ChessPieceType.Pawn, ChessColor.White);
+      var initialPieces = new Dictionary<FileAndRank, ChessPiece> {{position, piece}};
       var sut = new StandardBoardModelFactory();
 
       var board = sut.Create(initialPieces);
       var square = board[ position ];
 
       square.Piece.Should().NotBeNull();
-      square.Piece?.Type.Should().Be(ChessPiece.Pawn);
+      square.Piece?.Type.Should().Be(ChessPieceType.Pawn);
       square.Piece?.Player.Should().Be(ChessColor.White);
    }
    
@@ -120,7 +120,7 @@ public class StandardBoardModelFactoryTests
       var square = board[ ChessFile.D, ChessRank._2 ];
 
       square.Piece.Should().NotBeNull();
-      square.Piece?.Type.Should().Be(ChessPiece.Pawn);
+      square.Piece?.Type.Should().Be(ChessPieceType.Pawn);
       square.Piece?.Player.Should().Be(ChessColor.White);
    }
 }

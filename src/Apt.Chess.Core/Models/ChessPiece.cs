@@ -3,6 +3,6 @@
 /// <summary>
 /// Define a record for a piece
 /// </summary>
-public record Piece(ChessPiece Type, ChessColor Player)
+public record ChessPiece(ChessPieceType Type, ChessColor Player)
 {
 }

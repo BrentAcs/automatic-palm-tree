@@ -6,16 +6,16 @@ public interface IBoardModelFactory
 {
    IBoardModel CreateEmpty();
    IBoardModel CreateStock();
-   IBoardModel Create(IDictionary<FileAndRank, Piece>? initialPieces = null);
+   IBoardModel Create(IDictionary<FileAndRank, ChessPiece>? initialPieces = null);
    IBoardModel Create(IEnumerable<string> notations);
 }
 
 public abstract class BoardModelFactory : IBoardModelFactory
 {
-   protected abstract IDictionary<FileAndRank, Piece> InitialStockPieces { get; }
+   protected abstract IDictionary<FileAndRank, ChessPiece> InitialStockPieces { get; }
    protected abstract IBoardModel CreateEmptyBoard();
 
-   protected virtual void PopulateInitialPieces(IBoardModel board, IDictionary<FileAndRank, Piece>? initialPieces = null)
+   protected virtual void PopulateInitialPieces(IBoardModel board, IDictionary<FileAndRank, ChessPiece>? initialPieces = null)
    {
       if (initialPieces is null)
          return;
@@ -32,7 +32,7 @@ public abstract class BoardModelFactory : IBoardModelFactory
    public IBoardModel CreateStock()
       => Create(InitialStockPieces);
 
-   public IBoardModel Create(IDictionary<FileAndRank, Piece>? initialPieces = null)
+   public IBoardModel Create(IDictionary<FileAndRank, ChessPiece>? initialPieces = null)
    {
       var board = CreateEmptyBoard();
       PopulateInitialPieces(board, initialPieces);
@@ -43,11 +43,11 @@ public abstract class BoardModelFactory : IBoardModelFactory
    {
       var board = CreateEmptyBoard();
 
-      var initialPieces = new Dictionary<FileAndRank, Piece>();
+      var initialPieces = new Dictionary<FileAndRank, ChessPiece>();
       foreach (var notation in notations)
       {
          SimpleNotationParser.Parse(notation, out var far, out var color, out var piece);
-         initialPieces.Add( far, new Piece(piece.Value, color.Value));
+         initialPieces.Add( far, new ChessPiece(piece.Value, color.Value));
       }
       
       PopulateInitialPieces(board, initialPieces);

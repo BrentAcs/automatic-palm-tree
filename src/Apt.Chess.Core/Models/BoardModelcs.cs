@@ -29,15 +29,14 @@ public abstract class BoardModel : IBoardModel
    [JsonIgnore]
    public Square this[ChessFile file, ChessRank rank]
    {
-      get => Squares[ (int)file, (int)rank ];
-      set => Squares[ (int)file, (int)rank ] = value;
+      get => Squares[ (int)rank, (int)file ];
+      set => Squares[ (int)rank, (int)file ] = value;
    }
-
 
    [JsonIgnore]
    public Square this[FileAndRank position]
    {
-      get => Squares[ (int)position.File, (int)position.Rank ];
-      set => Squares[ (int)position.File, (int)position.Rank ] = value;
+      get => Squares[ (int)position.Rank, (int)position.File ];
+      set => Squares[ (int)position.Rank, (int)position.File ] = value;
    }
 }

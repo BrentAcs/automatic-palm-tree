@@ -5,11 +5,23 @@ namespace Apt.Chess.Core.Services;
 public static class SimpleNotationParser
 {
    // (?<file>[a-h])(?<rank>[1-8])-(?<player>[w|b])-(?<piece>[k|q|r|n|b|p])
-   private static readonly Regex _notationPatter = new Regex("(?<file>[a-h])(?<rank>[1-8])-(?<player>[w|b])-(?<piece>[k|q|r|n|b|p])", RegexOptions.IgnoreCase);
+   private static readonly Regex _notationWithoutPiecePattern = new Regex("(?<file>[a-h])(?<rank>[1-8])", RegexOptions.IgnoreCase);
+   private static readonly Regex _notationWithPiecePattern = new Regex("(?<file>[a-h])(?<rank>[1-8])-(?<player>[w|b])-(?<piece>[k|q|r|n|b|p])", RegexOptions.IgnoreCase);
 
-   public static void Parse(string notation, out FileAndRank? fileAndRankOut, out ChessColor? colorOut, out ChessPiece? pieceTypeOut)
+   public static void Parse(string notation, out FileAndRank? fileAndRankOut)
    {
-      var match = _notationPatter.Match(notation);
+      var match = _notationWithoutPiecePattern.Match(notation);
+      if (!match.Success)
+         throw new ArgumentException($"{nameof(notation)} with value of '{notation}', does not match pattern.");
+
+      _ = Enum.TryParse<ChessFile>(match.Groups[ "file" ].Captures[ 0 ].Value, true, out var file);
+      _ = Enum.TryParse<ChessRank>("_" + match.Groups[ "rank" ].Captures[ 0 ].Value, true, out var rank);
+      fileAndRankOut = new FileAndRank(file, rank);
+   }
+   
+   public static void Parse(string notation, out FileAndRank? fileAndRankOut, out ChessColor? colorOut, out ChessPieceType? pieceTypeOut)
+   {
+      var match = _notationWithPiecePattern.Match(notation);
       if (!match.Success)
          throw new ArgumentException($"{nameof(notation)} with value of '{notation}', does not match pattern.");
 
@@ -24,26 +36,26 @@ public static class SimpleNotationParser
       {
          case 'K':
          case 'k':
-            pieceTypeOut = ChessPiece.King;
+            pieceTypeOut = ChessPieceType.King;
             break;
          case 'Q':
          case 'q':
-            pieceTypeOut = ChessPiece.Queen;
+            pieceTypeOut = ChessPieceType.Queen;
             break;
          case 'R':
          case 'r':
-            pieceTypeOut = ChessPiece.Rook;
+            pieceTypeOut = ChessPieceType.Rook;
             break;
          case 'N':
          case 'n':
-            pieceTypeOut = ChessPiece.Knight;
+            pieceTypeOut = ChessPieceType.Knight;
             break;
          case 'B':
          case 'b':
-            pieceTypeOut = ChessPiece.Bishop;
+            pieceTypeOut = ChessPieceType.Bishop;
             break;
          default:
-            pieceTypeOut = ChessPiece.Pawn;
+            pieceTypeOut = ChessPieceType.Pawn;
             break;
       }
    }
