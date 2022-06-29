@@ -6,12 +6,23 @@ public class PawnPotentialMoveStrategy : PotentialMoveStrategy
 {
    public override IEnumerable<FileAndRank> Find(IBoardModel board, FileAndRank position)
    {
-      var piece = board.Squares[ position.File, position.Rank ]?.Piece;
-      
-      //if( IsOnHomeRank(position))
-      
-      
-      return new List<FileAndRank>();
+      var piece = board[ position.File, position.Rank ].Piece;
+      if (piece is null)
+         throw PotentialMoveStrategyException.CreateMissingPiece(position);
+
+      var potentials = new List<FileAndRank>();
+      potentials.Add(piece.IsWhite
+         ? new FileAndRank(position.File, position.Rank + 1)
+         : new FileAndRank(position.File, position.Rank - 1));
+
+      if (IsOnHomeRank(position, piece))
+      {
+         potentials.Add(piece.IsWhite
+            ? new FileAndRank(position.File, position.Rank + 2)
+            : new FileAndRank(position.File, position.Rank - 2));
+      }
+
+      return potentials;
    }
 
    public static bool IsOnHomeRank(FileAndRank position, ChessPiece chessPiece)

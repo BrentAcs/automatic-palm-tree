@@ -16,6 +16,10 @@ public abstract class StandardPotentialMoveStrategyTests
    protected static IBoardModel CreateBoard(IEnumerable<string> notations) =>
       new StandardBoardModelFactory()
          .Create(notations);
+
+   protected static IBoardModel CreateEmptyBoard() =>
+      new StandardBoardModelFactory()
+         .Create();
 }
 
 public class PawnPotentialMoveStrategyTests : StandardPotentialMoveStrategyTests
@@ -49,6 +53,15 @@ public class PawnPotentialMoveStrategyTests : StandardPotentialMoveStrategyTests
       };
 
    [Fact]
+   public void Find_WillThrow_OnMissingPiece()
+   {
+      var board = CreateEmptyBoard();
+
+      Strategy.Invoking(x => x.Find(board, "a1"))
+         .Should().Throw<PotentialMoveStrategyException>();
+   }
+
+   [Fact]
    public void Test()
    {
       var board = CreateBoard(new[] {"c2-w-p"});
@@ -61,7 +74,39 @@ public class PawnPotentialMoveStrategyTests : StandardPotentialMoveStrategyTests
       moves[ 0 ].File.Should().Be(ChessFile.C);
       moves[ 0 ].Rank.Should().Be(ChessRank._3);
 
-      moves[ 0 ].File.Should().Be(ChessFile.C);
-      moves[ 0 ].Rank.Should().Be(ChessRank._4);
+      moves[ 1 ].File.Should().Be(ChessFile.C);
+      moves[ 1 ].Rank.Should().Be(ChessRank._4);
    }
+
+   [Theory]
+   [MemberData(nameof(ValidPawnMoves))]
+   public void Find_Returning_Valid(IEnumerable<string> initialPieces, string position, IEnumerable<string> validPotentials)
+   {
+      var board = CreateBoard(initialPieces);
+
+      var moves = Strategy
+         .Find(board, position.ToFileAndRank())
+         .ToList();
+
+      moves.Should().HaveCount(validPotentials.Count());
+      // foreach (string validPotential in validPotentials)
+      // {
+      //    var far = validPotential.ToFileAndRank();
+      //    
+      //
+      // }
+      
+      // moves[ 0 ].File.Should().Be(ChessFile.C);
+      // moves[ 0 ].Rank.Should().Be(ChessRank._3);
+      //
+      // moves[ 1 ].File.Should().Be(ChessFile.C);
+      // moves[ 1 ].Rank.Should().Be(ChessRank._4);
+   }
+
+   public static IEnumerable<object[]> ValidPawnMoves =>
+      new List<object[]>
+      {
+         // white pawn, home rank, nothing in front.
+         new object[] {new[] {"c2-w-p"}, "c2", new[] {"c3", "c4"}},
+      };
 }

@@ -5,9 +5,9 @@ namespace Apt.Chess.Core.Extensions;
 
 public static class FileAndRankExtensions
 {
-   public static FileAndRank? ToFileAndRank(this string value)
+   public static FileAndRank ToFileAndRank(this string value)
    {
       SimpleNotationParser.Parse(value, out var far);
-      return far;
+      return far!;
    }
 }

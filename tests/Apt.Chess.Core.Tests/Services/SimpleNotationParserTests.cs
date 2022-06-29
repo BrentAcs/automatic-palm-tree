@@ -42,7 +42,8 @@ public class SimpleNotationParserTests
 
    [Theory]
    [MemberData(nameof(ValidTestDataWithPieces))]
-   public void Parse_Will_WorkWithPieces(string notation, FileAndRank expectedFar, ChessColor expectedColor, ChessPieceType expectedChessPieceType)
+   public void Parse_Will_WorkWithPieces(string notation, FileAndRank expectedFar, ChessColor expectedColor,
+      ChessPieceType expectedChessPieceType)
    {
       SimpleNotationParser.Parse(notation, out var far, out var color, out var piece);
 
@@ -92,9 +93,6 @@ public class SimpleNotationParserTests
       new List<object[]>
       {
          // File edge cases
-         new object[]
-         {
-            "a1-w-p", new FileAndRank(ChessFile.A, ChessRank._1), new object[] {"A1-w-p", new FileAndRank(ChessFile.A, ChessRank._1),}
-         }
+         new object[] {"a1-w-p", new FileAndRank(ChessFile.A, ChessRank._1)}
       };
 }
