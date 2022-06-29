@@ -25,6 +25,17 @@ public class PawnPotentialMoveStrategy : PotentialMoveStrategy
       return potentials;
    }
 
+
+   
+   // protected static void RemoveOffBoardPotentials(IBoardModel board, IList<FileAndRank> potentials)
+   // {
+   //    var offBoard = potentials.Where()
+   //    
+   //    //potentials.Remove()      
+   // }
+
+   
+   
    public static bool IsOnHomeRank(FileAndRank position, ChessPiece chessPiece)
    {
       if (chessPiece.Type != ChessPieceType.Pawn)
