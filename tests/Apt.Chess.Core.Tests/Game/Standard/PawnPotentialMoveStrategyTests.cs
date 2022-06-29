@@ -108,6 +108,6 @@ public class PawnPotentialMoveStrategyTests : StandardPotentialMoveStrategyTests
          new object[] {new[] {"c6-b-p"}, "c6", new[] {"c5"}},
 
          // white pawn, rank 8, nowhere to go
-         // new object[] {new[] {"c8-w-p"}, "c8", Array.Empty<string>()},
+         new object[] {new[] {"c8-w-p"}, "c8", Array.Empty<string>()},
       };
 }

@@ -18,4 +18,12 @@ public abstract class PotentialMoveStrategy : IPotentialMoveStrategy
       Find(board, position.ToFileAndRank());
 
    public abstract IEnumerable<FileAndRank> Find(IBoardModel board, FileAndRank position);
+   
+   protected static IEnumerable<FileAndRank> RemoveOffBoardPotentials(IBoardModel board, IList<FileAndRank> potentials)
+   {
+      var offBoards = potentials
+         .Where(p => !board.IsOnBoard(p));
+
+      return potentials.Where(p => !offBoards.Contains(p));
+   }
 }
