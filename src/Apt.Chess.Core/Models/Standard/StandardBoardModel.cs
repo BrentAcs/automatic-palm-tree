@@ -6,4 +6,18 @@ public class StandardBoardModel : BoardModel
       : base(new Square[ 8, 8 ])
    {
    }
+
+   public override bool IsOnBoard(FileAndRank position)
+   {
+      if (position.Rank < 0)
+         return false;
+
+      if (position.Rank >= (ChessRank) MaxRank)
+         return false;
+
+      if (position.File < 0)
+         return false;
+
+      return position.File < (ChessFile) MaxFile;
+   }
 }

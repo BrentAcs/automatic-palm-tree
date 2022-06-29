@@ -8,6 +8,8 @@ public interface IBoardModel
    Square[ , ] Squares { get; set; }
    Square this[ChessFile file, ChessRank rank] { get; set; }
    Square this[FileAndRank position] { get; set; }
+
+   bool IsOnBoard(FileAndRank position);
 }
 
 /// <summary>
@@ -39,4 +41,6 @@ public abstract class BoardModel : IBoardModel
       get => Squares[ (int)position.Rank, (int)position.File ];
       set => Squares[ (int)position.Rank, (int)position.File ] = value;
    }
+   
+   public abstract bool IsOnBoard(FileAndRank position);
 }
