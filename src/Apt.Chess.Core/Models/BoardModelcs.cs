@@ -10,6 +10,7 @@ public interface IBoardModel
    Square this[FileAndRank position] { get; set; }
 
    bool IsOnBoard(FileAndRank position);
+   bool HasPieceAt(FileAndRank position);
 }
 
 /// <summary>
@@ -43,4 +44,7 @@ public abstract class BoardModel : IBoardModel
    }
    
    public abstract bool IsOnBoard(FileAndRank position);
+
+   public bool HasPieceAt(FileAndRank position) =>
+      this[ position ].Piece is not null;
 }

@@ -11,19 +11,41 @@ public class PawnPotentialMoveStrategy : PotentialMoveStrategy
          throw PotentialMoveStrategyException.CreateMissingPiece(position);
 
       var potentials = new List<FileAndRank>();
-      potentials.Add(piece.IsWhite
-         ? new FileAndRank(position.File, position.Rank + 1)
-         : new FileAndRank(position.File, position.Rank - 1));
+      var isOnHomeRank = IsOnHomeRank(position, piece);
 
-      if (IsOnHomeRank(position, piece))
-      {
-         potentials.Add(piece.IsWhite
-            ? new FileAndRank(position.File, position.Rank + 2)
-            : new FileAndRank(position.File, position.Rank - 2));
-      }
+      var aheadOne = piece.IsWhite ? position.MoveUp() : position.MoveDown();
+      if (!board.IsOnBoard(aheadOne))
+         return potentials;
+      if (board.HasPieceAt(aheadOne))
+         return potentials;
 
-      potentials = RemoveOffBoardPotentials(board, potentials)
-         .ToList();
+      // can move ahead one
+      potentials.Add(aheadOne);
+
+      if (!isOnHomeRank)
+         return potentials;
+
+      aheadOne = piece.IsWhite ? aheadOne.MoveUp() : aheadOne.MoveDown();
+      if (board.HasPieceAt(aheadOne))
+         return potentials;
+
+      // can move ahead two
+      potentials.Add(aheadOne);
+
+
+      // potentials.Add(piece.IsWhite
+      //    ? new FileAndRank(position.File, position.Rank + 1)
+      //    : new FileAndRank(position.File, position.Rank - 1));
+
+      // if (IsOnHomeRank(position, piece))
+      // {
+      //    potentials.Add(piece.IsWhite
+      //       ? new FileAndRank(position.File, position.Rank + 2)
+      //       : new FileAndRank(position.File, position.Rank - 2));
+      // }
+      //
+      // potentials = RemoveOffBoardPotentials(board, potentials)
+      //    .ToList();
       
       return potentials;
    }

@@ -106,8 +106,12 @@ public class PawnPotentialMoveStrategyTests : StandardPotentialMoveStrategyTests
          new object[] {new[] {"c7-b-p"}, "c7", new[] {"c6", "c5"}},
          // black pawn, non-home rank, nothing in front.
          new object[] {new[] {"c6-b-p"}, "c6", new[] {"c5"}},
-
          // white pawn, rank 8, nowhere to go
          new object[] {new[] {"c8-w-p"}, "c8", Array.Empty<string>()},
+         // black pawn, rank 1, nowhere to go
+         new object[] {new[] {"c1-b-p"}, "c1", Array.Empty<string>()},
+
+         // white pawn, home rank, piece directly in front.
+         new object[] {new[] {"c2-w-p", "c3-w-p"}, "c2", Array.Empty<string>()},
       };
 }
