@@ -6,6 +6,18 @@ namespace Apt.Chess.Core.Tests.Services;
 
 public class SimpleNotationParserTests
 {
+   // Parse - override w/ notation, file and rank
+   [Fact]
+   public void Parse_WillThrow_ArgEx_OnInvalid()
+   {
+      Action action =
+         () => SimpleNotationParser.Parse("cc4", out var _, out var _, out var _);
+
+      action.Should().Throw<ArgumentException>();
+   }
+   
+   // Parse - override w/ notation, file and rank, color, piece
+   
    [Fact]
    public void Parse_WillThrow_ArgEx_OnNull()
    {
