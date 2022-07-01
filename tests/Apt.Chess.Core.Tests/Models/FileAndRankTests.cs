@@ -1,5 +1,4 @@
 ﻿using Apt.Chess.Core.Models;
-using FluentAssertions;
 
 namespace Apt.Chess.Core.Tests.Models;
 

@@ -7,4 +7,8 @@ public record ChessPiece(ChessPieceType Type, ChessColor Player)
 {
    public bool IsWhite => Player == ChessColor.White;
    public bool IsBlack => Player == ChessColor.Black;
+   public bool IsOppositePlayer(ChessPiece other) =>
+      IsOppositePlayer(other.Player);
+   public bool IsOppositePlayer(ChessColor color) =>
+      Player != color;
 }
