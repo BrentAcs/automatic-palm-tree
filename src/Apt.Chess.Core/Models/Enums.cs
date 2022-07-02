@@ -51,3 +51,12 @@ public enum ChessFile
    G,
    H,
 }
+
+/// <summary>
+/// Define types of games, primarily for testing / experimentation.
+/// </summary>
+public enum GameScenario
+{
+   Standard,
+   StandardPawnsOnly
+}

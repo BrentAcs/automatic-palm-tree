@@ -8,6 +8,8 @@ public interface IBoardModelFactory
    IBoardModel CreateStock();
    IBoardModel Create(IDictionary<FileAndRank, ChessPiece>? initialPieces = null);
    IBoardModel Create(IEnumerable<string> notations);
+   
+   IBoardModel Create(GameScenario selection);
 }
 
 public abstract class BoardModelFactory : IBoardModelFactory
@@ -53,4 +55,6 @@ public abstract class BoardModelFactory : IBoardModelFactory
       PopulateInitialPieces(board, initialPieces);
       return board;
    }
+
+   public abstract IBoardModel Create(GameScenario selection);
 }

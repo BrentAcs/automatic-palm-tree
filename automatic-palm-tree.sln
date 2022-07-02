@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{FE1B3693-A
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject1Apt.Chess.SimpleUI.Tests", "tests\TestProject1Apt.Chess.SimpleUI.Tests\TestProject1Apt.Chess.SimpleUI.Tests.csproj", "{DC02FFC4-BB5F-4C1C-A7B5-49B154437743}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,10 +35,15 @@ Global
 		{8943FF2A-7BC9-4C57-86D6-4BD3A999AE7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8943FF2A-7BC9-4C57-86D6-4BD3A999AE7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8943FF2A-7BC9-4C57-86D6-4BD3A999AE7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC02FFC4-BB5F-4C1C-A7B5-49B154437743}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC02FFC4-BB5F-4C1C-A7B5-49B154437743}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC02FFC4-BB5F-4C1C-A7B5-49B154437743}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC02FFC4-BB5F-4C1C-A7B5-49B154437743}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{269962B9-B8F7-4790-AFCA-A3B92F385BDF} = {DCF09436-2D27-4255-A462-A1353B97C954}
 		{B9AD5A73-4178-40F0-A461-905F96429808} = {DCF09436-2D27-4255-A462-A1353B97C954}
 		{8943FF2A-7BC9-4C57-86D6-4BD3A999AE7D} = {C5D2CC53-8F53-4E4B-AD3A-E0D1A6EE37A1}
+		{DC02FFC4-BB5F-4C1C-A7B5-49B154437743} = {C5D2CC53-8F53-4E4B-AD3A-E0D1A6EE37A1}
 	EndGlobalSection
 EndGlobal
