@@ -12,8 +12,8 @@ public class ConsoleChessApp : ConsoleChessAppBase
       var donePlaying = false;
       while (!donePlaying)
       {
-         Game = new StandardChessGame();
-         Game.Run();
+         // Game = new StandardChessGame();
+         // Game.Run();
 
          donePlaying = !AnsiConsole.Confirm("Play again?");
       }

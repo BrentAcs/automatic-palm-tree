@@ -2,7 +2,7 @@
 
 public abstract class ConsoleChessAppBase : IConsoleChessApp
 {
-   protected IChessGame? Game { get; set; }
+   // protected IChessGame? Game { get; set; }
 
    public int Run(string[] args)
    {
