@@ -40,7 +40,7 @@ public class GameContext
       Game = game;
    }
    public ChessGame? Game { get; private set; }
-   public IGameState? CurrentState { get; private set; } = new NewGameState();
+   //public IGameState? CurrentState { get; private set; } = new NewGameState();
 
    public void Transition(IGameState state)
    {
