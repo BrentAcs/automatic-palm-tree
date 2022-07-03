@@ -44,8 +44,8 @@ public class GameContext
 
    public void Transition(IGameState state)
    {
-      CurrentState = state;
-      CurrentState.EnterState(this);
+      // CurrentState = state;
+      // CurrentState.EnterState(this);
    }
 }
 
