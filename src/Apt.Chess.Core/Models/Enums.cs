@@ -52,6 +52,15 @@ public enum ChessFile
    H,
 }
 
+public enum GameStep
+{
+   New = 1,
+   SelectPiece,
+   SelectMove,
+   EvaluateGameOver,
+   GameOver,
+}
+
 /// <summary>
 /// Define types of games, primarily for testing / experimentation.
 /// </summary>
