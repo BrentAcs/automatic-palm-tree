@@ -7,12 +7,18 @@ using Apt.Chess.Core.Services.Standard;
 
 namespace Apt.Chess.Core.Tests.Game;
 
-public class ChessGameTests
+public class ChessGameBaseTests
 {
-   private IBoardModelFactory _factory = new StandardBoardModelFactory();
+   private readonly IBoardModelFactory _factory = new StandardBoardModelFactory();
+
+   private class TestChessGameBase : ChessGameBase
+   {
+      protected override IDictionary<ChessPieceType, IPotentialMoveStrategy> PotentialMoveStrategies
+         => throw new ChessGameException("Not implemented for base class testing.");
+   }
 
    private static IChessGame CreateGame() =>
-      new ChessGame();
+      new TestChessGameBase();
 
    [Fact]
    public void AfterCtor_ChessGame_WillBe_InInitialState()
@@ -58,28 +64,6 @@ public class ChessGameTests
          .WithMessage("Board is null.");
    }
 
-   [Theory]
-   [ClassData(typeof(ValidCanMovePieceData))]
-   public void CanMovePieceFrom_WillReturnTrue(string position, ChessColor player, IEnumerable<string> pieces)
-   {
-      var board = _factory.Create(pieces);
-      var game = CreateGame();
-      game.NewGame(board, player);
-
-      var canMove = game.CanMovePieceFrom(ChessColor.White, position.ToFileAndRank());
-
-      canMove.Should().BeTrue();
-   }
-   
-   private class ValidCanMovePieceData : TheoryData<string, ChessColor, IEnumerable<string>>
-   {
-      public ValidCanMovePieceData()
-      {
-         AddCase("a1", ChessColor.White, new[] {"a1-w-p"});
-         AddCase("a1", ChessColor.Black, new[] {"a1-b-p"});
-      }
-   }
-   
    [Fact]
    public void CanMovePieceFrom_WillReturnFalse_When_NotOnBoard()
    {
@@ -93,8 +77,30 @@ public class ChessGameTests
    }
 
    [Theory]
-   [ClassData(typeof(InvalidCanMovePieceData))]
-   public void CanMovePieceFrom_WillReturnFalse(string position, ChessColor player, IEnumerable<string> pieces)
+   [ClassData(typeof(ValidCanMovePieceFromData))]
+   public void CanMovePieceFrom_TrueCases(string position, ChessColor player, IEnumerable<string> pieces)
+   {
+      var board = _factory.Create(pieces);
+      var game = CreateGame();
+      game.NewGame(board, player);
+
+      var canMove = game.CanMovePieceFrom(ChessColor.White, position.ToFileAndRank());
+
+      canMove.Should().BeTrue();
+   }
+
+   private class ValidCanMovePieceFromData : TheoryData<string, ChessColor, IEnumerable<string>>
+   {
+      public ValidCanMovePieceFromData()
+      {
+         AddCase("a1", ChessColor.White, new[] {"a1-w-p"});
+         AddCase("a1", ChessColor.Black, new[] {"a1-b-p"});
+      }
+   }
+
+   [Theory]
+   [ClassData(typeof(InvalidCanMovePieceFromData))]
+   public void CanMovePieceFrom_FalseCases(string position, ChessColor player, IEnumerable<string> pieces)
    {
       var board = _factory.Create(pieces);
       var game = CreateGame();
@@ -105,9 +111,9 @@ public class ChessGameTests
       canMove.Should().BeFalse();
    }
 
-   private class InvalidCanMovePieceData : TheoryData<string, ChessColor, IEnumerable<string>>
+   private class InvalidCanMovePieceFromData : TheoryData<string, ChessColor, IEnumerable<string>>
    {
-      public InvalidCanMovePieceData()
+      public InvalidCanMovePieceFromData()
       {
          // no piece for from pos
          AddCase("a2", ChessColor.White, new[] {"a1-w-p"});
@@ -120,15 +126,43 @@ public class ChessGameTests
    // --- CanMovePieceTo 
 
    [Fact]
-   public void CanMovePieceTo_WillThrowEx_WhenBoardIsNull()
+   public void IsValidMove_WillThrowEx_WhenBoardIsNull()
    {
       var game = CreateGame();
 
-      game.Invoking(g => g.CanMovePieceTo(ChessColor.White, "a1".ToFileAndRank()))
+      game.Invoking(g => g.IsValidMove(ChessColor.White, "a1".ToFileAndRank(), "a1".ToFileAndRank()))
          .Should().Throw<ChessGameException>()
          .WithMessage("Board is null.");
    }
 
+   [Fact]
+   public void IsValidMove_WillReturnFalse_When_FromPosition_NotOnBoard()
+   {
+      var board = _factory.Create(new[] {"a1-w-p"});
+      var game = CreateGame();
+      game.NewGame(board);
+
+      var invalidPos = new FileAndRank((ChessFile)(-1), (ChessRank)(-1));
+      
+      var canMove = game.IsValidMove(ChessColor.White, invalidPos, "a1".ToFileAndRank());
+
+      canMove.Should().BeFalse();
+   }
+
+   [Fact]
+   public void IsValidMove_WillReturnFalse_When_ToPosition_NotOnBoard()
+   {
+      var board = _factory.Create(new[] {"a1-w-p"});
+      var game = CreateGame();
+      game.NewGame(board);
+
+      var invalidPos = new FileAndRank((ChessFile)(-1), (ChessRank)(-1));
+      
+      var canMove = game.IsValidMove(ChessColor.White, "a1".ToFileAndRank(), invalidPos);
+
+      canMove.Should().BeFalse();
+   }
+   
    // --- MovePiece 
 
    [Fact]
@@ -141,8 +175,3 @@ public class ChessGameTests
          .WithMessage("Board is null.");
    }
 }
-
-// void NewGame(IBoardModel? board);
-// bool CanMovePieceFrom(ChessColor player, FileAndRank fromPosition);
-// bool CanMovePieceTo(ChessColor player, FileAndRank toPosition);
-// void MovePiece(ChessColor player, FileAndRank fromPosition, FileAndRank toPosition);

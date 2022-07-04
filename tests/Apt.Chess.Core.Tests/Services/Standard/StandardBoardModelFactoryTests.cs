@@ -1,6 +1,5 @@
 ﻿using Apt.Chess.Core.Models;
 using Apt.Chess.Core.Services.Standard;
-using FluentAssertions;
 
 namespace Apt.Chess.Core.Tests.Services.Standard;
 

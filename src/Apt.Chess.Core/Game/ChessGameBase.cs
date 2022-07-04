@@ -2,11 +2,13 @@
 
 namespace Apt.Chess.Core.Game;
 
-public class ChessGame : IChessGame
+public abstract class ChessGameBase : IChessGame
 {
    public GameStep CurrentStep { get; set; } = GameStep.New;
    public ChessColor CurrentPlayer { get; set; } = ChessColor.White;
    public IBoardModel? Board { get; private set; }
+   
+   protected abstract IDictionary<ChessPieceType, IPotentialMoveStrategy> PotentialMoveStrategies { get; }
 
    public void NewGame(IBoardModel? board, ChessColor player = ChessColor.White)
    {
@@ -32,12 +34,20 @@ public class ChessGame : IChessGame
       return true;
    }
 
-   public bool CanMovePieceTo(ChessColor player, FileAndRank toPosition)
+   public bool IsValidMove(ChessColor player, FileAndRank fromPosition, FileAndRank toPosition)
    {
-      if (Board is null)
-         throw new ChessGameException("Board is null.");
+      if (!CanMovePieceFrom(player, fromPosition))
+         return false;
 
-      return false;
+      if (!Board!.IsOnBoard(toPosition))
+         return false;
+
+      var square = Board[ fromPosition ];
+      if (!PotentialMoveStrategies.ContainsKey(square!.Piece!.Type))
+         throw new ChessGameException("Missing potential move strategy.");
+
+      var strategy = PotentialMoveStrategies[ square!.Piece!.Type ].Find(Board, fromPosition);
+      return strategy.Contains(toPosition);
    }
 
    public void MovePiece(ChessColor player, FileAndRank fromPosition, FileAndRank toPosition)

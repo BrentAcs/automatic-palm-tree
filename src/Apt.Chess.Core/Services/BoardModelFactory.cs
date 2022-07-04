@@ -49,7 +49,7 @@ public abstract class BoardModelFactory : IBoardModelFactory
       foreach (var notation in notations)
       {
          SimpleNotationParser.Parse(notation, out var far, out var color, out var piece);
-         initialPieces.Add( far, new ChessPiece(piece.Value, color.Value));
+         initialPieces.Add( far, new ChessPiece(piece, color));
       }
       
       PopulateInitialPieces(board, initialPieces);

@@ -48,7 +48,7 @@ public static class SimpleNotationParser
       return new ChessPiece(pieceType, color);
    }
 
-   public static void Parse(string notation, out FileAndRank? fileAndRankOut, out ChessColor? colorOut, out ChessPieceType? pieceTypeOut)
+   public static void Parse(string notation, out FileAndRank fileAndRankOut, out ChessColor colorOut, out ChessPieceType pieceTypeOut)
    {
       var match = _notationFullPattern.Match(notation);
       if (!match.Success)
