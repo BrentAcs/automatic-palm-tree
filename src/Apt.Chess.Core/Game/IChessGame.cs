@@ -30,7 +30,7 @@ public interface IChessGameActions
    void NewGame(IBoardModel? board, ChessColor player=ChessColor.White);
    bool CanMovePieceFrom(ChessColor player, FileAndRank fromPosition);
    bool IsValidMove(ChessColor player, FileAndRank fromPosition, FileAndRank toPosition);
-   void MovePiece(ChessColor player, FileAndRank fromPosition, FileAndRank toPosition);
+   ChessPiece? MovePiece(ChessColor player, FileAndRank fromPosition, FileAndRank toPosition);
 }
 
 public interface IChessGame : IChessGameContext, IChessGameActions

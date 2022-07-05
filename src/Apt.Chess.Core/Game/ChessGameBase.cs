@@ -50,9 +50,19 @@ public abstract class ChessGameBase : IChessGame
       return strategy.Contains(toPosition);
    }
 
-   public void MovePiece(ChessColor player, FileAndRank fromPosition, FileAndRank toPosition)
+   public ChessPiece? MovePiece(ChessColor player, FileAndRank fromPosition, FileAndRank toPosition)
    {
       if (Board is null)
          throw new ChessGameException("Board is null.");
+
+      if( !IsValidMove(player, fromPosition, toPosition))
+         throw new ChessGameException("Move is invalid.");
+
+      var fromPiece = Board[ fromPosition ].Piece;
+      var toPiece = Board[ toPosition ].Piece;
+      Board[ fromPosition ].Piece = null;
+      Board[ toPosition ].Piece = fromPiece;
+
+      return toPiece;
    }
 }
