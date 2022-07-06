@@ -7,7 +7,7 @@ public abstract class ChessGameBase : IChessGame
    public GameStep CurrentStep { get; set; } = GameStep.New;
    public ChessColor CurrentPlayer { get; set; } = ChessColor.White;
    public IBoardModel? Board { get; private set; }
-   
+
    protected abstract IDictionary<ChessPieceType, IPotentialMoveStrategy> PotentialMoveStrategies { get; }
 
    public void NewGame(IBoardModel? board, ChessColor player = ChessColor.White)
@@ -15,6 +15,9 @@ public abstract class ChessGameBase : IChessGame
       Board = board ?? throw new ArgumentNullException(nameof(board));
       CurrentPlayer = player;
    }
+
+   public bool CanMovePieceFrom(FileAndRank fromPosition)
+      => CanMovePieceFrom(CurrentPlayer, fromPosition);
 
    public bool CanMovePieceFrom(ChessColor player, FileAndRank fromPosition)
    {
@@ -34,6 +37,9 @@ public abstract class ChessGameBase : IChessGame
       return true;
    }
 
+   public bool IsValidMove(FileAndRank fromPosition, FileAndRank toPosition)
+      => IsValidMove(CurrentPlayer, fromPosition, toPosition);
+
    public bool IsValidMove(ChessColor player, FileAndRank fromPosition, FileAndRank toPosition)
    {
       if (!CanMovePieceFrom(player, fromPosition))
@@ -50,12 +56,15 @@ public abstract class ChessGameBase : IChessGame
       return strategy.Contains(toPosition);
    }
 
+   public ChessPiece? MovePiece(FileAndRank fromPosition, FileAndRank toPosition)
+      => MovePiece(CurrentPlayer, fromPosition, toPosition);
+
    public ChessPiece? MovePiece(ChessColor player, FileAndRank fromPosition, FileAndRank toPosition)
    {
       if (Board is null)
          throw new ChessGameException("Board is null.");
 
-      if( !IsValidMove(player, fromPosition, toPosition))
+      if (!IsValidMove(player, fromPosition, toPosition))
          throw new ChessGameException("Move is invalid.");
 
       var fromPiece = Board[ fromPosition ].Piece;

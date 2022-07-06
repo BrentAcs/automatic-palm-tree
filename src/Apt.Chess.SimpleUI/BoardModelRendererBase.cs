@@ -23,10 +23,13 @@ public class StandardBoardModelRenderer : BoardModelRendererBase
    private int BoardWidth => _board!.MaxRank * SquareWidth;
    private int BoardHeight => _board!.MaxFile * SquareHeight;
    private static int BoardTop => 0;
-   private int BoardLeft => (Console.WindowWidth - BoardWidth) / 2;
+   //private int BoardLeft => (Console.WindowWidth - BoardWidth) / 2;
+   private int BoardLeft => 2;
 
    public override void Render(IBoardModel board)
    {
+      Console.Clear();
+
       _board = board;
 
       var backSave = Console.BackgroundColor;

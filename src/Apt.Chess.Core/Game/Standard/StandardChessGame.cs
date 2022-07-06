@@ -2,7 +2,7 @@
 
 namespace Apt.Chess.Core.Game.Standard;
 
-public class StandardChessGameBase : ChessGameBase
+public class StandardChessGame : ChessGameBase
 {
    protected override IDictionary<ChessPieceType, IPotentialMoveStrategy> PotentialMoveStrategies =>
       new Dictionary<ChessPieceType, IPotentialMoveStrategy>

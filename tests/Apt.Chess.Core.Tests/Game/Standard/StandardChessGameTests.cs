@@ -15,7 +15,7 @@ public class StandardChessGameTests
    private readonly IBoardModelFactory _factory = new StandardBoardModelFactory();
 
    private static IChessGame CreateGame() =>
-      new StandardChessGameBase();
+      new StandardChessGame();
 
    // --- IsValidMove 
 
