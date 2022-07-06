@@ -8,6 +8,8 @@ public interface IBoardModelFactory
    IBoardModel CreateStock();
    IBoardModel Create(IDictionary<FileAndRank, ChessPiece>? initialPieces = null);
    IBoardModel Create(IEnumerable<string> notations);
+   
+   IBoardModel Create(GameScenario selection);
 }
 
 public abstract class BoardModelFactory : IBoardModelFactory
@@ -47,10 +49,12 @@ public abstract class BoardModelFactory : IBoardModelFactory
       foreach (var notation in notations)
       {
          SimpleNotationParser.Parse(notation, out var far, out var color, out var piece);
-         initialPieces.Add( far, new ChessPiece(piece.Value, color.Value));
+         initialPieces.Add( far, new ChessPiece(piece, color));
       }
       
       PopulateInitialPieces(board, initialPieces);
       return board;
    }
+
+   public abstract IBoardModel Create(GameScenario selection);
 }

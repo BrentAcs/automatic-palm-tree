@@ -47,6 +47,29 @@ public class StandardBoardModelFactory : BoardModelFactory
          {new FileAndRank(ChessFile.H, ChessRank._1), new ChessPiece(ChessPieceType.Rook, ChessColor.White)}
       };
 
+   private static IDictionary<FileAndRank, ChessPiece> InitialPawnsOnlyPieces =>
+      new Dictionary<FileAndRank, ChessPiece>
+      {
+         // Black Pawn row
+         {new FileAndRank(ChessFile.A, ChessRank._7), new ChessPiece(ChessPieceType.Pawn, ChessColor.Black)},
+         {new FileAndRank(ChessFile.B, ChessRank._7), new ChessPiece(ChessPieceType.Pawn, ChessColor.Black)},
+         {new FileAndRank(ChessFile.C, ChessRank._7), new ChessPiece(ChessPieceType.Pawn, ChessColor.Black)},
+         {new FileAndRank(ChessFile.D, ChessRank._7), new ChessPiece(ChessPieceType.Pawn, ChessColor.Black)},
+         {new FileAndRank(ChessFile.E, ChessRank._7), new ChessPiece(ChessPieceType.Pawn, ChessColor.Black)},
+         {new FileAndRank(ChessFile.F, ChessRank._7), new ChessPiece(ChessPieceType.Pawn, ChessColor.Black)},
+         {new FileAndRank(ChessFile.G, ChessRank._7), new ChessPiece(ChessPieceType.Pawn, ChessColor.Black)},
+         {new FileAndRank(ChessFile.H, ChessRank._7), new ChessPiece(ChessPieceType.Pawn, ChessColor.Black)},
+         // White Pawn row
+         {new FileAndRank(ChessFile.A, ChessRank._2), new ChessPiece(ChessPieceType.Pawn, ChessColor.White)},
+         {new FileAndRank(ChessFile.B, ChessRank._2), new ChessPiece(ChessPieceType.Pawn, ChessColor.White)},
+         {new FileAndRank(ChessFile.C, ChessRank._2), new ChessPiece(ChessPieceType.Pawn, ChessColor.White)},
+         {new FileAndRank(ChessFile.D, ChessRank._2), new ChessPiece(ChessPieceType.Pawn, ChessColor.White)},
+         {new FileAndRank(ChessFile.E, ChessRank._2), new ChessPiece(ChessPieceType.Pawn, ChessColor.White)},
+         {new FileAndRank(ChessFile.F, ChessRank._2), new ChessPiece(ChessPieceType.Pawn, ChessColor.White)},
+         {new FileAndRank(ChessFile.G, ChessRank._2), new ChessPiece(ChessPieceType.Pawn, ChessColor.White)},
+         {new FileAndRank(ChessFile.H, ChessRank._2), new ChessPiece(ChessPieceType.Pawn, ChessColor.White)},
+      };
+
    protected override IBoardModel CreateEmptyBoard()
    {
       var board = new StandardBoardModel();
@@ -67,6 +90,25 @@ public class StandardBoardModelFactory : BoardModelFactory
 
             board.Squares[ rank, file ] = new Square {SquareColor = color};
          }
+      }
+
+      return board;
+   }
+
+   public override IBoardModel Create(GameScenario selection)
+   {
+      var board = CreateEmptyBoard();
+
+      switch (selection)
+      {
+         case GameScenario.Standard:
+            PopulateInitialPieces(board, InitialStockPieces);
+            break;
+         case GameScenario.StandardPawnsOnly:
+            PopulateInitialPieces(board, InitialPawnsOnlyPieces);
+            break;
+         default:
+            throw new ArgumentOutOfRangeException(nameof(selection), selection, null);
       }
 
       return board;
