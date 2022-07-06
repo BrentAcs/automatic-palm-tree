@@ -174,4 +174,16 @@ public class ChessGameBaseTests
          .Should().Throw<ChessGameException>()
          .WithMessage("Board is null.");
    }
+   
+   // --- NextTurn
+
+   [Fact]
+   public void NextTurn_WillSet_CurrentPlayerToBlack_WhenCurrentIsWhite()
+   {
+      var game = CreateGame();
+
+      game.NextTurn();
+
+      game.CurrentPlayer.Should().Be(ChessColor.Black);
+   }
 }

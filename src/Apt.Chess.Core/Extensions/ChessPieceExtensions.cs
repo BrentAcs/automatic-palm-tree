@@ -8,3 +8,4 @@ public static class ChessPieceExtensions
    public static ChessPiece ToChessPiece(this string value) =>
       SimpleNotationParser.ParsePiece(value);
 }
+

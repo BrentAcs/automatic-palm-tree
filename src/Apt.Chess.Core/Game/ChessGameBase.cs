@@ -74,4 +74,7 @@ public abstract class ChessGameBase : IChessGame
 
       return toPiece;
    }
+
+   public void NextTurn() =>
+      CurrentPlayer = CurrentPlayer == ChessColor.White ? ChessColor.Black : ChessColor.White;
 }

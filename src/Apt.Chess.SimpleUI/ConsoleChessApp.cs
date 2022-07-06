@@ -35,15 +35,35 @@ public class ConsoleChessApp : ConsoleChessAppBase
       IChessGame game = new StandardChessGame();
       game.NewGame(board);
 
-      // test
-      // game.Board[ "a3".ToFileAndRank() ].Piece = new ChessPiece(ChessPieceType.Knight ,ChessColor.Black);
+      bool gameOver = false;
+      while (!gameOver)
+      {
+         _renderer.Render(game.Board!);
 
-      _renderer.Render(game.Board!);
+         FileAndRank? fromPos = null;
+         FileAndRank? toPos = null;
 
-       var fromPos = MovePrompts.PromptMoveFrom(game);
-       var toPos = MovePrompts.PromptMoveTo(game, fromPos);
-       var capturedPiece = game.MovePiece(fromPos, toPos);
+         Console.CursorLeft = 50;
+         Console.CursorTop = 1;
+         Console.WriteLine($"Player {game.CurrentPlayer} turn:");
 
-       _renderer.Render(game.Board!);
+         while (fromPos is null && toPos is null)
+         {
+            fromPos = MovePrompts.PromptMoveFrom(game, 50, 2);
+            if (fromPos is null)
+            {
+               gameOver = true;
+               break;
+            }
+            toPos = MovePrompts.PromptMoveTo(game, fromPos, 50, 3);
+         }
+         if(gameOver)
+            break;
+      
+         var capturedPiece = game.MovePiece(fromPos, toPos);
+         // need to add move logging
+         
+         game.NextTurn();
+      }
    }
 }

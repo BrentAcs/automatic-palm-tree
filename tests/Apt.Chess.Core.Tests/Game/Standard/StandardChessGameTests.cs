@@ -175,7 +175,7 @@ public class StandardChessGameTests
 
       capturedPiece.Should().BeEquivalentTo(expectedCapturedPiece, "No piece was captured.");
    }
-   
+
    private class MovePieceWithCaptureData : TheoryData<string, ChessColor, string, string, IEnumerable<string>>
    {
       public MovePieceWithCaptureData()

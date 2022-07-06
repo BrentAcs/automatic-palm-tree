@@ -34,6 +34,8 @@ public interface IChessGameActions
    bool IsValidMove(ChessColor player, FileAndRank fromPosition, FileAndRank toPosition);
    ChessPiece? MovePiece(FileAndRank fromPosition, FileAndRank toPosition);
    ChessPiece? MovePiece(ChessColor player, FileAndRank fromPosition, FileAndRank toPosition);
+   // NOTE: Need check for game over
+   void NextTurn();
 }
 
 public interface IChessGame : IChessGameContext, IChessGameActions
