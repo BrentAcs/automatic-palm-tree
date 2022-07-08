@@ -14,4 +14,6 @@ public record FileAndRank(ChessFile File, ChessRank Rank)
    public FileAndRank MoveUpLeft() => new(File-1,Rank+1);
    public FileAndRank MoveDownRight() => new(File+1,Rank-1);
    public FileAndRank MoveDownLeft() => new(File-1,Rank-1);
+
+   public override string ToString() => $"[{File}, {Rank.ToString().Replace("_", string.Empty)}]";
 }
