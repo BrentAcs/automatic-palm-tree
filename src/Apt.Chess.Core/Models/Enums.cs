@@ -61,6 +61,18 @@ public enum GameStep
    GameOver,
 }
 
+public enum Direction
+{
+   Up=1,
+   Down,
+   Left,
+   Right,
+   UpRight,
+   UpLeft,
+   DownRight,
+   DownLeft,
+}
+
 /// <summary>
 /// Define types of games, primarily for testing / experimentation.
 /// </summary>

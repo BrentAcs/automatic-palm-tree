@@ -12,10 +12,10 @@ public class KingPotentialMoveStrategy : PotentialMoveStrategy
       
       var potentials = new List<FileAndRank>
       {
-         position.MoveUp(),
-         position.MoveDown(),
-         position.MoveLeft(),
-         position.MoveRight()
+         position.Move(Direction.Up),
+         position.Move(Direction.Down),
+         position.Move(Direction.Left),
+         position.Move(Direction.Right)
       }
          .Where(board.IsOnBoard)
          .Where(p => board[p].Piece is null || board[p].Piece!.IsOppositePlayer(piece.Player));

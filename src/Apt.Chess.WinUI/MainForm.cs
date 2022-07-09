@@ -15,8 +15,15 @@ public partial class MainForm : Form
       _boardModelFactory = boardModelFactory;
       InitializeComponent();
 
-      //var board = _boardModelFactory.CreateStock();
-      var board = _boardModelFactory.Create(GameScenario.StandardPawnsOnly);
+      var board = _boardModelFactory.CreateStock();
+      //var board = _boardModelFactory.Create(GameScenario.StandardPawnsOnly);
+
+      // var board = _boardModelFactory.Create(new List<string>
+      // {
+      //    "d4-w-r",
+      //    "e5-b-r",
+      // });
+
       _game.NewGame(board);
    }
 

@@ -9,5 +9,6 @@ public class StandardChessGame : ChessGameBase
       {
          {ChessPieceType.Pawn, new PawnPotentialMoveStrategy()},
          {ChessPieceType.King, new KingPotentialMoveStrategy()},
+         {ChessPieceType.Rook, new RookPotentialMoveStrategy()},
       };
 }

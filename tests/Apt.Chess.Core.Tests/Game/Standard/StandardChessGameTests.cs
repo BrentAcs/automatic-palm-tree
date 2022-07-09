@@ -25,7 +25,7 @@ public class StandardChessGameTests
       // NOTE: this test may break in the future when all strategies exist.
 
       var game = CreateGame();
-      var board = _factory.Create(new[] {"a1-w-r"});
+      var board = _factory.Create(new[] {"a1-w-q"});
       game.NewGame(board);
 
       game.Invoking(g => g.IsValidMove(ChessColor.White, "a1".ToFileAndRank(), "a1".ToFileAndRank()))
