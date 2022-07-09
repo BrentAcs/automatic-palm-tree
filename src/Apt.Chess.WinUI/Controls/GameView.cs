@@ -39,5 +39,8 @@ namespace Apt.Chess.WinUI.Controls
 
          selectedFromTextBox.Text = $"{e.Position}: {e.Selected?.Piece.Type}";
       }
+
+      public void ClearFromSelected()
+         => selectedFromTextBox.Text = string.Empty;
    }
 }

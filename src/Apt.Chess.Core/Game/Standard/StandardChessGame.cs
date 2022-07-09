@@ -8,5 +8,6 @@ public class StandardChessGame : ChessGameBase
       new Dictionary<ChessPieceType, IPotentialMoveStrategy>
       {
          {ChessPieceType.Pawn, new PawnPotentialMoveStrategy()},
+         {ChessPieceType.King, new KingPotentialMoveStrategy()},
       };
 }

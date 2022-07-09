@@ -9,7 +9,7 @@ public class PawnPotentialMoveStrategy : PotentialMoveStrategy
       var piece = board[ position.File, position.Rank ].Piece;
       if (piece is null)
          throw PotentialMoveStrategyException.CreateMissingPiece(position);
-
+      
       var potentials = new List<FileAndRank>();
 
       CheckAhead(board, piece, position, potentials);

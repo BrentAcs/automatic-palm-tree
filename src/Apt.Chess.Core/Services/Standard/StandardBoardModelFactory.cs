@@ -50,6 +50,8 @@ public class StandardBoardModelFactory : BoardModelFactory
    private static IDictionary<FileAndRank, ChessPiece> InitialPawnsOnlyPieces =>
       new Dictionary<FileAndRank, ChessPiece>
       {
+         // Black back row
+         {new FileAndRank(ChessFile.D, ChessRank._8), new ChessPiece(ChessPieceType.King, ChessColor.Black)},
          // Black Pawn row
          {new FileAndRank(ChessFile.A, ChessRank._7), new ChessPiece(ChessPieceType.Pawn, ChessColor.Black)},
          {new FileAndRank(ChessFile.B, ChessRank._7), new ChessPiece(ChessPieceType.Pawn, ChessColor.Black)},
@@ -68,6 +70,8 @@ public class StandardBoardModelFactory : BoardModelFactory
          {new FileAndRank(ChessFile.F, ChessRank._2), new ChessPiece(ChessPieceType.Pawn, ChessColor.White)},
          {new FileAndRank(ChessFile.G, ChessRank._2), new ChessPiece(ChessPieceType.Pawn, ChessColor.White)},
          {new FileAndRank(ChessFile.H, ChessRank._2), new ChessPiece(ChessPieceType.Pawn, ChessColor.White)},
+         // White back row
+         {new FileAndRank(ChessFile.E, ChessRank._1), new ChessPiece(ChessPieceType.King, ChessColor.White)},
       };
 
    protected override IBoardModel CreateEmptyBoard()

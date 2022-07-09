@@ -15,22 +15,23 @@ public partial class MainForm : Form
       _boardModelFactory = boardModelFactory;
       InitializeComponent();
 
-      var board = _boardModelFactory.CreateStock();
+      //var board = _boardModelFactory.CreateStock();
+      var board = _boardModelFactory.Create(GameScenario.StandardPawnsOnly);
       _game.NewGame(board);
    }
 
    private void MainForm_Paint(object sender, PaintEventArgs e)
    {
-      var rectSize = new Rectangle(0, 0, 48, 48);
+      //var rectSize = new Rectangle(0, 0, 48, 48);
 
-      using var font = new Font("Arial", 24, FontStyle.Italic, GraphicsUnit.Pixel);
-      using var brush = new SolidBrush(Color.Black);
-      using var pen = new Pen(brush);
-      var fontSize = e.Graphics.MeasureString("K", font);
+      //using var font = new Font("Arial", 24, FontStyle.Italic, GraphicsUnit.Pixel);
+      //using var brush = new SolidBrush(Color.Black);
+      //using var pen = new Pen(brush);
+      //var fontSize = e.Graphics.MeasureString("K", font);
 
-      e.Graphics.DrawRectangle(pen, rectSize);
-      e.Graphics.DrawString("K", font, brush, (rectSize.Width / 2) - (fontSize.Width / 2),
-         (rectSize.Height / 2) - (fontSize.Height / 2));
+      //e.Graphics.DrawRectangle(pen, rectSize);
+      //e.Graphics.DrawString("K", font, brush, (rectSize.Width / 2) - (fontSize.Width / 2),
+      //   (rectSize.Height / 2) - (fontSize.Height / 2));
    }
 
    private void MainForm_Load(object sender, EventArgs e)
@@ -48,7 +49,7 @@ public partial class MainForm : Form
       var capturedPiece = _game.MovePiece(e.FromPosition, e.ToPosition);
       _game.NextTurn();
       theGameView.CurrentPlayer = _game.CurrentPlayer;
-      //theGameView.HoverPosition = null;
+      theGameView.ClearFromSelected();
       theBoardView.Update();
    }
 
