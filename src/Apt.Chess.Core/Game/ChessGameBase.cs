@@ -57,7 +57,7 @@ public abstract class ChessGameBase : IChessGame
       if (!PotentialMoveStrategies.ContainsKey(square!.Piece!.Type))
          throw new ChessGameException("Missing potential move strategy.");
 
-      var strategy = PotentialMoveStrategies[ square!.Piece!.Type ].Find(Board, fromPosition);
+      var strategy = PotentialMoveStrategies[ square!.Piece!.Type ].Find(this, fromPosition);
       return strategy.Contains(toPosition);
    }
 

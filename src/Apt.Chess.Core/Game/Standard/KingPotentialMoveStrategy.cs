@@ -4,9 +4,13 @@ namespace Apt.Chess.Core.Game.Standard;
 
 public class KingPotentialMoveStrategy : PotentialMoveStrategy
 {
-   public override IEnumerable<FileAndRank> Find(IBoardModel board, FileAndRank position)
+   public override IEnumerable<FileAndRank> Find(IChessGame? game, FileAndRank position)
    {
-      var piece = board[ position.File, position.Rank ].Piece;
+      if (game is null)
+         throw new ArgumentNullException(nameof(game),$"Game is null");
+      if (game.Board is null)
+         throw new ArgumentNullException(nameof(game),$"Board property is null");
+      var piece = game.Board[ position.File, position.Rank ].Piece;
       if (piece is null)
          throw PotentialMoveStrategyException.CreateMissingPiece(position);
       
@@ -17,8 +21,8 @@ public class KingPotentialMoveStrategy : PotentialMoveStrategy
          position.Move(Direction.Left),
          position.Move(Direction.Right)
       }
-         .Where(board.IsOnBoard)
-         .Where(p => board[p].Piece is null || board[p].Piece!.IsOppositePlayer(piece.Player));
+         .Where(game.Board.IsOnBoard)
+         .Where(p => game.Board[p].Piece is null || game.Board[p].Piece!.IsOppositePlayer(piece.Player));
 
       return potentials;
    }

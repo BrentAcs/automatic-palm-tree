@@ -8,10 +8,10 @@ namespace Apt.Chess.Core.Game;
 /// </summary>
 public abstract class PotentialMoveStrategy : IPotentialMoveStrategy
 {
-   public IEnumerable<FileAndRank> Find(IBoardModel board, string position) =>
-      Find(board, position.ToFileAndRank());
+   public IEnumerable<FileAndRank> Find(IChessGame? game, string position) =>
+      Find(game, position.ToFileAndRank());
 
-   public abstract IEnumerable<FileAndRank> Find(IBoardModel board, FileAndRank position);
+   public abstract IEnumerable<FileAndRank> Find(IChessGame? game, FileAndRank position);
 
    protected static IEnumerable<FileAndRank> RemoveOffBoardPotentials(IBoardModel board, IList<FileAndRank> potentials)
    {

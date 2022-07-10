@@ -42,10 +42,10 @@ public class PawnPotentialMoveStrategyTests : StandardPotentialMoveStrategyTests
    [Fact]
    public void Test()
    {
-      var board = CreateBoard(new[] {"c2-w-p"});
+      var game = CreateGameWithBoard(new[] {"c2-w-p"});
 
       var moves = Strategy
-         .Find(board, new FileAndRank(ChessFile.C, ChessRank._2))
+         .Find(game, new FileAndRank(ChessFile.C, ChessRank._2))
          .ToList();
 
       moves.Should().HaveCount(2);

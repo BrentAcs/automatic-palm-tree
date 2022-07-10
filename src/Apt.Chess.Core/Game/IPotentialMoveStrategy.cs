@@ -4,7 +4,7 @@ namespace Apt.Chess.Core.Game;
 
 public interface IPotentialMoveStrategy
 {
-   IEnumerable<FileAndRank> Find(IBoardModel board, string position);
-   IEnumerable<FileAndRank> Find(IBoardModel board, FileAndRank position);
+   IEnumerable<FileAndRank> Find(IChessGame? game, string position);
+   IEnumerable<FileAndRank> Find(IChessGame? game, FileAndRank position);
 }
 

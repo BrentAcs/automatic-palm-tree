@@ -1,33 +1,37 @@
 ﻿using Apt.Chess.Core.Extensions;
 using Apt.Chess.Core.Game;
 using Apt.Chess.Core.Game.Standard;
-using Apt.Chess.Core.Models;
+using Apt.Chess.Core.Services;
 using Apt.Chess.Core.Services.Standard;
 
 namespace Apt.Chess.Core.Tests.Game.Standard;
 
-public abstract class StandardPotentialMoveStrategyTests
+public abstract class StandardPotentialMoveStrategyTests :PotentialMoveStrategyTests
 {
-   protected abstract IPotentialMoveStrategy Strategy { get; }
+   protected override IBoardModelFactory BoardModelFactory => new StandardBoardModelFactory();
+  
+   [Fact]
+   public void Find_WillThrow_OnNullGame() =>
+      Strategy.Invoking(x => x.Find(null, "a1"))
+         .Should().Throw<ArgumentNullException>()
+         .WithMessage("Game is null (Parameter 'game')");
 
-   protected static IBoardModel CreateBoard(IDictionary<FileAndRank, ChessPiece> initialPieces) =>
-      new StandardBoardModelFactory()
-         .Create(initialPieces);
+   [Fact]
+   public void Find_WillThrow_OnNullBoard() 
+   {
+      var game = new StandardChessGame();
 
-   protected static IBoardModel CreateBoard(IEnumerable<string> notations) =>
-      new StandardBoardModelFactory()
-         .Create(notations);
+      Strategy.Invoking(x => x.Find(game, "a1"))
+         .Should().Throw<ArgumentNullException>()
+         .WithMessage("Board property is null (Parameter 'game')");
+   }
 
-   protected static IBoardModel CreateEmptyBoard() =>
-      new StandardBoardModelFactory()
-         .Create();
-   
    [Fact]
    public void Find_WillThrow_OnMissingPiece()
    {
-      var board = CreateEmptyBoard();
+      var game = CreateGameWithEmptyBoard();
 
-      Strategy.Invoking(x => x.Find(board, "a1"))
+      Strategy.Invoking(x => x.Find(game, "a1"))
          .Should().Throw<PotentialMoveStrategyException>();
    }
    
@@ -37,10 +41,10 @@ public abstract class StandardPotentialMoveStrategyTests
       IEnumerable<string> validPotentials,
       string scenario)
    {
-      var board = CreateBoard(initialPieces);
+      var game = CreateGameWithBoard(initialPieces);
 
       var moves = Strategy
-         .Find(board, position.ToFileAndRank())
+         .Find(game, position.ToFileAndRank())
          .ToList();
 
       int count = 0;
@@ -53,5 +57,4 @@ public abstract class StandardPotentialMoveStrategyTests
 
       moves.Should().HaveCount(count, $"Expected count fail: {scenario}");
    }
-   
 }
