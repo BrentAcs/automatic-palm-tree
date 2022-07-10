@@ -34,6 +34,8 @@ public partial class MainForm : Form
 
    private void MainForm_Load(object sender, EventArgs e)
    {
+      Size = Settings.Default.MainFormSize;
+      Location = Settings.Default.MainFormLocation;
    }
 
    private void MainForm_Shown(object sender, EventArgs e)
@@ -49,6 +51,13 @@ public partial class MainForm : Form
       theBoardView.OnPieceMove += TheBoardView_OnPieceMove;
       theBoardView.OnHover += TheBoardView_OnHover;
       theGameView.CurrentPlayer = _game.CurrentPlayer;
+   }
+
+   private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+   {
+       Settings.Default.MainFormSize=Size;
+       Settings.Default.MainFormLocation=Location;
+       Settings.Default.Save();
    }
 
    private void TheBoardView_OnPieceMove(object? sender, Controls.PieceMoveArgs e)
@@ -72,7 +81,7 @@ public partial class MainForm : Form
 
    private void MainForm_SizeChanged(object sender, EventArgs e)
    {
-      Debug.WriteLine($"{Size}");
+      //Debug.WriteLine($"{Size}");
    }
 
 }

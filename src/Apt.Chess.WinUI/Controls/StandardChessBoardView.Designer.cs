@@ -42,6 +42,7 @@
             this.thePictureBox.Size = new System.Drawing.Size(304, 314);
             this.thePictureBox.TabIndex = 0;
             this.thePictureBox.TabStop = false;
+            this.thePictureBox.SizeChanged += new System.EventHandler(this.thePictureBox_SizeChanged);
             this.thePictureBox.Click += new System.EventHandler(this.thePictureBox_Click);
             this.thePictureBox.MouseLeave += new System.EventHandler(this.thePictureBox_MouseLeave);
             this.thePictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.thePictureBox_MouseMove);

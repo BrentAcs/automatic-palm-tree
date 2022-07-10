@@ -27,6 +27,7 @@ public abstract class BoardModel : IBoardModel
 
    public int MaxRank => Squares.GetLength(0);
    public int MaxFile => Squares.GetLength(1);
+
    public Square[ , ] Squares { get; set; }
 
    [JsonIgnore]

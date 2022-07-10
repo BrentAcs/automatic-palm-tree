@@ -22,6 +22,10 @@ public interface IChessGameContext
    GameStep CurrentStep { get;  }   
    ChessColor CurrentPlayer { get; }
    IBoardModel? Board { get;  }
+
+   bool HasWhiteKingMoved { get; }
+   bool HasBlackKingMoved { get; }
+   bool HasKingMoved(ChessColor player);
    // NOTE: need property for moves
 }
 

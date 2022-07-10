@@ -51,7 +51,7 @@
             // 
             this.mainSplitContainer.Panel2.Controls.Add(this.theGameView);
             this.mainSplitContainer.Size = new System.Drawing.Size(687, 458);
-            this.mainSplitContainer.SplitterDistance = 384;
+            this.mainSplitContainer.SplitterDistance = 400;
             this.mainSplitContainer.TabIndex = 0;
             // 
             // theBoardView
@@ -59,7 +59,7 @@
             this.theBoardView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.theBoardView.Location = new System.Drawing.Point(0, 0);
             this.theBoardView.Name = "theBoardView";
-            this.theBoardView.Size = new System.Drawing.Size(384, 458);
+            this.theBoardView.Size = new System.Drawing.Size(400, 458);
             this.theBoardView.TabIndex = 0;
             this.theBoardView.SizeChanged += new System.EventHandler(this.MainForm_SizeChanged);
             // 
@@ -68,7 +68,7 @@
             this.theGameView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.theGameView.Location = new System.Drawing.Point(0, 0);
             this.theGameView.Name = "theGameView";
-            this.theGameView.Size = new System.Drawing.Size(299, 458);
+            this.theGameView.Size = new System.Drawing.Size(283, 458);
             this.theGameView.TabIndex = 0;
             // 
             // MainForm
@@ -77,6 +77,7 @@
             this.Controls.Add(this.mainSplitContainer);
             this.Name = "MainForm";
             this.Text = "APT Chess";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.Shown += new System.EventHandler(this.MainForm_Shown);
             this.SizeChanged += new System.EventHandler(this.MainForm_SizeChanged);

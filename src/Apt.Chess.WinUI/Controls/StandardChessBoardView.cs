@@ -211,5 +211,14 @@ public partial class StandardChessBoardView : UserControl
          }
       }
    }
+
+   private void thePictureBox_SizeChanged(object sender, EventArgs e)
+   {
+      if (thePictureBox.Image is null)
+         return;
+
+      thePictureBox.Left = (Size.Width - thePictureBox.Image.Width) / 2;
+      thePictureBox.Top = (Size.Height - thePictureBox.Image.Height) / 2;
+   }
 }
 

@@ -183,4 +183,58 @@ public class StandardChessGameTests
           AddCase("c2", ChessColor.White, "b3", "b-p", new[] {"c2-w-p", "b3-b-p"});
       }
    }
+   
+   // --- KingHasMoved
+   
+   [Fact]
+   public void OnNewGame_KingHasMoved_WillBeFalseForWhite()
+   {
+      var board = _factory.CreateForScenario(GameScenario.StandardRooksOnly);
+      var game = CreateGame();
+      game.NewGame(board);
+      
+      var hasKingMoved = game.HasKingMoved(ChessColor.White);
+
+      hasKingMoved.Should().BeFalse();
+   }
+   
+   [Fact]
+   public void OnNewGame_Board_KingHasMoved_WillBeFalseForBlack()
+   {
+      var board = _factory.CreateForScenario(GameScenario.StandardRooksOnly);
+      var game = CreateGame();
+      game.NewGame(board);
+      
+      var hasKingMoved = game.HasKingMoved(ChessColor.White);
+      
+      hasKingMoved.Should().BeFalse();
+   }
+
+   [Fact]
+   public void AfterKingMoves_KingHasMoved_WillBeTrueForWhite()
+   {
+      var board = _factory.CreateForScenario(GameScenario.StandardRooksOnly);
+      var game = CreateGame();
+      game.NewGame(board);
+      game.MovePiece("e1".ToFileAndRank(), "f1".ToFileAndRank());
+      
+      var hasKingMoved = game.HasKingMoved(ChessColor.White);
+
+      hasKingMoved.Should().BeTrue();
+   }
+
+   [Fact]
+   public void AfterKingMoves_KingHasMoved_WillBeTrueForBlack()
+   {
+      var board = _factory.CreateForScenario(GameScenario.StandardRooksOnly);
+      var game = CreateGame();
+      game.NewGame(board);
+      game.MovePiece("e1".ToFileAndRank(), "f1".ToFileAndRank());
+      game.MovePiece("d8".ToFileAndRank(), "c8".ToFileAndRank());
+      
+      var hasKingMoved = game.HasKingMoved(ChessColor.Black);
+
+      hasKingMoved.Should().BeTrue();
+   }
+
 }

@@ -7,6 +7,11 @@ public abstract class ChessGameBase : IChessGame
    public GameStep CurrentStep { get; set; } = GameStep.New;
    public ChessColor CurrentPlayer { get; set; } = ChessColor.White;
    public IBoardModel? Board { get; private set; }
+   public bool HasWhiteKingMoved { get; private set;}
+   public bool HasBlackKingMoved { get; private set;}
+
+   public bool HasKingMoved(ChessColor player) =>
+      player == ChessColor.White ? HasWhiteKingMoved : HasBlackKingMoved;
 
    protected abstract IDictionary<ChessPieceType, IPotentialMoveStrategy> PotentialMoveStrategies { get; }
 
@@ -72,9 +77,24 @@ public abstract class ChessGameBase : IChessGame
       Board[ fromPosition ].Piece = null;
       Board[ toPosition ].Piece = fromPiece;
 
+      CheckHasKingMoved(fromPiece, player);
+
       return toPiece;
    }
 
    public virtual void NextTurn() =>
       CurrentPlayer = CurrentPlayer == ChessColor.White ? ChessColor.Black : ChessColor.White;
+
+   private void CheckHasKingMoved(ChessPiece piece, ChessColor player)
+   {
+      if (piece.Type != ChessPieceType.King)
+      {
+         return;
+      }
+
+      if (player == ChessColor.White)
+         HasWhiteKingMoved = true;
+      else
+         HasBlackKingMoved = true;
+   }
 }

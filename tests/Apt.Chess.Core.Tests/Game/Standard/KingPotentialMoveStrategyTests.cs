@@ -1,5 +1,6 @@
 ﻿using Apt.Chess.Core.Game;
 using Apt.Chess.Core.Game.Standard;
+using Apt.Chess.Core.Models;
 
 namespace Apt.Chess.Core.Tests.Game.Standard;
 
@@ -25,4 +26,25 @@ public class KingPotentialMoveStrategyTests : StandardPotentialMoveStrategyTests
          AddCase("e1", new[] {"e1-w-k", "e2-w-p"}, new[] {"d1", "f1"}, "white king, home rank, white pawn adjacent.");
       }
    }
+
+   // [Fact]
+   // public void OnCreate_Board_KingHasMoved_WillBeFalseForWhite()
+   // {
+   //    var board = CreateBoard(new[] {"e1-w-k"});
+   //
+   //    var hasKingMoved = board.HasKingMoved(ChessColor.White);
+   //
+   //    hasKingMoved.Should().BeFalse();
+   // }
+   //
+   // [Fact]
+   // public void OnCreate_Board_KingHasMoved_WillBeFalseForWhite()
+   // {
+   //    var board = CreateBoard(new[] {"e1-w-k"});
+   //
+   //    var hasKingMoved = board.HasKingMoved(ChessColor.White);
+   //
+   //    hasKingMoved.Should().BeFalse();
+   // }
+   
 }
