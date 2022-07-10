@@ -31,7 +31,7 @@ public class ConsoleChessApp : ConsoleChessAppBase
 
    private void PlayGame(GameScenario scenario)
    {
-      var board = _factory.Create(scenario);
+      var board = _factory.CreateForScenario(scenario);
       IChessGame game = new StandardChessGame();
       game.NewGame(board);
 

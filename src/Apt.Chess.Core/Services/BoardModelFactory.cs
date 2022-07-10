@@ -5,16 +5,16 @@ namespace Apt.Chess.Core.Services;
 public interface IBoardModelFactory
 {
    IBoardModel CreateEmpty();
-   IBoardModel CreateStock();
+   
    IBoardModel Create(IDictionary<FileAndRank, ChessPiece>? initialPieces = null);
    IBoardModel Create(IEnumerable<string> notations);
    
-   IBoardModel Create(GameScenario selection);
+   IBoardModel CreateForScenario(GameScenario scenario);
 }
 
 public abstract class BoardModelFactory : IBoardModelFactory
 {
-   protected abstract IDictionary<FileAndRank, ChessPiece> InitialStockPieces { get; }
+   protected abstract IDictionary<GameScenario, IEnumerable<string>> GameScenarios { get; }
    protected abstract IBoardModel CreateEmptyBoard();
 
    protected virtual void PopulateInitialPieces(IBoardModel board, IDictionary<FileAndRank, ChessPiece>? initialPieces = null)
@@ -30,9 +30,6 @@ public abstract class BoardModelFactory : IBoardModelFactory
 
    public IBoardModel CreateEmpty()
       => Create();
-
-   public IBoardModel CreateStock()
-      => Create(InitialStockPieces);
 
    public IBoardModel Create(IDictionary<FileAndRank, ChessPiece>? initialPieces = null)
    {
@@ -56,5 +53,12 @@ public abstract class BoardModelFactory : IBoardModelFactory
       return board;
    }
 
-   public abstract IBoardModel Create(GameScenario selection);
+   public IBoardModel CreateForScenario(GameScenario scenario)
+   {
+      if (!GameScenarios.ContainsKey(scenario))
+         throw new NotSupportedException(); // Note, refactor to better exception
+
+      var board = Create(GameScenarios[ scenario ]);
+      return board;
+   }
 }

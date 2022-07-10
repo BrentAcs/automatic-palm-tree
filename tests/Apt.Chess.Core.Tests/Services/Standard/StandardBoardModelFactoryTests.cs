@@ -1,4 +1,5 @@
-﻿using Apt.Chess.Core.Models;
+﻿using System.Runtime.CompilerServices;
+using Apt.Chess.Core.Models;
 using Apt.Chess.Core.Services.Standard;
 
 namespace Apt.Chess.Core.Tests.Services.Standard;
@@ -122,4 +123,6 @@ public class StandardBoardModelFactoryTests
       square.Piece?.Type.Should().Be(ChessPieceType.Pawn);
       square.Piece?.Player.Should().Be(ChessColor.White);
    }
+   
+   //public void Create
 }

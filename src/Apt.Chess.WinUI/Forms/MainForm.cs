@@ -1,45 +1,47 @@
 ﻿using System.Diagnostics;
+using Apt.Chess.Core.Models;
 using Apt.Chess.Core.Services;
 
 namespace Apt.Chess.WinUI.Forms;
 
 public partial class MainForm : Form
 {
+   private readonly IServiceProvider _serviceProvider;
    private readonly IBoardModelFactory _boardModelFactory;
    private IWinChessGame _game = new StandardWinChessGame();
 
-   public MainForm(IBoardModelFactory boardModelFactory)
+   public MainForm(IServiceProvider serviceProvider, IBoardModelFactory boardModelFactory)
    {
+      _serviceProvider = serviceProvider;
       _boardModelFactory = boardModelFactory;
       InitializeComponent();
    }
 
-   private void MainForm_Paint(object sender, PaintEventArgs e)
+   // ---------------------------------------------------------------------------------------------
+   // Methods
+
+   private GameScenario SelectGameScenario()
    {
-      //var rectSize = new Rectangle(0, 0, 48, 48);
+      var form = _serviceProvider.GetRequiredService<SelectGameScenarioForm>();
 
-      //using var font = new Font("Arial", 24, FontStyle.Italic, GraphicsUnit.Pixel);
-      //using var brush = new SolidBrush(Color.Black);
-      //using var pen = new Pen(brush);
-      //var fontSize = e.Graphics.MeasureString("K", font);
+      form.ShowDialog(this);
 
-      //e.Graphics.DrawRectangle(pen, rectSize);
-      //e.Graphics.DrawString("K", font, brush, (rectSize.Width / 2) - (fontSize.Width / 2),
-      //   (rectSize.Height / 2) - (fontSize.Height / 2));
+      return form.SelectedGameScenario;
    }
+
+   // ---------------------------------------------------------------------------------------------
+   // Event Handlers
 
    private void MainForm_Load(object sender, EventArgs e)
    {
-      var board = _boardModelFactory.CreateEmpty();
-      //var board = _boardModelFactory.CreateStock();
-      //var board = _boardModelFactory.Create(GameScenario.StandardPawnsOnly);
-      // var board = _boardModelFactory.Create(new List<string>
-      // {
-      //    "d4-w-r",
-      //    "e5-b-r",
-      // });
-      _game.NewGame(board);
+   }
 
+   private void MainForm_Shown(object sender, EventArgs e)
+   {
+      var scenario = SelectGameScenario();
+      //var board = _boardModelFactory.CreateEmpty();
+      var board = _boardModelFactory.CreateForScenario(scenario);
+      _game.NewGame(board);
 
       theBoardView.Initialize(_game);
       theBoardView.OnFromSquareSelected += TheBoardView_OnFromSquareSelected;
@@ -72,4 +74,5 @@ public partial class MainForm : Form
    {
       Debug.WriteLine($"{Size}");
    }
+
 }
