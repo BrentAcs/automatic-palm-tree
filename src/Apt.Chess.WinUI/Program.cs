@@ -1,5 +1,6 @@
 ﻿using Apt.Chess.Core.Services;
 using Apt.Chess.Core.Services.Standard;
+using Apt.Chess.WinUI.Forms;
 
 namespace Apt.Chess.WinUI;
 

@@ -1,9 +1,7 @@
-﻿using Apt.Chess.Core.Game;
-using Apt.Chess.Core.Game.Standard;
-using Apt.Chess.Core.Models;
+﻿using System.Diagnostics;
 using Apt.Chess.Core.Services;
 
-namespace Apt.Chess.WinUI;
+namespace Apt.Chess.WinUI.Forms;
 
 public partial class MainForm : Form
 {
@@ -14,17 +12,6 @@ public partial class MainForm : Form
    {
       _boardModelFactory = boardModelFactory;
       InitializeComponent();
-
-      var board = _boardModelFactory.CreateStock();
-      //var board = _boardModelFactory.Create(GameScenario.StandardPawnsOnly);
-
-      // var board = _boardModelFactory.Create(new List<string>
-      // {
-      //    "d4-w-r",
-      //    "e5-b-r",
-      // });
-
-      _game.NewGame(board);
    }
 
    private void MainForm_Paint(object sender, PaintEventArgs e)
@@ -43,6 +30,17 @@ public partial class MainForm : Form
 
    private void MainForm_Load(object sender, EventArgs e)
    {
+      var board = _boardModelFactory.CreateEmpty();
+      //var board = _boardModelFactory.CreateStock();
+      //var board = _boardModelFactory.Create(GameScenario.StandardPawnsOnly);
+      // var board = _boardModelFactory.Create(new List<string>
+      // {
+      //    "d4-w-r",
+      //    "e5-b-r",
+      // });
+      _game.NewGame(board);
+
+
       theBoardView.Initialize(_game);
       theBoardView.OnFromSquareSelected += TheBoardView_OnFromSquareSelected;
       theBoardView.OnFromSquareSelected += theGameView.HandleOnFromSquareSelected;
@@ -62,11 +60,16 @@ public partial class MainForm : Form
 
    private void TheBoardView_OnHover(object? sender, Controls.HoverArgs e)
    {
-      theGameView.HoverPosition = e.Position;
+      //theGameView.HoverPosition = e.Position;
    }
 
    private void TheBoardView_OnFromSquareSelected(object? sender, Controls.FromSquareSelectedArgs e)
    {
       //MessageBox.Show($"Sqaure selected: {e.Selected.Piece}");
+   }
+
+   private void MainForm_SizeChanged(object sender, EventArgs e)
+   {
+      Debug.WriteLine($"{Size}");
    }
 }
