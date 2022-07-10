@@ -61,7 +61,6 @@
             this.theBoardView.Name = "theBoardView";
             this.theBoardView.Size = new System.Drawing.Size(384, 458);
             this.theBoardView.TabIndex = 0;
-            this.theBoardView.Load += new System.EventHandler(this.MainForm_Load);
             this.theBoardView.SizeChanged += new System.EventHandler(this.MainForm_SizeChanged);
             // 
             // theGameView
@@ -78,6 +77,9 @@
             this.Controls.Add(this.mainSplitContainer);
             this.Name = "MainForm";
             this.Text = "APT Chess";
+            this.Load += new System.EventHandler(this.MainForm_Load);
+            this.Shown += new System.EventHandler(this.MainForm_Shown);
+            this.SizeChanged += new System.EventHandler(this.MainForm_SizeChanged);
             this.mainSplitContainer.Panel1.ResumeLayout(false);
             this.mainSplitContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.mainSplitContainer)).EndInit();

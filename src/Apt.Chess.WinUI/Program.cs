@@ -34,6 +34,7 @@ internal static class Program
    {
       services
          .AddSingleton<MainForm>()
+         .AddSingleton<SelectGameScenarioForm>()
          .AddSingleton<IBoardModelFactory, StandardBoardModelFactory>()
          ;
    }
