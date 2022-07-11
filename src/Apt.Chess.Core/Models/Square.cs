@@ -10,4 +10,6 @@ public class Square
 {
    public ChessColor SquareColor { get; set; }
    public ChessPiece? Piece { get; set; }
+
+   public bool HasPiece => Piece is not null;
 }

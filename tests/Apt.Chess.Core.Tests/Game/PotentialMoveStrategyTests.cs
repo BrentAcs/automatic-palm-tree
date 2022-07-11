@@ -12,8 +12,13 @@ public abstract class PotentialMoveStrategyTests
    
    protected IChessGame CreateGameWithBoard(IDictionary<FileAndRank, ChessPiece> initialPieces) 
    {
+      var board = BoardModelFactory.Create(initialPieces);
+      return CreateGameWithBoard(board);
+   }
+
+   protected IChessGame CreateGameWithBoard(IBoardModel board) 
+   {
       var game = new StandardChessGame();
-      var board = BoardModelFactory.Create(initialPieces); 
       game.NewGame(board);
       return game;
    }

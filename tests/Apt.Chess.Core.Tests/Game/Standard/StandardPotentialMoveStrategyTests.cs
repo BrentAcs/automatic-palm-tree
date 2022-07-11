@@ -51,10 +51,25 @@ public abstract class StandardPotentialMoveStrategyTests :PotentialMoveStrategyT
       foreach (var validPotential in validPotentials)
       {
          moves.Should().Contain(m => m == validPotential.ToFileAndRank(),
-            $"Expected potential not found: '{validPotential}', scenario: {scenario} ");
+            $"Scenario: {scenario}, expected potential not found: '{validPotential}'");
          count++;
       }
 
-      moves.Should().HaveCount(count, $"Expected count fail: {scenario}");
+      moves.Should().HaveCount(count, $"Scenario: {scenario}, expected count fail");
    }
+   
+   protected void Find_ShouldNotReturn_PotentialsImplementation(
+      string position,
+      IEnumerable<string> initialPieces,
+      string scenario)
+   {
+      var game = CreateGameWithBoard(initialPieces);
+
+      var moves = Strategy
+         .Find(game, position.ToFileAndRank())
+         .ToList();
+
+      moves.Should().BeEmpty($"Scenario: {scenario}, returned moves");
+   }
+
 }
