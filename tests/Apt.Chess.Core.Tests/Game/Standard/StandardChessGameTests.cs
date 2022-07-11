@@ -231,7 +231,7 @@ public class StandardChessGameTests
       game.NewGame(board);
       game.MovePiece("e1".ToFileAndRank(), "f1".ToFileAndRank());
       game.NextTurn();
-      game.MovePiece("d8".ToFileAndRank(), "c8".ToFileAndRank());
+      game.MovePiece("e8".ToFileAndRank(), "d8".ToFileAndRank());
       
       var hasKingMoved = game.HasKingMoved(ChessColor.Black);
 

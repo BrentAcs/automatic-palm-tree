@@ -39,7 +39,7 @@ public class StandardBoardModelFactory : BoardModelFactory
             GameScenario.Standard, new[]
             {
                // Black back row
-               "a8-b-r", "b8-b-n", "c8-b-b", "d8-b-k", "e8-b-q", "f8-b-b", "g8-b-n", "h8-b-r",
+               "a8-b-r", "b8-b-n", "c8-b-b", "d8-b-q", "e8-b-k", "f8-b-b", "g8-b-n", "h8-b-r",
                // Black Pawn row
                "a7-b-p", "b7-b-p", "c7-b-p", "d7-b-p", "e7-b-p", "f7-b-p", "g7-b-p", "h7-b-p",
                // White Pawn row
@@ -53,7 +53,7 @@ public class StandardBoardModelFactory : BoardModelFactory
             GameScenario.StandardPawnsOnly, new[]
             {
                // Black back row
-               "d8-b-k",
+               "e8-b-k",
                // Black Pawn row
                "a7-b-p", "b7-b-p", "c7-b-p", "d7-b-p", "e7-b-p", "f7-b-p", "g7-b-p", "h7-b-p",
                // White Pawn row
@@ -67,7 +67,7 @@ public class StandardBoardModelFactory : BoardModelFactory
             GameScenario.StandardRooksOnly, new[]
             {
                // Black back row
-               "a8-b-r", "d8-b-k", "h8-b-r",
+               "a8-b-r", "e8-b-k", "h8-b-r",
                // White back row
                "a1-w-r", "e1-w-k", "h1-w-r",
             }
@@ -77,7 +77,7 @@ public class StandardBoardModelFactory : BoardModelFactory
             GameScenario.StandardKnightsOnly, new[]
             {
                // Black back row
-               "b8-b-n", "d8-b-k", "g8-b-n",
+               "b8-b-n", "e8-b-k", "g8-b-n",
                // White back row
                "b1-w-n", "e1-w-k", "g1-w-n",
             }
@@ -87,7 +87,7 @@ public class StandardBoardModelFactory : BoardModelFactory
             GameScenario.StandardBishopsOnly, new[]
             {
                // Black back row
-               "c8-b-b", "d8-b-k", "f8-b-b",
+               "c8-b-b", "e8-b-k", "f8-b-b",
                // White back row
                "c1-w-b", "e1-w-k", "f1-w-b",
             }
@@ -97,7 +97,7 @@ public class StandardBoardModelFactory : BoardModelFactory
             GameScenario.StandardQueenOnly, new[]
             {
                // Black back row
-                "d8-b-k", "e8-b-q",
+                "d8-b-q", "e8-b-k",
                // White back row
                 "d1-w-q", "e1-w-k",
             }
