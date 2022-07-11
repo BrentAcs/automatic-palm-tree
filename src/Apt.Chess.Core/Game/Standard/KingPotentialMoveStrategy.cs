@@ -16,59 +16,105 @@ public class KingPotentialMoveStrategy : PotentialMoveStrategy
 
       var potentials = new List<FileAndRank>();
       potentials.AddRange(FindAdjacentMoves(game, position, piece));
-      var kingSidePotential = FindCastleKingSide(game, position, piece);
-      if (kingSidePotential is not null)
-         potentials.Add(kingSidePotential);
+      potentials.AddRange(FindCastleMove(game, position, piece));
 
       return potentials;
    }
 
-   private static FileAndRank? FindCastleKingSide(IChessGameContext game, FileAndRank position, ChessPiece piece)
+   private class CastleMoveContext
    {
+      public ChessColor PlayerColor { get; set; }
+      public FileAndRank RookPosition { get; set; }
+      public IEnumerable<FileAndRank> BlockingSquares { get; set; }
+      public FileAndRank DestinationPosition { get; set; }
+   }
+
+   private static readonly Dictionary<FileAndRank, CastleMoveContext[]> _castleMoveContexts =
+      new()
+      {
+         {
+            new FileAndRank(ChessFile.E, ChessRank._1), new[]
+            {
+               // White king, king side
+               new CastleMoveContext
+               {
+                  PlayerColor = ChessColor.White,
+                  RookPosition = new FileAndRank(ChessFile.H, ChessRank._1),
+                  BlockingSquares = new[] {new FileAndRank(ChessFile.F, ChessRank._1), new FileAndRank(ChessFile.G, ChessRank._1)},
+                  DestinationPosition = new FileAndRank(ChessFile.G, ChessRank._1)
+               },
+               // White king, queen side
+               new CastleMoveContext
+               {
+                  PlayerColor = ChessColor.White,
+                  RookPosition = new FileAndRank(ChessFile.A, ChessRank._1),
+                  BlockingSquares =
+                     new[]
+                     {
+                        new FileAndRank(ChessFile.B, ChessRank._1), new FileAndRank(ChessFile.D, ChessRank._1),
+                        new FileAndRank(ChessFile.C, ChessRank._1)
+                     },
+                  DestinationPosition = new FileAndRank(ChessFile.B, ChessRank._1)
+               }
+            }
+         },
+         {
+            new FileAndRank(ChessFile.E, ChessRank._8), new[]
+            {
+               // Black king, king side
+               new CastleMoveContext
+               {
+                  PlayerColor = ChessColor.Black,
+                  RookPosition = new FileAndRank(ChessFile.H, ChessRank._8),
+                  BlockingSquares = new[] {new FileAndRank(ChessFile.F, ChessRank._8), new FileAndRank(ChessFile.G, ChessRank._8)},
+                  DestinationPosition = new FileAndRank(ChessFile.G, ChessRank._8)
+               },
+               // Black king, queen side
+               new CastleMoveContext
+               {
+                  PlayerColor = ChessColor.Black,
+                  RookPosition = new FileAndRank(ChessFile.A, ChessRank._8),
+                  BlockingSquares =
+                     new[]
+                     {
+                        new FileAndRank(ChessFile.B, ChessRank._8), new FileAndRank(ChessFile.C, ChessRank._8),
+                        new FileAndRank(ChessFile.D, ChessRank._8)
+                     },
+                  DestinationPosition = new FileAndRank(ChessFile.B, ChessRank._8)
+               }
+            }
+         }
+      };
+
+   private static IEnumerable<FileAndRank?> FindCastleMove(IChessGameContext game, FileAndRank position, ChessPiece piece)
+   {
+      var potentials = new List<FileAndRank?>();
+
       if (game.HasKingMoved(piece.Player))
-         return null;
+         return potentials;
 
-      return piece.IsWhite ? 
-         FindCastleKingSideWhite(game, position, piece) :
-         FindCastleKingSideBlack(game, position, piece);
+      if (!_castleMoveContexts.ContainsKey(position))
+         return potentials;
+
+      var contexts = _castleMoveContexts[ position ];
+      foreach (var context in contexts)
+      {
+         var rook = game.Board![ context.RookPosition ].Piece;
+
+         if (rook is null)
+            continue;
+         if (rook.Type != ChessPieceType.Rook)
+            continue;
+         if (rook.IsOppositePlayer(context.PlayerColor))
+            continue;
+         if (context.BlockingSquares.Any(p => game.Board[ p ].HasPiece))
+            continue;
+
+         potentials.Add(context.DestinationPosition);
+      }
+
+      return potentials;
    }
-
-   private static FileAndRank? FindCastleKingSideWhite(IChessGameContext game, FileAndRank position, ChessPiece piece)
-   {
-      var rook = game.Board![ new FileAndRank(ChessFile.H, ChessRank._1) ].Piece;
-
-      if( rook is null )
-         return null;
-      if (rook.Type != ChessPieceType.Rook)
-         return null;
-      if (rook.IsBlack)
-         return null;
-      if (game.Board[ new FileAndRank(ChessFile.F, ChessRank._1) ].HasPiece)
-         return null;
-      if (game.Board[ new FileAndRank(ChessFile.G, ChessRank._1) ].HasPiece)
-         return null;
-      
-      return new FileAndRank(ChessFile.G, ChessRank._1);
-   }
-
-   private static FileAndRank? FindCastleKingSideBlack(IChessGameContext game, FileAndRank position, ChessPiece piece)
-   {
-      var rook = game.Board![ new FileAndRank(ChessFile.A, ChessRank._8) ].Piece;
-
-      if( rook is null )
-         return null;
-      if (rook.Type != ChessPieceType.Rook)
-         return null;
-      if (rook.IsWhite)
-         return null;
-      if (game.Board[ new FileAndRank(ChessFile.F, ChessRank._8) ].HasPiece)
-         return null;
-      if (game.Board[ new FileAndRank(ChessFile.G, ChessRank._8) ].HasPiece)
-         return null;
-      
-      return new FileAndRank(ChessFile.G, ChessRank._8);
-   }
-
 
    private static IEnumerable<FileAndRank> FindAdjacentMoves(IChessGameContext game, FileAndRank position, ChessPiece piece)
    {
