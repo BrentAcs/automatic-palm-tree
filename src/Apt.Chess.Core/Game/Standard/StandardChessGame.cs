@@ -11,7 +11,7 @@ public class StandardChessGame : ChessGameBase
          {ChessPieceType.King, new KingPotentialMoveStrategy()},
          {ChessPieceType.Queen, new QueenPotentialMoveStrategy()},
          {ChessPieceType.Rook, new RookPotentialMoveStrategy()},
-         //{ChessPieceType.Knight, new RookPotentialMoveStrategy()},
+         {ChessPieceType.Knight, new KnightPotentialMoveStrategy()},
          {ChessPieceType.Bishop, new BishopPotentialMoveStrategy()},
       };
 }

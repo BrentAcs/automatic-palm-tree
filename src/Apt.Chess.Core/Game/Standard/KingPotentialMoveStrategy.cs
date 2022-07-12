@@ -123,7 +123,11 @@ public class KingPotentialMoveStrategy : PotentialMoveStrategy
             position.Move(Direction.Up),
             position.Move(Direction.Down),
             position.Move(Direction.Left),
-            position.Move(Direction.Right)
+            position.Move(Direction.Right),
+            position.Move(Direction.UpLeft),
+            position.Move(Direction.UpRight),
+            position.Move(Direction.DownLeft),
+            position.Move(Direction.DownRight)
          }
          .Where(game.Board.IsOnBoard)
          .Where(p => game.Board[ p ].Piece is null || game.Board[ p ].Piece!.IsOppositePlayer(piece.Player));

@@ -19,20 +19,6 @@ public class StandardChessGameTests
 
    // --- IsValidMove 
 
-   [Fact]
-   public void IsValidMove_WillThrowEx_MissingStrategy()
-   {
-      // NOTE: this test may break in the future when all strategies exist.
-
-      var game = CreateGame();
-      var board = _factory.Create(new[] {"a1-w-q"});
-      game.NewGame(board);
-
-      game.Invoking(g => g.IsValidMove(ChessColor.White, "a1".ToFileAndRank(), "a1".ToFileAndRank()))
-         .Should().Throw<ChessGameException>()
-         .WithMessage("Missing potential move strategy.");
-   }
-
    [Theory]
    [ClassData(typeof(ValidIsValidMoveData))]
    public void IsValidMove_TrueCases(string fromPosition, ChessColor player, string toPosition, IEnumerable<string> pieces)
