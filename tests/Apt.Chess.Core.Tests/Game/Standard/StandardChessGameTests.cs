@@ -78,7 +78,56 @@ public class StandardChessGameTests
          .Should().Throw<ChessGameException>()
          .WithMessage("Move is invalid.");
    }
+   
+   [Fact]
+   public void MovePiece_WillMoveKingSideRook_WhenCastling_White()
+   {
+      var board = _factory.Create(new[] {"e1-w-k", "h1-w-r"});
+      var game = CreateGame();
+      game.NewGame(board, ChessColor.White);
 
+      game.MovePiece(ChessColor.White, "e1".ToFileAndRank(), "g1".ToFileAndRank());
+
+      game.Board[ "f1".ToFileAndRank() ].Piece.Type.Should().Be(ChessPieceType.Rook);
+   }
+
+   [Fact]
+   public void MovePiece_WillMoveQueenSideRook_WhenCastling_White()
+   {
+      var board = _factory.Create(new[] {"e1-w-k", "a1-w-r"});
+      var game = CreateGame();
+      game.NewGame(board, ChessColor.White);
+
+      game.MovePiece(ChessColor.White, "e1".ToFileAndRank(), "b1".ToFileAndRank());
+
+      game.Board[ "c1".ToFileAndRank() ].Piece.Type.Should().Be(ChessPieceType.Rook);
+   }
+   
+   [Fact]
+   public void MovePiece_WillMoveKingSideRook_WhenCastling_Black()
+   {
+      var board = _factory.Create(new[] {"e8-b-k", "h8-b-r"});
+      var game = CreateGame();
+      game.NewGame(board, ChessColor.White);
+      game.NextTurn();
+
+      game.MovePiece(ChessColor.Black, "e8".ToFileAndRank(), "g8".ToFileAndRank());
+
+      game.Board[ "f8".ToFileAndRank() ].Piece.Type.Should().Be(ChessPieceType.Rook);
+   }
+
+   [Fact]
+   public void MovePiece_WillMoveQueenSideRook_WhenCastling_Black()
+   {
+      var board = _factory.Create(new[] {"e8-b-k", "a8-b-r"});
+      var game = CreateGame();
+      game.NewGame(board, ChessColor.White);
+      game.NextTurn();
+
+      game.MovePiece(ChessColor.Black, "e8".ToFileAndRank(), "b8".ToFileAndRank());
+
+      game.Board[ "c8".ToFileAndRank() ].Piece.Type.Should().Be(ChessPieceType.Rook);
+   }
 
    [Theory]
    [ClassData(typeof(MovePieceWithoutCaptureData))]
