@@ -78,7 +78,7 @@ public class StandardChessGameTests
          .Should().Throw<ChessGameException>()
          .WithMessage("Move is invalid.");
    }
-   
+
    [Fact]
    public void MovePiece_WillMoveKingSideRook_WhenCastling_White()
    {
@@ -102,7 +102,7 @@ public class StandardChessGameTests
 
       game.Board[ "c1".ToFileAndRank() ].Piece.Type.Should().Be(ChessPieceType.Rook);
    }
-   
+
    [Fact]
    public void MovePiece_WillMoveKingSideRook_WhenCastling_Black()
    {
@@ -178,9 +178,9 @@ public class StandardChessGameTests
       var fromPiece = board[ fromPosition.ToFileAndRank() ].Piece;
 
       _ = game.MovePiece(ChessColor.White, fromPosition.ToFileAndRank(), toPosition.ToFileAndRank());
-      
+
       board[ toPosition.ToFileAndRank() ].Piece
-         .Should().Be( fromPiece, "Piece wasn't set 'to' position.");
+         .Should().Be(fromPiece, "Piece wasn't set 'to' position.");
    }
 
    private class MovePieceWithoutCaptureData : TheoryData<string, ChessColor, string, IEnumerable<string>>
@@ -215,33 +215,33 @@ public class StandardChessGameTests
    {
       public MovePieceWithCaptureData()
       {
-          AddCase("c2", ChessColor.White, "b3", "b-p", new[] {"c2-w-p", "b3-b-p"});
+         AddCase("c2", ChessColor.White, "b3", "b-p", new[] {"c2-w-p", "b3-b-p"});
       }
    }
-   
+
    // --- KingHasMoved
-   
+
    [Fact]
    public void OnNewGame_KingHasMoved_WillBeFalseForWhite()
    {
       var board = _factory.CreateForScenario(GameScenario.StandardRooksOnly);
       var game = CreateGame();
       game.NewGame(board);
-      
+
       var hasKingMoved = game.HasKingMoved(ChessColor.White);
 
       hasKingMoved.Should().BeFalse();
    }
-   
+
    [Fact]
    public void OnNewGame_Board_KingHasMoved_WillBeFalseForBlack()
    {
       var board = _factory.CreateForScenario(GameScenario.StandardRooksOnly);
       var game = CreateGame();
       game.NewGame(board);
-      
+
       var hasKingMoved = game.HasKingMoved(ChessColor.White);
-      
+
       hasKingMoved.Should().BeFalse();
    }
 
@@ -252,7 +252,7 @@ public class StandardChessGameTests
       var game = CreateGame();
       game.NewGame(board);
       game.MovePiece("e1".ToFileAndRank(), "f1".ToFileAndRank());
-      
+
       var hasKingMoved = game.HasKingMoved(ChessColor.White);
 
       hasKingMoved.Should().BeTrue();
@@ -267,9 +267,134 @@ public class StandardChessGameTests
       game.MovePiece("e1".ToFileAndRank(), "f1".ToFileAndRank());
       game.NextTurn();
       game.MovePiece("e8".ToFileAndRank(), "d8".ToFileAndRank());
-      
+
       var hasKingMoved = game.HasKingMoved(ChessColor.Black);
 
       hasKingMoved.Should().BeTrue();
    }
+
+   // --- GetKingPosition
+
+   [Fact]
+   public void GetKingPosition_WillFindWhiteKing()
+   {
+      var board = _factory.CreateForScenario(GameScenario.Standard);
+      var game = CreateGame();
+      game.NewGame(board);
+
+      var kingPos = game.GetKingPosition();
+
+      kingPos.Should().Be("e1".ToFileAndRank());
+   }
+
+   [Fact]
+   public void GetKingPosition_WillFindBlackKing()
+   {
+      var board = _factory.CreateForScenario(GameScenario.Standard);
+      var game = CreateGame();
+      game.NewGame(board);
+
+      var kingPos = game.GetKingPosition(ChessColor.Black);
+
+      kingPos.Should().Be("e8".ToFileAndRank());
+   }
+
+   // --- IsKingInCheck
+
+   [Theory]
+   [ClassData(typeof(IsKingInCheckPositiveTestData))]
+   public void IsKingInCheck_WillReturn_True(
+      ChessColor player,
+      IEnumerable<string> pieces)
+   {
+      var board = _factory.Create(pieces);
+      var game = CreateGame();
+      game.NewGame(board, player);
+   
+      var isInCheck = game.IsKingInCheck(player);
+   
+      isInCheck.Should().BeTrue();
+   }
+   
+   private class IsKingInCheckPositiveTestData : TheoryData<ChessColor, IEnumerable<string>>
+   {
+      public IsKingInCheckPositiveTestData()
+      {
+         AddCase(ChessColor.White, new[] {"e1-w-k", "e8-b-q"});
+      }
+   }
+   
+   [Theory]
+   [ClassData(typeof(IsKingInCheckNegativeTestData))]
+   public void IsKingInCheck_WillReturn_False(
+      ChessColor player,
+      IEnumerable<string> pieces)
+   {
+      var board = _factory.Create(pieces);
+      var game = CreateGame();
+      game.NewGame(board, player);
+   
+      var isInCheck = game.IsKingInCheck(player);
+   
+      isInCheck.Should().BeFalse();
+   }
+   
+   private class IsKingInCheckNegativeTestData : TheoryData<ChessColor, IEnumerable<string>>
+   {
+      public IsKingInCheckNegativeTestData()
+      {
+         AddCase(ChessColor.White, new[] {"e1-w-k", "f8-b-q"});
+      }
+   }
+   
+   // --- IsKingInCheckMate
+
+   // [Theory]
+   // [ClassData(typeof(IsKingInCheckMatePositiveTestData))]
+   // public void IsKingInCheckMate_WillReturn_True(
+   //    ChessColor player,
+   //    IEnumerable<string> pieces)
+   // {
+   //    var board = _factory.Create(pieces);
+   //    var game = CreateGame();
+   //    game.NewGame(board, player);
+   //
+   //    var isInCheck = game.IsKingInCheckMate(player);
+   //
+   //    isInCheck.Should().BeTrue();
+   // }
+   //
+   // private class IsKingInCheckMatePositiveTestData : TheoryData<ChessColor, IEnumerable<string>>
+   // {
+   //    public IsKingInCheckMatePositiveTestData()
+   //    {
+   //       AddCase(ChessColor.White, new[] {"e1-w-k", "e2-b-q", "e3-b-r"});
+   //    }
+   // }
+   
+   // [Theory]
+   // [ClassData(typeof(IsKingInCheckMateNegativeTestData))]
+   // public void IsKingInCheckMate_WillReturn_False(
+   //    ChessColor player,
+   //    IEnumerable<string> pieces)
+   // {
+   //    var board = _factory.Create(pieces);
+   //    var game = CreateGame();
+   //    game.NewGame(board, player);
+   //
+   //    var isInCheck = game.IsKingInCheckMate(player);
+   //
+   //    isInCheck.Should().BeFalse();
+   // }
+   //
+   // private class IsKingInCheckMateNegativeTestData : TheoryData<ChessColor, IEnumerable<string>>
+   // {
+   //    public IsKingInCheckMateNegativeTestData()
+   //    {
+   //       AddCase(ChessColor.White, new[] {"e1-w-k", "f8-b-q"});
+   //    }
+   // }
+   
+   
+   
 }

@@ -40,6 +40,13 @@ public interface IChessGameActions
    ChessPiece? MovePiece(ChessColor player, FileAndRank fromPosition, FileAndRank toPosition);
    // NOTE: Need check for game over
    void NextTurn();
+
+   FileAndRank? GetKingPosition();
+   FileAndRank? GetKingPosition(ChessColor player);
+   bool IsKingInCheck();
+   bool IsKingInCheck(ChessColor player);
+   bool IsKingInCheckMate();
+   bool IsKingInCheckMate(ChessColor player);
 }
 
 public interface IChessGame : IChessGameContext, IChessGameActions
