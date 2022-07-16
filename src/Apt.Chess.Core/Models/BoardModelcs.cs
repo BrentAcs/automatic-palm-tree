@@ -11,6 +11,8 @@ public interface IBoardModel
 
    bool IsOnBoard(FileAndRank position);
    bool HasPieceAt(FileAndRank position);
+   void ForEach(Action<FileAndRank?> action);
+   IEnumerable<FileAndRank>? FindAllPositionsFor(ChessColor player);
 }
 
 /// <summary>
@@ -20,6 +22,23 @@ public interface IBoardModel
 /// </summary>
 public abstract class BoardModel : IBoardModel
 {
+   // protected BoardModel()
+   // {
+   // }
+
+   // protected BoardModel(IBoardModel? source)
+   // {
+   //    if (source is null)
+   //       throw new ArgumentNullException(nameof(source));
+   //
+   //    Squares = new Square[ source.MaxFile, source.MaxRank ];
+   //    
+   //    source.ForEach((position) =>
+   //    {
+   //       this[ position! ] = new Square(source[ position! ]);
+   //    });
+   // }
+   
    protected BoardModel(Square[ , ] squares)
    {
       Squares = squares;
@@ -27,6 +46,7 @@ public abstract class BoardModel : IBoardModel
 
    public int MaxRank => Squares.GetLength(0);
    public int MaxFile => Squares.GetLength(1);
+
    public Square[ , ] Squares { get; set; }
 
    [JsonIgnore]
@@ -42,9 +62,38 @@ public abstract class BoardModel : IBoardModel
       get => Squares[ (int)position.Rank, (int)position.File ];
       set => Squares[ (int)position.Rank, (int)position.File ] = value;
    }
-   
+
    public abstract bool IsOnBoard(FileAndRank position);
 
    public bool HasPieceAt(FileAndRank position) =>
       this[ position ].Piece is not null;
+
+
+   public void ForEach(Action<FileAndRank?> action)
+   {
+      for (int rank = 0; rank < MaxRank; rank++)
+      {
+         for (int file = 0; file < MaxFile; file++)
+         {
+            action(new FileAndRank((ChessFile)file, (ChessRank)rank));
+         }
+      }
+   }
+
+   public IEnumerable<FileAndRank>? FindAllPositionsFor(ChessColor player)
+   {
+      var squares = new List<FileAndRank>();
+      
+      ForEach(position =>
+      {
+         var piece = this[ position! ].Piece; 
+         if (piece is null)
+            return;
+
+         if(piece.Player == player)
+            squares.Add(position!);
+      });
+
+      return squares;
+   }
 }

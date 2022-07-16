@@ -6,70 +6,6 @@ namespace Apt.Chess.Core.Services.Standard;
 
 public class StandardBoardModelFactory : BoardModelFactory
 {
-   protected override IDictionary<FileAndRank, ChessPiece> InitialStockPieces =>
-      new Dictionary<FileAndRank, ChessPiece>
-      {
-         // Black Back row
-         {new FileAndRank(ChessFile.A, ChessRank._8), new ChessPiece(ChessPieceType.Rook, ChessColor.Black)},
-         {new FileAndRank(ChessFile.B, ChessRank._8), new ChessPiece(ChessPieceType.Knight, ChessColor.Black)},
-         {new FileAndRank(ChessFile.C, ChessRank._8), new ChessPiece(ChessPieceType.Bishop, ChessColor.Black)},
-         {new FileAndRank(ChessFile.D, ChessRank._8), new ChessPiece(ChessPieceType.King, ChessColor.Black)},
-         {new FileAndRank(ChessFile.E, ChessRank._8), new ChessPiece(ChessPieceType.Queen, ChessColor.Black)},
-         {new FileAndRank(ChessFile.F, ChessRank._8), new ChessPiece(ChessPieceType.Bishop, ChessColor.Black)},
-         {new FileAndRank(ChessFile.G, ChessRank._8), new ChessPiece(ChessPieceType.Knight, ChessColor.Black)},
-         {new FileAndRank(ChessFile.H, ChessRank._8), new ChessPiece(ChessPieceType.Rook, ChessColor.Black)},
-         // Black Pawn row
-         {new FileAndRank(ChessFile.A, ChessRank._7), new ChessPiece(ChessPieceType.Pawn, ChessColor.Black)},
-         {new FileAndRank(ChessFile.B, ChessRank._7), new ChessPiece(ChessPieceType.Pawn, ChessColor.Black)},
-         {new FileAndRank(ChessFile.C, ChessRank._7), new ChessPiece(ChessPieceType.Pawn, ChessColor.Black)},
-         {new FileAndRank(ChessFile.D, ChessRank._7), new ChessPiece(ChessPieceType.Pawn, ChessColor.Black)},
-         {new FileAndRank(ChessFile.E, ChessRank._7), new ChessPiece(ChessPieceType.Pawn, ChessColor.Black)},
-         {new FileAndRank(ChessFile.F, ChessRank._7), new ChessPiece(ChessPieceType.Pawn, ChessColor.Black)},
-         {new FileAndRank(ChessFile.G, ChessRank._7), new ChessPiece(ChessPieceType.Pawn, ChessColor.Black)},
-         {new FileAndRank(ChessFile.H, ChessRank._7), new ChessPiece(ChessPieceType.Pawn, ChessColor.Black)},
-         // White Pawn row
-         {new FileAndRank(ChessFile.A, ChessRank._2), new ChessPiece(ChessPieceType.Pawn, ChessColor.White)},
-         {new FileAndRank(ChessFile.B, ChessRank._2), new ChessPiece(ChessPieceType.Pawn, ChessColor.White)},
-         {new FileAndRank(ChessFile.C, ChessRank._2), new ChessPiece(ChessPieceType.Pawn, ChessColor.White)},
-         {new FileAndRank(ChessFile.D, ChessRank._2), new ChessPiece(ChessPieceType.Pawn, ChessColor.White)},
-         {new FileAndRank(ChessFile.E, ChessRank._2), new ChessPiece(ChessPieceType.Pawn, ChessColor.White)},
-         {new FileAndRank(ChessFile.F, ChessRank._2), new ChessPiece(ChessPieceType.Pawn, ChessColor.White)},
-         {new FileAndRank(ChessFile.G, ChessRank._2), new ChessPiece(ChessPieceType.Pawn, ChessColor.White)},
-         {new FileAndRank(ChessFile.H, ChessRank._2), new ChessPiece(ChessPieceType.Pawn, ChessColor.White)},
-         // White Back row
-         {new FileAndRank(ChessFile.A, ChessRank._1), new ChessPiece(ChessPieceType.Rook, ChessColor.White)},
-         {new FileAndRank(ChessFile.B, ChessRank._1), new ChessPiece(ChessPieceType.Knight, ChessColor.White)},
-         {new FileAndRank(ChessFile.C, ChessRank._1), new ChessPiece(ChessPieceType.Bishop, ChessColor.White)},
-         {new FileAndRank(ChessFile.D, ChessRank._1), new ChessPiece(ChessPieceType.Queen, ChessColor.White)},
-         {new FileAndRank(ChessFile.E, ChessRank._1), new ChessPiece(ChessPieceType.King, ChessColor.White)},
-         {new FileAndRank(ChessFile.F, ChessRank._1), new ChessPiece(ChessPieceType.Bishop, ChessColor.White)},
-         {new FileAndRank(ChessFile.G, ChessRank._1), new ChessPiece(ChessPieceType.Knight, ChessColor.White)},
-         {new FileAndRank(ChessFile.H, ChessRank._1), new ChessPiece(ChessPieceType.Rook, ChessColor.White)}
-      };
-
-   private static IDictionary<FileAndRank, ChessPiece> InitialPawnsOnlyPieces =>
-      new Dictionary<FileAndRank, ChessPiece>
-      {
-         // Black Pawn row
-         {new FileAndRank(ChessFile.A, ChessRank._7), new ChessPiece(ChessPieceType.Pawn, ChessColor.Black)},
-         {new FileAndRank(ChessFile.B, ChessRank._7), new ChessPiece(ChessPieceType.Pawn, ChessColor.Black)},
-         {new FileAndRank(ChessFile.C, ChessRank._7), new ChessPiece(ChessPieceType.Pawn, ChessColor.Black)},
-         {new FileAndRank(ChessFile.D, ChessRank._7), new ChessPiece(ChessPieceType.Pawn, ChessColor.Black)},
-         {new FileAndRank(ChessFile.E, ChessRank._7), new ChessPiece(ChessPieceType.Pawn, ChessColor.Black)},
-         {new FileAndRank(ChessFile.F, ChessRank._7), new ChessPiece(ChessPieceType.Pawn, ChessColor.Black)},
-         {new FileAndRank(ChessFile.G, ChessRank._7), new ChessPiece(ChessPieceType.Pawn, ChessColor.Black)},
-         {new FileAndRank(ChessFile.H, ChessRank._7), new ChessPiece(ChessPieceType.Pawn, ChessColor.Black)},
-         // White Pawn row
-         {new FileAndRank(ChessFile.A, ChessRank._2), new ChessPiece(ChessPieceType.Pawn, ChessColor.White)},
-         {new FileAndRank(ChessFile.B, ChessRank._2), new ChessPiece(ChessPieceType.Pawn, ChessColor.White)},
-         {new FileAndRank(ChessFile.C, ChessRank._2), new ChessPiece(ChessPieceType.Pawn, ChessColor.White)},
-         {new FileAndRank(ChessFile.D, ChessRank._2), new ChessPiece(ChessPieceType.Pawn, ChessColor.White)},
-         {new FileAndRank(ChessFile.E, ChessRank._2), new ChessPiece(ChessPieceType.Pawn, ChessColor.White)},
-         {new FileAndRank(ChessFile.F, ChessRank._2), new ChessPiece(ChessPieceType.Pawn, ChessColor.White)},
-         {new FileAndRank(ChessFile.G, ChessRank._2), new ChessPiece(ChessPieceType.Pawn, ChessColor.White)},
-         {new FileAndRank(ChessFile.H, ChessRank._2), new ChessPiece(ChessPieceType.Pawn, ChessColor.White)},
-      };
-
    protected override IBoardModel CreateEmptyBoard()
    {
       var board = new StandardBoardModel();
@@ -95,22 +31,76 @@ public class StandardBoardModelFactory : BoardModelFactory
       return board;
    }
 
-   public override IBoardModel Create(GameScenario selection)
-   {
-      var board = CreateEmptyBoard();
-
-      switch (selection)
+   protected override IDictionary<GameScenario, IEnumerable<string>> GameScenarios =>
+      new Dictionary<GameScenario, IEnumerable<string>>
       {
-         case GameScenario.Standard:
-            PopulateInitialPieces(board, InitialStockPieces);
-            break;
-         case GameScenario.StandardPawnsOnly:
-            PopulateInitialPieces(board, InitialPawnsOnlyPieces);
-            break;
-         default:
-            throw new ArgumentOutOfRangeException(nameof(selection), selection, null);
-      }
-
-      return board;
-   }
+         // Stock
+         {
+            GameScenario.Standard, new[]
+            {
+               // Black back row
+               "a8-b-r", "b8-b-n", "c8-b-b", "d8-b-q", "e8-b-k", "f8-b-b", "g8-b-n", "h8-b-r",
+               // Black Pawn row
+               "a7-b-p", "b7-b-p", "c7-b-p", "d7-b-p", "e7-b-p", "f7-b-p", "g7-b-p", "h7-b-p",
+               // White Pawn row
+               "a2-w-p", "b2-w-p", "c2-w-p", "d2-w-p", "e2-w-p", "f2-w-p", "g2-w-p", "h2-w-p",
+               // White back row
+               "a1-w-r", "b1-w-n", "c1-w-b", "d1-w-q", "e1-w-k", "f1-w-b", "g1-w-n", "h1-w-r",
+            }
+         },
+         // Pawns Only
+         {
+            GameScenario.StandardPawnsOnly, new[]
+            {
+               // Black back row
+               "e8-b-k",
+               // Black Pawn row
+               "a7-b-p", "b7-b-p", "c7-b-p", "d7-b-p", "e7-b-p", "f7-b-p", "g7-b-p", "h7-b-p",
+               // White Pawn row
+               "a2-w-p", "b2-w-p", "c2-w-p", "d2-w-p", "e2-w-p", "f2-w-p", "g2-w-p", "h2-w-p",
+               // White back row
+               "e1-w-k"
+            }
+         },
+         // Rooks Only
+         {
+            GameScenario.StandardRooksOnly, new[]
+            {
+               // Black back row
+               "a8-b-r", "e8-b-k", "h8-b-r",
+               // White back row
+               "a1-w-r", "e1-w-k", "h1-w-r",
+            }
+         },
+         // Knights Only
+         {
+            GameScenario.StandardKnightsOnly, new[]
+            {
+               // Black back row
+               "b8-b-n", "e8-b-k", "g8-b-n",
+               // White back row
+               "b1-w-n", "e1-w-k", "g1-w-n",
+            }
+         },
+         // Bishops Only
+         {
+            GameScenario.StandardBishopsOnly, new[]
+            {
+               // Black back row
+               "c8-b-b", "e8-b-k", "f8-b-b",
+               // White back row
+               "c1-w-b", "e1-w-k", "f1-w-b",
+            }
+         },
+         // Queens Only
+         {
+            GameScenario.StandardQueenOnly, new[]
+            {
+               // Black back row
+                "d8-b-q", "e8-b-k",
+               // White back row
+                "d1-w-q", "e1-w-k",
+            }
+         },
+      };
 }

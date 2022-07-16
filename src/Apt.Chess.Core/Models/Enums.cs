@@ -1,4 +1,6 @@
-﻿namespace Apt.Chess.Core.Models;
+﻿using System.ComponentModel;
+
+namespace Apt.Chess.Core.Models;
 
 /// <summary>
 /// Define the two colors in a chess game, black and white.
@@ -61,11 +63,33 @@ public enum GameStep
    GameOver,
 }
 
+public enum Direction
+{
+   Up=1,
+   Down,
+   Left,
+   Right,
+   UpRight,
+   UpLeft,
+   DownRight,
+   DownLeft,
+}
+
 /// <summary>
 /// Define types of games, primarily for testing / experimentation.
 /// </summary>
 public enum GameScenario
 {
+   [Description("Standard Game")]
    Standard,
-   StandardPawnsOnly
+   [Description("Pawns Only")]
+   StandardPawnsOnly,
+   [Description("Rooks Only")]
+   StandardRooksOnly,
+   [Description("Knights Only")]
+   StandardKnightsOnly,
+   [Description("Bishops Only")]
+   StandardBishopsOnly,
+   [Description("Queens Only")]
+   StandardQueenOnly,
 }

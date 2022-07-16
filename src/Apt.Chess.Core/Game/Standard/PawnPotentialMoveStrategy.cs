@@ -4,17 +4,21 @@ namespace Apt.Chess.Core.Game.Standard;
 
 public class PawnPotentialMoveStrategy : PotentialMoveStrategy
 {
-   public override IEnumerable<FileAndRank> Find(IBoardModel board, FileAndRank position)
+   public override IEnumerable<FileAndRank> Find(IChessGame? game, FileAndRank position)
    {
-      var piece = board[ position.File, position.Rank ].Piece;
+      if (game is null)
+         throw new ArgumentNullException(nameof(game),$"Game is null");
+      if (game.Board is null)
+         throw new ArgumentNullException(nameof(game),$"Board property is null");
+      var piece = game.Board[ position.File, position.Rank ].Piece;
       if (piece is null)
          throw PotentialMoveStrategyException.CreateMissingPiece(position);
-
+      
       var potentials = new List<FileAndRank>();
 
-      CheckAhead(board, piece, position, potentials);
-      CheckDiagonalLeft(board, piece, position, potentials);
-      CheckDiagonalRight(board, piece, position, potentials);
+      CheckAhead(game.Board, piece, position, potentials);
+      CheckDiagonalLeft(game.Board, piece, position, potentials);
+      CheckDiagonalRight(game.Board, piece, position, potentials);
 
       return potentials;
    }
@@ -22,7 +26,7 @@ public class PawnPotentialMoveStrategy : PotentialMoveStrategy
    private static void CheckAhead(IBoardModel board, ChessPiece piece, FileAndRank position, List<FileAndRank> potentials)
    {
       // Check ahead one
-      var aheadOne = piece.IsWhite ? position.MoveUp() : position.MoveDown();
+      var aheadOne = piece.IsWhite ? position.Move(Direction.Up) : position.Move(Direction.Down);
       if (!board.IsOnBoard(aheadOne))
          return;
       if (board.HasPieceAt(aheadOne))
@@ -34,7 +38,7 @@ public class PawnPotentialMoveStrategy : PotentialMoveStrategy
       var isOnHomeRank = IsOnHomeRank(position, piece);
       if (!isOnHomeRank)
          return;
-      var aheadTwo = piece.IsWhite ? aheadOne.MoveUp() : aheadOne.MoveDown();
+      var aheadTwo = piece.IsWhite ? aheadOne.Move(Direction.Up) : aheadOne.Move(Direction.Down);
       if (board.HasPieceAt(aheadTwo))
          return;
 
@@ -42,10 +46,10 @@ public class PawnPotentialMoveStrategy : PotentialMoveStrategy
    }
 
    private static void CheckDiagonalLeft(IBoardModel board, ChessPiece piece, FileAndRank position, List<FileAndRank> potentials) =>
-      CheckDiagonal(board, piece, piece.IsWhite ? position.MoveUpLeft() : position.MoveDownLeft(), potentials);
+      CheckDiagonal(board, piece, piece.IsWhite ? position.Move(Direction.UpLeft) : position.Move(Direction.DownLeft), potentials);
 
    private static void CheckDiagonalRight(IBoardModel board, ChessPiece piece, FileAndRank position, List<FileAndRank> potentials) =>
-      CheckDiagonal(board, piece, piece.IsWhite ? position.MoveUpRight() : position.MoveDownRight(), potentials);
+      CheckDiagonal(board, piece, piece.IsWhite ? position.Move(Direction.UpRight) : position.Move(Direction.DownRight), potentials);
 
    private static void CheckDiagonal(IBoardModel board, ChessPiece piece, FileAndRank potential, List<FileAndRank> potentials)
    {

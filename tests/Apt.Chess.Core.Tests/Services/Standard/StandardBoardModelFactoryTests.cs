@@ -1,4 +1,6 @@
-﻿using Apt.Chess.Core.Models;
+﻿using System.Runtime.CompilerServices;
+using Apt.Chess.Core.Extensions;
+using Apt.Chess.Core.Models;
 using Apt.Chess.Core.Services.Standard;
 
 namespace Apt.Chess.Core.Tests.Services.Standard;
