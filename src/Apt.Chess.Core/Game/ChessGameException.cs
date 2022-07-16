@@ -1,5 +1,6 @@
 ﻿namespace Apt.Chess.Core.Game;
 
+[ExcludeFromCodeCoverage]
 public class ChessGameException : Exception
 {
    public ChessGameException()
@@ -15,4 +16,7 @@ public class ChessGameException : Exception
       : base(message, inner)
    {
    }
+
+   public static ChessGameException InvalidStateNullBoard =>
+      new ChessGameException("Game is invalid state, board is null.");
 }
