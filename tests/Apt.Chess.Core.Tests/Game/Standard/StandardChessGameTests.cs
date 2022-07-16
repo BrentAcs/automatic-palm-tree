@@ -367,32 +367,30 @@ public class StandardChessGameTests
       public IsKingInCheckMatePositiveTestData()
       {
          AddCase(ChessColor.White, new[] {"e1-w-k", "e2-b-q", "e3-b-r"});
+         AddCase(ChessColor.White, new[] {"e1-w-k", "e2-b-q", "e8-b-r"});
       }
    }
    
-   // [Theory]
-   // [ClassData(typeof(IsKingInCheckMateNegativeTestData))]
-   // public void IsKingInCheckMate_WillReturn_False(
-   //    ChessColor player,
-   //    IEnumerable<string> pieces)
-   // {
-   //    var board = _factory.Create(pieces);
-   //    var game = CreateGame();
-   //    game.NewGame(board, player);
-   //
-   //    var isInCheck = game.IsKingInCheckMate(player);
-   //
-   //    isInCheck.Should().BeFalse();
-   // }
-   //
-   // private class IsKingInCheckMateNegativeTestData : TheoryData<ChessColor, IEnumerable<string>>
-   // {
-   //    public IsKingInCheckMateNegativeTestData()
-   //    {
-   //       AddCase(ChessColor.White, new[] {"e1-w-k", "f8-b-q"});
-   //    }
-   // }
+   [Theory]
+   [ClassData(typeof(IsKingInCheckMateNegativeTestData))]
+   public void IsKingInCheckMate_WillReturn_False(
+      ChessColor player,
+      IEnumerable<string> pieces)
+   {
+      var board = _factory.Create(pieces);
+      var game = CreateGame();
+      game.NewGame(board, player);
    
+      var isInCheck = game.IsKingInCheckMate(player);
    
+      isInCheck.Should().BeFalse();
+   }
    
+   private class IsKingInCheckMateNegativeTestData : TheoryData<ChessColor, IEnumerable<string>>
+   {
+      public IsKingInCheckMateNegativeTestData()
+      {
+         AddCase(ChessColor.White, new[] {"e1-w-k", "f8-b-q"});
+      }
+   }
 }

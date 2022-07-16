@@ -2,7 +2,7 @@
 
 namespace Apt.Chess.Core.Models;
 
-public interface IBoardModel
+public interface IBoardModel : ICloneable
 {
    int MaxRank { get; }
    int MaxFile { get; }
@@ -22,7 +22,7 @@ public interface IBoardModel
 /// Vertical Columns, files, a-h (from white's left)
 /// Horizontal Rows, ranks, 1-8 (from white's side)
 /// </summary>
-public abstract class BoardModel : IBoardModel, ICloneable
+public abstract class BoardModel : IBoardModel
 {
    protected BoardModel(Square[ , ] squares)
    {
