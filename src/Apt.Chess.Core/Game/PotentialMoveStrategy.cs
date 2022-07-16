@@ -13,13 +13,13 @@ public abstract class PotentialMoveStrategy : IPotentialMoveStrategy
 
    public abstract IEnumerable<FileAndRank> Find(IChessGame? game, FileAndRank position);
 
-   protected static IEnumerable<FileAndRank> RemoveOffBoardPotentials(IBoardModel board, IList<FileAndRank> potentials)
-   {
-      var offBoards = potentials
-         .Where(p => !board.IsOnBoard(p));
-
-      return potentials.Where(p => !offBoards.Contains(p));
-   }
+   // protected static IEnumerable<FileAndRank> RemoveOffBoardPotentials(IBoardModel board, IList<FileAndRank> potentials)
+   // {
+   //    var offBoards = potentials
+   //       .Where(p => !board.IsOnBoard(p));
+   //
+   //    return potentials.Where(p => !offBoards.Contains(p));
+   // }
 
    protected IEnumerable<FileAndRank> FindByDirection(IBoardModel board, FileAndRank position, Direction direction)
    {

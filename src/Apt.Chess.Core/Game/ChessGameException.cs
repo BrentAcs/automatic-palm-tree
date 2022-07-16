@@ -1,5 +1,6 @@
 ﻿namespace Apt.Chess.Core.Game;
 
+[ExcludeFromCodeCoverage]
 public class ChessGameException : Exception
 {
    public ChessGameException()

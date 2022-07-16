@@ -2,6 +2,7 @@
 
 namespace Apt.Chess.Core.Game;
 
+[ExcludeFromCodeCoverage]
 public class PotentialMoveStrategyException : Exception
 {
    public PotentialMoveStrategyException()
