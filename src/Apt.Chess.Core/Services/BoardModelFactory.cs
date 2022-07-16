@@ -5,10 +5,8 @@ namespace Apt.Chess.Core.Services;
 public interface IBoardModelFactory
 {
    IBoardModel CreateEmpty();
-   
    IBoardModel Create(IDictionary<FileAndRank, ChessPiece>? initialPieces = null);
    IBoardModel Create(IEnumerable<string> notations);
-   
    IBoardModel CreateForScenario(GameScenario scenario);
 }
 

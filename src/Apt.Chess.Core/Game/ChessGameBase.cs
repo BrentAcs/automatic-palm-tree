@@ -9,8 +9,8 @@ public abstract class ChessGameBase : IChessGame
    public GameStep CurrentStep { get; set; } = GameStep.New;
    public ChessColor CurrentPlayer { get; set; } = ChessColor.White;
    public IBoardModel? Board { get; private set; }
-   public bool HasWhiteKingMoved { get; private set;}
-   public bool HasBlackKingMoved { get; private set;}
+   public bool HasWhiteKingMoved { get; private set; }
+   public bool HasBlackKingMoved { get; private set; }
 
    public bool HasKingMoved(ChessColor player) =>
       player == ChessColor.White ? HasWhiteKingMoved : HasBlackKingMoved;
@@ -107,18 +107,18 @@ public abstract class ChessGameBase : IChessGame
 
       return kingPos;
    }
-   
+
    public bool IsKingInCheck()
       => IsKingInCheck(CurrentPlayer);
-   
+
    public bool IsKingInCheck(ChessColor player)
    {
       var kingPosition = GetKingPosition(player);
       if (kingPosition is null)
          throw new ChessGameException();
-      
+
       var opposingPositions = Board!.FindAllPositionsFor(player.GetOpposing());
-      
+
       // any of those pieces potential moves == king pos?
       foreach (var opposingPosition in opposingPositions!)
       {
@@ -128,7 +128,7 @@ public abstract class ChessGameBase : IChessGame
          if (opposingMoves.Contains(kingPosition))
             return true;
       }
-      
+
       return false;
    }
 
@@ -144,12 +144,25 @@ public abstract class ChessGameBase : IChessGame
       if (kingPosition is null)
          throw new ChessGameException();
 
-      var opposingMoves = PotentialMoveStrategies[ ChessPieceType.King ].Find(this, kingPosition);
-
+      //var tempBoard = 
       
+      // var kingMoves = PotentialMoveStrategies[ ChessPieceType.King ].Find(this, kingPosition).ToList();
+      //
+      // var opposingPositions = Board!.FindAllPositionsFor(player.GetOpposing());
+      // var opposingMoves = new List<FileAndRank?>();
+      // // for any of those pieces potential moves == king pos, remove kingMove
+      // foreach (var opposingPosition in opposingPositions!)
+      // {
+      //    var piece = Board[ opposingPosition ].Piece;
+      //    opposingMoves.AddRange(PotentialMoveStrategies[ piece.Type ].Find(this, opposingPosition));
+      // }
+      //
+      // // if king moves == 0, check mate, BITCH.
+      // var remainingKingMove = kingMoves.Except(opposingMoves);
+
       return false;
    }
-   
+
    private void CheckHasKingMoved(ChessPiece piece, ChessColor player)
    {
       if (piece.Type != ChessPieceType.King)

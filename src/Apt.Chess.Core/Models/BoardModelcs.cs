@@ -22,6 +22,23 @@ public interface IBoardModel
 /// </summary>
 public abstract class BoardModel : IBoardModel
 {
+   // protected BoardModel()
+   // {
+   // }
+
+   // protected BoardModel(IBoardModel? source)
+   // {
+   //    if (source is null)
+   //       throw new ArgumentNullException(nameof(source));
+   //
+   //    Squares = new Square[ source.MaxFile, source.MaxRank ];
+   //    
+   //    source.ForEach((position) =>
+   //    {
+   //       this[ position! ] = new Square(source[ position! ]);
+   //    });
+   // }
+   
    protected BoardModel(Square[ , ] squares)
    {
       Squares = squares;

@@ -7,6 +7,10 @@ public class StandardBoardModel : BoardModel
    {
    }
 
+   // public StandardBoardModel(IBoardModel? source) : base(source)
+   // {
+   // }
+
    public override bool IsOnBoard(FileAndRank position)
    {
       if (position.Rank < 0)

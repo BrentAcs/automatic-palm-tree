@@ -54,4 +54,43 @@ public class StandardBoardModelTests
 
       whitePieces.Should().Contain(expectedSquares);
    }
+   
+   
+   // [Fact]
+   // public void CopyCtor_WillCreate_NewBoard()
+   // {
+   //    var sut = new StandardBoardModelFactory();
+   //    var source = sut.CreateForScenario(GameScenario.Standard);
+   //
+   //    var board = sut.CloneFrom(source);
+   //
+   //    ReferenceEquals(board, source).Should().BeFalse();
+   // }
+   //
+   // [Fact]
+   // public void CloneFrom_WillReturn_NewBoard_WithSameNumberOfWhitePieces()
+   // {
+   //    var sut = new StandardBoardModelFactory();
+   //    var source = sut.CreateForScenario(GameScenario.Standard);
+   //
+   //    var board = sut.CloneFrom(source);
+   //
+   //    board!.FindAllPositionsFor(ChessColor.White)!.Count()
+   //       .Should().Be(source!.FindAllPositionsFor(ChessColor.White)!.Count());
+   // }
+   //
+   // [Fact]
+   // public void CloneFrom_WillReturn_NewBoard_WillBeClone()
+   // {
+   //    var sut = new StandardBoardModelFactory();
+   //    var source = sut.CreateForScenario(GameScenario.Standard);
+   //    var board = sut.CloneFrom(source);
+   //    
+   //    // change new board
+   //    board[ "a1".ToFileAndRank() ].Piece = new ChessPiece(ChessPieceType.Pawn, ChessColor.Black);
+   //
+   //    // assert, I do NOT like this, but it works.
+   //    board![ "a1".ToFileAndRank() ].Piece!.Type.Should()
+   //       .NotBe(source[ "a1".ToFileAndRank() ].Piece!.Type);
+   // }
 }
