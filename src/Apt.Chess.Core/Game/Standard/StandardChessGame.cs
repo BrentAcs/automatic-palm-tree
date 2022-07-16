@@ -16,14 +16,13 @@ public class StandardChessGame : ChessGameBase
          {ChessPieceType.Bishop, new BishopPotentialMoveStrategy()},
       };
 
-
    private class CastleMoves
    {
-      public ChessColor Player { get; set; }
-      public FileAndRank KingFrom { get; set; }
-      public FileAndRank KingTo { get; set; }
-      public FileAndRank RookFrom { get; set; }
-      public FileAndRank RookeTo { get; set; }
+      public ChessColor Player { get; init; }
+      public FileAndRank? KingFrom { get; init; }
+      public FileAndRank? KingTo { get; init; }
+      public FileAndRank? RookFrom { get; init; }
+      public FileAndRank? RookTo { get; init; }
    }
 
    private static readonly CastleMoves[] _castleMoves = new[]
@@ -35,7 +34,7 @@ public class StandardChessGame : ChessGameBase
          KingFrom = "e1".ToFileAndRank(),
          KingTo = "g1".ToFileAndRank(),
          RookFrom = "h1".ToFileAndRank(),
-         RookeTo = "f1".ToFileAndRank()
+         RookTo = "f1".ToFileAndRank()
       },
       // white, queen side
       new CastleMoves
@@ -44,7 +43,7 @@ public class StandardChessGame : ChessGameBase
          KingFrom = "e1".ToFileAndRank(),
          KingTo = "b1".ToFileAndRank(),
          RookFrom = "a1".ToFileAndRank(),
-         RookeTo = "c1".ToFileAndRank()
+         RookTo = "c1".ToFileAndRank()
       },
       // black, king side
       new CastleMoves
@@ -53,7 +52,7 @@ public class StandardChessGame : ChessGameBase
          KingFrom = "e8".ToFileAndRank(),
          KingTo = "g8".ToFileAndRank(),
          RookFrom = "h8".ToFileAndRank(),
-         RookeTo = "f8".ToFileAndRank()
+         RookTo = "f8".ToFileAndRank()
       },
       // black, queen side
       new CastleMoves
@@ -62,12 +61,14 @@ public class StandardChessGame : ChessGameBase
          KingFrom = "e8".ToFileAndRank(),
          KingTo = "b8".ToFileAndRank(),
          RookFrom = "a8".ToFileAndRank(),
-         RookeTo = "c8".ToFileAndRank()
+         RookTo = "c8".ToFileAndRank()
       }
    }; 
    
    public override ChessPiece? MovePiece(ChessColor player, FileAndRank fromPosition, FileAndRank toPosition)
    {
+      ValidateState();
+      
       FileAndRank? rookMoveFrom = null;
       FileAndRank? rookMoveTo = null;
       
@@ -78,7 +79,7 @@ public class StandardChessGame : ChessGameBase
             continue;
 
          rookMoveFrom = castleMove.RookFrom;
-         rookMoveTo = castleMove.RookeTo;
+         rookMoveTo = castleMove.RookTo;
          break;
       }
       
@@ -86,8 +87,8 @@ public class StandardChessGame : ChessGameBase
 
       if (rookMoveFrom is not null && rookMoveTo is not null)
       {
-         Board[ rookMoveTo ].Piece = Board[ rookMoveFrom ].Piece;
-         Board[ rookMoveFrom ].Piece = null;
+         Board![ rookMoveTo ].Piece = Board[ rookMoveFrom ].Piece;
+         Board![ rookMoveFrom ].Piece = null;
       }
 
       return capturedPiece;
@@ -106,15 +107,15 @@ public class StandardChessGame : ChessGameBase
       if(Board[toPosition].HasPiece)
          return false;
 
-      if(Board[castleMove.RookeTo].HasPiece)
+      if(Board[castleMove.RookTo!].HasPiece)
          return false;
          
-      if(!Board[castleMove.RookFrom].HasPiece)
+      if(!Board[castleMove.RookFrom!].HasPiece)
          return false;
 
-      if(Board[castleMove.RookFrom].Piece!.Player != castleMove.Player)
+      if(Board[castleMove.RookFrom!].Piece!.Player != castleMove.Player)
          return false;
-      if(Board[castleMove.RookFrom].Piece!.Type != ChessPieceType.Rook)
+      if(Board[castleMove.RookFrom!].Piece!.Type != ChessPieceType.Rook)
          return false;
 
       return true;

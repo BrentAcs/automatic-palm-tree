@@ -11,7 +11,7 @@ public interface IBoardModel
 
    bool IsOnBoard(FileAndRank position);
    bool HasPieceAt(FileAndRank position);
-   void ForEach(Action<FileAndRank?> action);
+   void ForEach(Action<FileAndRank> action);
    IEnumerable<FileAndRank>? FindAllPositionsFor(ChessColor player);
 }
 
@@ -69,7 +69,7 @@ public abstract class BoardModel : IBoardModel
       this[ position ].Piece is not null;
 
 
-   public void ForEach(Action<FileAndRank?> action)
+   public void ForEach(Action<FileAndRank> action)
    {
       for (int rank = 0; rank < MaxRank; rank++)
       {

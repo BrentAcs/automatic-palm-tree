@@ -15,4 +15,7 @@ public class ChessGameException : Exception
       : base(message, inner)
    {
    }
+
+   public static ChessGameException InvalidStateNullBoard =>
+      new ChessGameException("Game is invalid state, board is null.");
 }

@@ -42,7 +42,7 @@ public class StandardBoardModelTests
    [Fact]
    public void FindAllPiecesFor_WillFindAllWhite()
    {
-      var expectedSquares = new List<FileAndRank?>
+      var expectedSquares = new List<FileAndRank>
       {
          "a1".ToFileAndRank(),
          "e1".ToFileAndRank(),

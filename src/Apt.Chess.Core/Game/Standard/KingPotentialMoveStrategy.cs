@@ -16,17 +16,17 @@ public class KingPotentialMoveStrategy : PotentialMoveStrategy
 
       var potentials = new List<FileAndRank>();
       potentials.AddRange(FindAdjacentMoves(game, position, piece));
-      potentials.AddRange(FindCastleMove(game, position, piece));
+      potentials.AddRange(FindCastleMove(game!, position, piece));
 
       return potentials;
    }
 
    private class CastleMoveContext
    {
-      public ChessColor PlayerColor { get; set; }
-      public FileAndRank RookPosition { get; set; }
-      public IEnumerable<FileAndRank> BlockingSquares { get; set; }
-      public FileAndRank DestinationPosition { get; set; }
+      public ChessColor PlayerColor { get; init; }
+      public FileAndRank? RookPosition { get; init; }
+      public IEnumerable<FileAndRank>? BlockingSquares { get; init; }
+      public FileAndRank? DestinationPosition { get; init; }
    }
 
    private static readonly Dictionary<FileAndRank, CastleMoveContext[]> _castleMoveContexts =
@@ -86,9 +86,9 @@ public class KingPotentialMoveStrategy : PotentialMoveStrategy
          }
       };
 
-   private static IEnumerable<FileAndRank?> FindCastleMove(IChessGameContext game, FileAndRank position, ChessPiece piece)
+   private static IEnumerable<FileAndRank> FindCastleMove(IChessGameContext game, FileAndRank position, ChessPiece piece)
    {
-      var potentials = new List<FileAndRank?>();
+      var potentials = new List<FileAndRank>();
 
       if (game.HasKingMoved(piece.Player))
          return potentials;
@@ -99,7 +99,7 @@ public class KingPotentialMoveStrategy : PotentialMoveStrategy
       var contexts = _castleMoveContexts[ position ];
       foreach (var context in contexts)
       {
-         var rook = game.Board![ context.RookPosition ].Piece;
+         var rook = game.Board![ context.RookPosition! ].Piece;
 
          if (rook is null)
             continue;
@@ -107,10 +107,10 @@ public class KingPotentialMoveStrategy : PotentialMoveStrategy
             continue;
          if (rook.IsOppositePlayer(context.PlayerColor))
             continue;
-         if (context.BlockingSquares.Any(p => game.Board[ p ].HasPiece))
+         if (context.BlockingSquares!.Any(p => game.Board[ p ].HasPiece))
             continue;
 
-         potentials.Add(context.DestinationPosition);
+         potentials.Add(context.DestinationPosition!);
       }
 
       return potentials;
@@ -129,7 +129,7 @@ public class KingPotentialMoveStrategy : PotentialMoveStrategy
             position.Move(Direction.DownLeft),
             position.Move(Direction.DownRight)
          }
-         .Where(game.Board.IsOnBoard)
+         .Where(game.Board!.IsOnBoard)
          .Where(p => game.Board[ p ].Piece is null || game.Board[ p ].Piece!.IsOppositePlayer(piece.Player));
       return potentials;
    }

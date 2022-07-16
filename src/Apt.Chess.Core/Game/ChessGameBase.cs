@@ -15,6 +15,12 @@ public abstract class ChessGameBase : IChessGame
    public bool HasKingMoved(ChessColor player) =>
       player == ChessColor.White ? HasWhiteKingMoved : HasBlackKingMoved;
 
+   protected void ValidateState()
+   {
+      if (Board is null)
+         throw ChessGameException.InvalidStateNullBoard;
+   }
+   
    protected abstract IDictionary<ChessPieceType, IPotentialMoveStrategy> PotentialMoveStrategies { get; }
 
    public virtual void NewGame(IBoardModel? board, ChessColor player = ChessColor.White)
@@ -79,7 +85,7 @@ public abstract class ChessGameBase : IChessGame
       Board[ fromPosition ].Piece = null;
       Board[ toPosition ].Piece = fromPiece;
 
-      CheckHasKingMoved(fromPiece, player);
+      CheckHasKingMoved(fromPiece!, player);
 
       return toPiece;
    }
@@ -123,7 +129,7 @@ public abstract class ChessGameBase : IChessGame
       foreach (var opposingPosition in opposingPositions!)
       {
          var piece = Board[ opposingPosition ].Piece;
-         var opposingMoves = PotentialMoveStrategies[ piece.Type ].Find(this, opposingPosition);
+         var opposingMoves = PotentialMoveStrategies[ piece!.Type ].Find(this, opposingPosition);
 
          if (opposingMoves.Contains(kingPosition))
             return true;
@@ -149,7 +155,7 @@ public abstract class ChessGameBase : IChessGame
       // var kingMoves = PotentialMoveStrategies[ ChessPieceType.King ].Find(this, kingPosition).ToList();
       //
       // var opposingPositions = Board!.FindAllPositionsFor(player.GetOpposing());
-      // var opposingMoves = new List<FileAndRank?>();
+      // var opposingMoves = new List<FileAndRank>();
       // // for any of those pieces potential moves == king pos, remove kingMove
       // foreach (var opposingPosition in opposingPositions!)
       // {
