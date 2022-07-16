@@ -46,10 +46,8 @@ public partial class MainForm : Form
       _game.NewGame(board);
 
       theBoardView.Initialize(_game);
-      theBoardView.OnFromSquareSelected += TheBoardView_OnFromSquareSelected;
       theBoardView.OnFromSquareSelected += theGameView.HandleOnFromSquareSelected;
       theBoardView.OnPieceMove += TheBoardView_OnPieceMove;
-      theBoardView.OnHover += TheBoardView_OnHover;
       theGameView.CurrentPlayer = _game.CurrentPlayer;
    }
 
@@ -68,20 +66,4 @@ public partial class MainForm : Form
       theGameView.ClearFromSelected();
       theBoardView.Update();
    }
-
-   private void TheBoardView_OnHover(object? sender, Controls.HoverArgs e)
-   {
-      //theGameView.HoverPosition = e.Position;
-   }
-
-   private void TheBoardView_OnFromSquareSelected(object? sender, Controls.FromSquareSelectedArgs e)
-   {
-      //MessageBox.Show($"Sqaure selected: {e.Selected.Piece}");
-   }
-
-   private void MainForm_SizeChanged(object sender, EventArgs e)
-   {
-      //Debug.WriteLine($"{Size}");
-   }
-
 }

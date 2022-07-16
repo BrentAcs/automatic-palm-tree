@@ -61,7 +61,6 @@
             this.theBoardView.Name = "theBoardView";
             this.theBoardView.Size = new System.Drawing.Size(400, 458);
             this.theBoardView.TabIndex = 0;
-            this.theBoardView.SizeChanged += new System.EventHandler(this.MainForm_SizeChanged);
             // 
             // theGameView
             // 
@@ -80,7 +79,6 @@
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.Shown += new System.EventHandler(this.MainForm_Shown);
-            this.SizeChanged += new System.EventHandler(this.MainForm_SizeChanged);
             this.mainSplitContainer.Panel1.ResumeLayout(false);
             this.mainSplitContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.mainSplitContainer)).EndInit();

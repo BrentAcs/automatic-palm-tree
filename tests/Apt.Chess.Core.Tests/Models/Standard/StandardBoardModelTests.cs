@@ -1,5 +1,6 @@
 ﻿using Apt.Chess.Core.Extensions;
 using Apt.Chess.Core.Models;
+using Apt.Chess.Core.Models.Standard;
 using Apt.Chess.Core.Services;
 using Apt.Chess.Core.Services.Standard;
 
@@ -55,42 +56,51 @@ public class StandardBoardModelTests
       whitePieces.Should().Contain(expectedSquares);
    }
    
+   [Fact]
+   public void Clone_WillReturn_DifferentRef()
+   {
+      var original = new StandardBoardModel();
+
+      var clone = original.Clone();
+
+      ReferenceEquals(clone, original).Should().BeFalse();
+   }
+
+   [Fact]
+   public void Clone_WillReturn_TypeOfIBoardModel()
+   {
+      var original = new StandardBoardModel();
+
+      var clone = original.Clone();
+
+      clone.Should().BeAssignableTo<IBoardModel>();
+   }
+
+   [Fact]
+   public void Clone_WillReturn_NewBoard_WithSameNumberOfWhitePieces()
+   {
+      var original = new StandardBoardModel();
+      original[ "d4".ToFileAndRank() ].Piece = new ChessPiece(ChessPieceType.Knight, ChessColor.Black);
+
+      var clone = (IBoardModel)original.Clone();
+      
+      clone.FindAllPositionsFor(ChessColor.Black)!.Count()
+         .Should().Be(original!.FindAllPositionsFor(ChessColor.Black)!.Count());
+   }
    
-   // [Fact]
-   // public void CopyCtor_WillCreate_NewBoard()
-   // {
-   //    var sut = new StandardBoardModelFactory();
-   //    var source = sut.CreateForScenario(GameScenario.Standard);
-   //
-   //    var board = sut.CloneFrom(source);
-   //
-   //    ReferenceEquals(board, source).Should().BeFalse();
-   // }
-   //
-   // [Fact]
-   // public void CloneFrom_WillReturn_NewBoard_WithSameNumberOfWhitePieces()
-   // {
-   //    var sut = new StandardBoardModelFactory();
-   //    var source = sut.CreateForScenario(GameScenario.Standard);
-   //
-   //    var board = sut.CloneFrom(source);
-   //
-   //    board!.FindAllPositionsFor(ChessColor.White)!.Count()
-   //       .Should().Be(source!.FindAllPositionsFor(ChessColor.White)!.Count());
-   // }
-   //
-   // [Fact]
-   // public void CloneFrom_WillReturn_NewBoard_WillBeClone()
-   // {
-   //    var sut = new StandardBoardModelFactory();
-   //    var source = sut.CreateForScenario(GameScenario.Standard);
-   //    var board = sut.CloneFrom(source);
-   //    
-   //    // change new board
-   //    board[ "a1".ToFileAndRank() ].Piece = new ChessPiece(ChessPieceType.Pawn, ChessColor.Black);
-   //
-   //    // assert, I do NOT like this, but it works.
-   //    board![ "a1".ToFileAndRank() ].Piece!.Type.Should()
-   //       .NotBe(source[ "a1".ToFileAndRank() ].Piece!.Type);
-   // }
+   [Fact]
+   public void Clone_WillReturn_NewBoard_WillBeClone()
+   {
+      var original = new StandardBoardModel();
+      original[ "a1".ToFileAndRank() ].Piece = new ChessPiece(ChessPieceType.Knight, ChessColor.Black);
+
+      var clone = (IBoardModel)original.Clone();
+      
+      // change new board
+      clone[ "a1".ToFileAndRank() ].Piece = new ChessPiece(ChessPieceType.Pawn, ChessColor.White);
+   
+      // assert, I do NOT like this, but it works.
+      clone![ "a1".ToFileAndRank() ].Piece!.Type.Should()
+         .NotBe(original[ "a1".ToFileAndRank() ].Piece!.Type);
+   }
 }

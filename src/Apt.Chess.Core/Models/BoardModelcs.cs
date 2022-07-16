@@ -1,4 +1,6 @@
-﻿namespace Apt.Chess.Core.Models;
+﻿using Apt.Chess.Core.Extensions;
+
+namespace Apt.Chess.Core.Models;
 
 public interface IBoardModel
 {
@@ -20,28 +22,29 @@ public interface IBoardModel
 /// Vertical Columns, files, a-h (from white's left)
 /// Horizontal Rows, ranks, 1-8 (from white's side)
 /// </summary>
-public abstract class BoardModel : IBoardModel
+public abstract class BoardModel : IBoardModel, ICloneable
 {
-   // protected BoardModel()
-   // {
-   // }
-
-   // protected BoardModel(IBoardModel? source)
-   // {
-   //    if (source is null)
-   //       throw new ArgumentNullException(nameof(source));
-   //
-   //    Squares = new Square[ source.MaxFile, source.MaxRank ];
-   //    
-   //    source.ForEach((position) =>
-   //    {
-   //       this[ position! ] = new Square(source[ position! ]);
-   //    });
-   // }
-   
    protected BoardModel(Square[ , ] squares)
    {
       Squares = squares;
+      
+      for (int rank = 0; rank < MaxRank; rank++)
+      {
+         for (int file = 0; file < MaxFile; file++)
+         {
+            ChessColor color;
+            if (file.IsEven())
+            {
+               color = rank.IsEven() ? ChessColor.Black : ChessColor.White;
+            }
+            else
+            {
+               color = rank.IsOdd() ? ChessColor.Black : ChessColor.White;
+            }
+
+            Squares[ rank, file ] = new Square {SquareColor = color};
+         }
+      }
    }
 
    public int MaxRank => Squares.GetLength(0);
@@ -96,4 +99,6 @@ public abstract class BoardModel : IBoardModel
 
       return squares;
    }
+
+   public abstract object Clone();
 }

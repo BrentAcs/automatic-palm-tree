@@ -6,30 +6,8 @@ namespace Apt.Chess.Core.Services.Standard;
 
 public class StandardBoardModelFactory : BoardModelFactory
 {
-   protected override IBoardModel CreateEmptyBoard()
-   {
-      var board = new StandardBoardModel();
-
-      for (int rank = 0; rank < board.MaxRank; rank++)
-      {
-         for (int file = 0; file < board.MaxFile; file++)
-         {
-            ChessColor color;
-            if (file.IsEven())
-            {
-               color = rank.IsEven() ? ChessColor.Black : ChessColor.White;
-            }
-            else
-            {
-               color = rank.IsOdd() ? ChessColor.Black : ChessColor.White;
-            }
-
-            board.Squares[ rank, file ] = new Square {SquareColor = color};
-         }
-      }
-
-      return board;
-   }
+   protected override IBoardModel CreateEmptyBoard() =>
+      new StandardBoardModel();
 
    protected override IDictionary<GameScenario, IEnumerable<string>> GameScenarios =>
       new Dictionary<GameScenario, IEnumerable<string>>

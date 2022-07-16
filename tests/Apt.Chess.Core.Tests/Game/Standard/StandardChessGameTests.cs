@@ -10,8 +10,6 @@ namespace Apt.Chess.Core.Tests.Game.Standard;
 
 public class StandardChessGameTests
 {
-   // NOTE: Can these tests be abstracted themselves?
-
    private readonly IBoardModelFactory _factory = new StandardBoardModelFactory();
 
    private static IChessGame CreateGame() =>
@@ -349,28 +347,28 @@ public class StandardChessGameTests
    
    // --- IsKingInCheckMate
 
-   // [Theory]
-   // [ClassData(typeof(IsKingInCheckMatePositiveTestData))]
-   // public void IsKingInCheckMate_WillReturn_True(
-   //    ChessColor player,
-   //    IEnumerable<string> pieces)
-   // {
-   //    var board = _factory.Create(pieces);
-   //    var game = CreateGame();
-   //    game.NewGame(board, player);
-   //
-   //    var isInCheck = game.IsKingInCheckMate(player);
-   //
-   //    isInCheck.Should().BeTrue();
-   // }
-   //
-   // private class IsKingInCheckMatePositiveTestData : TheoryData<ChessColor, IEnumerable<string>>
-   // {
-   //    public IsKingInCheckMatePositiveTestData()
-   //    {
-   //       AddCase(ChessColor.White, new[] {"e1-w-k", "e2-b-q", "e3-b-r"});
-   //    }
-   // }
+   [Theory]
+   [ClassData(typeof(IsKingInCheckMatePositiveTestData))]
+   public void IsKingInCheckMate_WillReturn_True(
+      ChessColor player,
+      IEnumerable<string> pieces)
+   {
+      var board = _factory.Create(pieces);
+      var game = CreateGame();
+      game.NewGame(board, player);
+   
+      var isInCheck = game.IsKingInCheckMate(player);
+   
+      isInCheck.Should().BeTrue();
+   }
+   
+   private class IsKingInCheckMatePositiveTestData : TheoryData<ChessColor, IEnumerable<string>>
+   {
+      public IsKingInCheckMatePositiveTestData()
+      {
+         AddCase(ChessColor.White, new[] {"e1-w-k", "e2-b-q", "e3-b-r"});
+      }
+   }
    
    // [Theory]
    // [ClassData(typeof(IsKingInCheckMateNegativeTestData))]
