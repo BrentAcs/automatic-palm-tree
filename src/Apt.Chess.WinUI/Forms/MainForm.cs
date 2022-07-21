@@ -1,21 +1,33 @@
-﻿using System.Diagnostics;
+﻿using Apt.Chess.Core.Game;
+using Apt.Chess.Core.Game.Standard;
 using Apt.Chess.Core.Models;
 using Apt.Chess.Core.Services;
+using Apt.Chess.WinUI.Events;
+using Apt.Chess.WinUI.Renderer;
 
 namespace Apt.Chess.WinUI.Forms;
 
-public partial class MainForm : Form
+public partial class MainForm : Form //, IChessGameContext
 {
    private readonly IServiceProvider _serviceProvider;
+   private readonly IEventAggregator _eventAggregator;
    private readonly IBoardModelFactory _boardModelFactory;
-   private IWinChessGame _game = new StandardWinChessGame();
 
-   public MainForm(IServiceProvider serviceProvider, IBoardModelFactory boardModelFactory)
+   private IBoardModel? _board;
+   private IChessGame _game = new StandardChessGame();
+
+   public MainForm(IServiceProvider serviceProvider, IEventAggregator eventAggregator, IBoardModelFactory boardModelFactory)
    {
       _serviceProvider = serviceProvider;
+      _eventAggregator = eventAggregator;
       _boardModelFactory = boardModelFactory;
       InitializeComponent();
+
+      // NOTE: Is it possible to DI user controls?
+      theBoardView.FakeDependencyInject(eventAggregator);
+      theGameView.FakeDependencyInject(eventAggregator);
    }
+
 
    // ---------------------------------------------------------------------------------------------
    // Methods
@@ -29,6 +41,15 @@ public partial class MainForm : Form
       return form.SelectedGameScenario;
    }
 
+   private void NewGame()
+   {
+      var scenario = SelectGameScenario();
+      _board = _boardModelFactory.CreateForScenario(scenario);
+      _game.NewGame(_board);
+      _eventAggregator.Publish(new NewBoardEvent(_game));
+      theBoardView.Invalidate(true);
+   }
+
    // ---------------------------------------------------------------------------------------------
    // Event Handlers
 
@@ -36,34 +57,56 @@ public partial class MainForm : Form
    {
       Size = Settings.Default.MainFormSize;
       Location = Settings.Default.MainFormLocation;
+      mainSplitContainer.SplitterDistance = Settings.Default.MainSplitterDistance;
    }
 
    private void MainForm_Shown(object sender, EventArgs e)
    {
-      var scenario = SelectGameScenario();
-      //var board = _boardModelFactory.CreateEmpty();
-      var board = _boardModelFactory.CreateForScenario(scenario);
-      _game.NewGame(board);
+      // To start
+      _board = _boardModelFactory.CreateEmpty();
+      _game.NewGame(_board);
+      _eventAggregator.Publish(new NewBoardEvent(_game));
 
-      theBoardView.Initialize(_game);
-      theBoardView.OnFromSquareSelected += theGameView.HandleOnFromSquareSelected;
-      theBoardView.OnPieceMove += TheBoardView_OnPieceMove;
-      theGameView.CurrentPlayer = _game.CurrentPlayer;
+      
+      //theBoardView.Invalidate(true);
+      //theBoardView.Refresh();
+      //_publisher.SendNewBoard(this);
+
+
+      //theBoardView.Invalidate();
+
+      //var scenario = SelectGameScenario();
+      ////var board = _boardModelFactory.CreateEmpty();
+      //var board = _boardModelFactory.CreateForScenario(scenario);
+      //_game.NewGame(board);
+
+      //theBoardView.Initialize(_game);
+      ////theBoardView.OnFromSquareSelected += theGameView.HandleOnFromSquareSelected;
+      ////theBoardView.OnPieceMove += TheBoardView_OnPieceMove;
+      //theGameView.CurrentPlayer = _game.CurrentPlayer;
    }
 
    private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
    {
-       Settings.Default.MainFormSize=Size;
-       Settings.Default.MainFormLocation=Location;
-       Settings.Default.Save();
+      Settings.Default.MainFormSize = Size;
+      Settings.Default.MainFormLocation = Location;
+      Settings.Default.MainSplitterDistance = mainSplitContainer.SplitterDistance;
+      Settings.Default.Save();
    }
+
+   private void newGameToolStripButton_Click(object sender, EventArgs e)
+   {
+      NewGame();
+   }
+
 
    private void TheBoardView_OnPieceMove(object? sender, Controls.PieceMoveArgs e)
    {
-      var capturedPiece = _game.MovePiece(e.FromPosition, e.ToPosition);
-      _game.NextTurn();
-      theGameView.CurrentPlayer = _game.CurrentPlayer;
-      theGameView.ClearFromSelected();
-      theBoardView.Update();
+      //var capturedPiece = _game.MovePiece(e.FromPosition, e.ToPosition);
+      //_game.NextTurn();
+      //theGameView.CurrentPlayer = _game.CurrentPlayer;
+      //theGameView.ClearFromSelected();
+      //theBoardView.Update();
    }
+
 }

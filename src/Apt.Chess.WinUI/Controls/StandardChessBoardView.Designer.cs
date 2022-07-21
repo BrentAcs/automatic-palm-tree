@@ -28,39 +28,35 @@
       /// </summary>
       private void InitializeComponent()
       {
-            this.thePictureBox = new System.Windows.Forms.PictureBox();
-            ((System.ComponentModel.ISupportInitialize)(this.thePictureBox)).BeginInit();
+            this.theBoardPanel = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
-            // thePictureBox
+            // theBoardPanel
             // 
-            this.thePictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.thePictureBox.Location = new System.Drawing.Point(3, 3);
-            this.thePictureBox.Name = "thePictureBox";
-            this.thePictureBox.Size = new System.Drawing.Size(304, 314);
-            this.thePictureBox.TabIndex = 0;
-            this.thePictureBox.TabStop = false;
-            this.thePictureBox.SizeChanged += new System.EventHandler(this.thePictureBox_SizeChanged);
-            this.thePictureBox.Click += new System.EventHandler(this.thePictureBox_Click);
-            this.thePictureBox.MouseLeave += new System.EventHandler(this.thePictureBox_MouseLeave);
-            this.thePictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.thePictureBox_MouseMove);
+            this.theBoardPanel.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.theBoardPanel.Location = new System.Drawing.Point(0, 0);
+            this.theBoardPanel.Name = "theBoardPanel";
+            this.theBoardPanel.Size = new System.Drawing.Size(200, 100);
+            this.theBoardPanel.TabIndex = 0;
+            this.theBoardPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.theBoardPanel_Paint);
+            this.theBoardPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.theBoardPanel_MouseClick);
+            this.theBoardPanel.MouseLeave += new System.EventHandler(this.theBoardPanel_MouseLeave);
+            this.theBoardPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.theBoardPanel_MouseMove);
             // 
             // StandardChessBoardView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.thePictureBox);
+            this.AutoScroll = true;
+            this.Controls.Add(this.theBoardPanel);
             this.Name = "StandardChessBoardView";
             this.Size = new System.Drawing.Size(310, 320);
-            ((System.ComponentModel.ISupportInitialize)(this.thePictureBox)).EndInit();
             this.ResumeLayout(false);
 
       }
 
       #endregion
 
-      private PictureBox thePictureBox;
+      private Panel theBoardPanel;
    }
 }

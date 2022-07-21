@@ -1,6 +1,9 @@
-﻿using Apt.Chess.Core.Services;
+﻿using System.Reflection;
+using Apt.Chess.Core.Services;
 using Apt.Chess.Core.Services.Standard;
+using Apt.Chess.WinUI.Events;
 using Apt.Chess.WinUI.Forms;
+using Apt.Chess.WinUI.Renderer;
 
 namespace Apt.Chess.WinUI;
 
@@ -36,6 +39,7 @@ internal static class Program
          .AddSingleton<MainForm>()
          .AddSingleton<SelectGameScenarioForm>()
          .AddSingleton<IBoardModelFactory, StandardBoardModelFactory>()
+         .AddSingleton<IEventAggregator, EventAggregator>()
          ;
    }
 }

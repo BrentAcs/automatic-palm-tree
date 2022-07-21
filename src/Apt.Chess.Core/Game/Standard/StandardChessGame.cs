@@ -16,7 +16,6 @@ public class StandardChessGame : ChessGameBase
          {ChessPieceType.Bishop, new BishopPotentialMoveStrategy()},
       };
 
-
    private class CastleMoves
    {
       public ChessColor Player { get; set; }
