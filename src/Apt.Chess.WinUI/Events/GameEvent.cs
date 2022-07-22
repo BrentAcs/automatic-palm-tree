@@ -45,25 +45,33 @@ public class MouseLeaveOnBoardEvent : GameUIEvent
    }
 }
 
-public class PositionSelectedEvent : GameUIEvent
+public class SourcePositionSelectedEvent : GameUIEvent
 {
-   public PositionSelectedEvent(FileAndRank? position) : base(position)
+   public SourcePositionSelectedEvent(FileAndRank? position) : base(position)
    {
    }
 }
 
-public class PositionClearedEvent : GameUIEvent
+public class SourcePositionClearedEvent : GameUIEvent
 {
-   public PositionClearedEvent() : base(null)
+   public SourcePositionClearedEvent() : base(null)
    {
    }
 }
+
+public class DestinationPositionSelectedEvent : GameUIEvent
+{
+   public DestinationPositionSelectedEvent(FileAndRank? position) : base(position)
+   {
+   }
+}
+
 
 // ---------------------------------------------------------------------------------------------
 // Events w/ Context
 
-public class NewBoardEvent : GameEventWithContext
+public class NewGameEvent : GameEventWithContext
 {
-   public NewBoardEvent(IChessGameContext context) : base(context) { }
+   public NewGameEvent(IChessGameContext context) : base(context) { }
 }
 

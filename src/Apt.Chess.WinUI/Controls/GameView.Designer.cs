@@ -32,7 +32,9 @@
             this.currentPlayerTextBox = new System.Windows.Forms.TextBox();
             this.theStatusStrip = new System.Windows.Forms.StatusStrip();
             this.currentPositionToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.selectedFromTextBox = new System.Windows.Forms.TextBox();
+            this.currentActionTextBox = new System.Windows.Forms.TextBox();
+            this.movesTextBox = new System.Windows.Forms.TextBox();
+            this.selectedSourcePositionTextBox = new System.Windows.Forms.TextBox();
             this.theStatusStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -69,19 +71,39 @@
             this.currentPositionToolStripStatusLabel.Size = new System.Drawing.Size(118, 17);
             this.currentPositionToolStripStatusLabel.Text = "toolStripStatusLabel1";
             // 
-            // selectedFromTextBox
+            // currentActionTextBox
             // 
-            this.selectedFromTextBox.Location = new System.Drawing.Point(94, 32);
-            this.selectedFromTextBox.Name = "selectedFromTextBox";
-            this.selectedFromTextBox.ReadOnly = true;
-            this.selectedFromTextBox.Size = new System.Drawing.Size(146, 23);
-            this.selectedFromTextBox.TabIndex = 3;
+            this.currentActionTextBox.Location = new System.Drawing.Point(94, 32);
+            this.currentActionTextBox.Name = "currentActionTextBox";
+            this.currentActionTextBox.ReadOnly = true;
+            this.currentActionTextBox.Size = new System.Drawing.Size(146, 23);
+            this.currentActionTextBox.TabIndex = 3;
+            // 
+            // movesTextBox
+            // 
+            this.movesTextBox.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.movesTextBox.Location = new System.Drawing.Point(0, 127);
+            this.movesTextBox.Multiline = true;
+            this.movesTextBox.Name = "movesTextBox";
+            this.movesTextBox.ReadOnly = true;
+            this.movesTextBox.Size = new System.Drawing.Size(365, 348);
+            this.movesTextBox.TabIndex = 4;
+            // 
+            // selectedSourcePositionTextBox
+            // 
+            this.selectedSourcePositionTextBox.Location = new System.Drawing.Point(94, 61);
+            this.selectedSourcePositionTextBox.Name = "selectedSourcePositionTextBox";
+            this.selectedSourcePositionTextBox.ReadOnly = true;
+            this.selectedSourcePositionTextBox.Size = new System.Drawing.Size(146, 23);
+            this.selectedSourcePositionTextBox.TabIndex = 5;
             // 
             // GameView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.selectedFromTextBox);
+            this.Controls.Add(this.selectedSourcePositionTextBox);
+            this.Controls.Add(this.movesTextBox);
+            this.Controls.Add(this.currentActionTextBox);
             this.Controls.Add(this.theStatusStrip);
             this.Controls.Add(this.currentPlayerTextBox);
             this.Controls.Add(this.label1);
@@ -100,6 +122,8 @@
       private TextBox currentPlayerTextBox;
       private StatusStrip theStatusStrip;
       private ToolStripStatusLabel currentPositionToolStripStatusLabel;
-      private TextBox selectedFromTextBox;
-   }
+      private TextBox currentActionTextBox;
+        private TextBox movesTextBox;
+        private TextBox selectedSourcePositionTextBox;
+    }
 }

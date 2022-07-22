@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+﻿using Apt.Chess.Core.Game;
 using Apt.Chess.Core.Models;
 using Apt.Chess.WinUI.Events;
 
@@ -7,6 +7,7 @@ namespace Apt.Chess.WinUI.Controls;
 public partial class GameView : UserControl
 {
    private IEventAggregator _eventAggregator;
+   private IChessGameContext? _gameContext;
 
    public GameView()
    {
@@ -20,7 +21,7 @@ public partial class GameView : UserControl
    {
       _eventAggregator = eventAggregator ?? throw new ArgumentNullException(nameof(eventAggregator));
 
-      _eventAggregator.Subscribe<MouseHooverOnBoardEvent>(arg => 
+      _eventAggregator.Subscribe<MouseHooverOnBoardEvent>(arg =>
       {
          currentPositionToolStripStatusLabel.Text = arg.Position is null ? string.Empty : $"{arg.Position}";
       });
@@ -29,30 +30,48 @@ public partial class GameView : UserControl
       {
          currentPositionToolStripStatusLabel.Text = String.Empty;
       });
+
+      _eventAggregator.Subscribe<NewGameEvent>(arg =>
+      {
+         _gameContext = arg.Context;
+         CurrentPlayer = _gameContext.CurrentPlayer;
+         SetCurrentStep();
+      });
+
+      _eventAggregator.Subscribe<SourcePositionSelectedEvent>(arg =>
+      {
+         selectedSourcePositionTextBox.Text = $"{arg.Position}";
+      });
    }
 
+   private ChessColor CurrentPlayer
+   {
+      set { currentPlayerTextBox.Text = $"{value}"; }
+   }
 
-   //public ChessColor CurrentPlayer
-   //{
-   //   get
-   //   {
-   //      Enum.TryParse<ChessColor>(currentPlayerTextBox.Text, out var current);
+   private void SetCurrentStep()
+   {
+      currentActionTextBox.Text = GetCurrentStepText();
+   }
 
-   //      return current;
-   //   }
-   //   set
-   //   {
-   //      currentPlayerTextBox.Text = $"{value}";
-   //   }
-   //}
+   private string GetCurrentStepText()
+   {
+      switch (_gameContext?.CurrentStep)
+      {
+         //case GameStep.Unplayable:
+         //   break;
+         case GameStep.SelectMoveSourcePosition:
+            return "Select Piece to move";
+         case GameStep.SelectMoveDestinationPosition:
+            return "Select Destination";
+         //case GameStep.EvaluateGameOver:
+         //   break;
+         //case GameStep.GameOver:
+         //   break;
+      }
 
-   //public FileAndRank? HoverPosition
-   //{
-   //   set
-   //   {
-   //      currentPositionToolStripStatusLabel.Text = value is null ? string.Empty : $"{value}";
-   //   }
-   //}
+      return string.Empty;
+   }
 
    //public void HandleOnFromSquareSelected(object? sender, FromSquareSelectedArgs e)
    //{

@@ -25,7 +25,7 @@ public class ChessGameBaseTests
    {
       var game = CreateGame();
 
-      game.CurrentStep.Should().Be(GameStep.New);
+      game.CurrentStep.Should().Be(GameStep.Unplayable);
       game.CurrentPlayer.Should().Be(ChessColor.White);
       game.Board.Should().BeNull();
    }
@@ -175,6 +175,52 @@ public class ChessGameBaseTests
          .WithMessage("Board is null.");
    }
    
+   // --- SelectPositionToMoveFrom
+
+   [Fact]
+   public void SelectPositionToMoveFrom_WillSet_SelectedPosition()
+   {
+      var sut = CreateGame();
+      var position = "a1".ToFileAndRank();
+
+      sut.SelectPositionToMoveFrom(position);
+
+      sut.SelectedPosition.Should().Be(position);
+   }
+
+   [Fact]
+   public void SelectPositionToMoveFrom_WillSet_CurrentStepToSelectMoveDestinationPosition()
+   {
+      var sut = CreateGame();
+      var position = "a1".ToFileAndRank();
+
+      sut.SelectPositionToMoveFrom(position);
+
+      sut.CurrentStep.Should().Be(GameStep.SelectMoveDestinationPosition);
+   }
+
+   // --- ClearPositionToMoveFrom
+
+   [Fact]
+   public void ClearPositionToMoveFrom_WillSet_SelectedPosition_ToNull()
+   {
+      var sut = CreateGame();
+
+      sut.ClearPositionToMoveFrom();
+
+      sut.SelectedPosition.Should().BeNull();
+   }
+
+   [Fact]
+   public void ClearPositionToMoveFrom_WillSet_CurrentStepToSelectMoveSourcePosition()
+   {
+      var sut = CreateGame();
+
+      sut.ClearPositionToMoveFrom();
+
+      sut.CurrentStep.Should().Be(GameStep.SelectMoveSourcePosition);
+   }
+
    // --- NextTurn
 
    [Fact]
@@ -186,4 +232,6 @@ public class ChessGameBaseTests
 
       game.CurrentPlayer.Should().Be(ChessColor.Black);
    }
+   
+   
 }

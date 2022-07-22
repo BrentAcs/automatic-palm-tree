@@ -56,16 +56,16 @@ public enum ChessFile
 
 public enum GameStep
 {
-   New = 1,
-   SelectPiece,
-   SelectMove,
+   Unplayable = 0,
+   SelectMoveSourcePosition = 1,
+   SelectMoveDestinationPosition,
    EvaluateGameOver,
    GameOver,
 }
 
 public enum Direction
 {
-   Up=1,
+   Up = 1,
    Down,
    Left,
    Right,

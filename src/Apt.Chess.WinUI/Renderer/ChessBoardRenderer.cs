@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using Apt.Chess.Core.Game;
 using Apt.Chess.Core.Models;
 using Apt.Chess.WinUI.Events;
 
@@ -25,7 +26,9 @@ public class ChessBoardRenderer : IChessBoardRenderer
    private const int DefaultMaxFile = 8;
    private const int DefaultMaxRank = 8;
 
-   public IBoardModel? Board { get; private set; }
+   private IChessGameContext? _gameContext;
+
+   public IBoardModel? Board => _gameContext?.Board;
    public IRendererSettings Settings { get; private set; } = new RendererSettings();
    public FileAndRank? MouseOverPosition { get; set; }
    public FileAndRank? SelectedFromPosition { get; set; }
@@ -36,9 +39,9 @@ public class ChessBoardRenderer : IChessBoardRenderer
 
    public Size BoardSize => GetBoardSize();
 
-   public ChessBoardRenderer(IBoardModel? board, IRendererSettings? settings = null)
+   public ChessBoardRenderer(IChessGameContext? gameContext, IRendererSettings? settings = null)
    {
-      Board = board;
+      _gameContext = gameContext;         
       Settings = settings is not null ? settings : new RendererSettings();
    }
 

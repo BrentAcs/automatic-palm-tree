@@ -14,7 +14,7 @@ public partial class MainForm : Form //, IChessGameContext
    private readonly IBoardModelFactory _boardModelFactory;
 
    private IBoardModel? _board;
-   private IChessGame _game = new StandardChessGame();
+   private IChessGame _game = new NonPlayableChessGame();
 
    public MainForm(IServiceProvider serviceProvider, IEventAggregator eventAggregator, IBoardModelFactory boardModelFactory)
    {
@@ -26,6 +26,26 @@ public partial class MainForm : Form //, IChessGameContext
       // NOTE: Is it possible to DI user controls?
       theBoardView.FakeDependencyInject(eventAggregator);
       theGameView.FakeDependencyInject(eventAggregator);
+
+      _eventAggregator.Subscribe<SourcePositionClearedEvent>(OnSourcePositionCleared);
+      _eventAggregator.Subscribe<SourcePositionSelectedEvent>(OnSourcePositionSelected);
+      _eventAggregator.Subscribe<DestinationPositionSelectedEvent>(OnDestinationPositionSelected);
+   }
+
+   private void OnSourcePositionCleared(SourcePositionClearedEvent args)
+   {
+      MessageBox.Show("selection cleared");
+   }
+
+   private void OnSourcePositionSelected(SourcePositionSelectedEvent args)
+   {
+      //MessageBox.Show("source position selected");
+      _game.SelectPositionToMoveFrom(args.Position!);
+   }
+
+   private void OnDestinationPositionSelected(DestinationPositionSelectedEvent args) 
+   {
+      MessageBox.Show("destination position selected");
    }
 
 
@@ -45,8 +65,9 @@ public partial class MainForm : Form //, IChessGameContext
    {
       var scenario = SelectGameScenario();
       _board = _boardModelFactory.CreateForScenario(scenario);
+      _game = new StandardChessGame();
       _game.NewGame(_board);
-      _eventAggregator.Publish(new NewBoardEvent(_game));
+      _eventAggregator.Publish(new NewGameEvent(_game));
       theBoardView.Invalidate(true);
    }
 
@@ -65,7 +86,7 @@ public partial class MainForm : Form //, IChessGameContext
       // To start
       _board = _boardModelFactory.CreateEmpty();
       _game.NewGame(_board);
-      _eventAggregator.Publish(new NewBoardEvent(_game));
+      _eventAggregator.Publish(new NewGameEvent(_game));
 
       
       //theBoardView.Invalidate(true);

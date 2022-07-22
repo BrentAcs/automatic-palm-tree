@@ -1,4 +1,5 @@
-﻿using Apt.Chess.Core.Models;
+﻿using Apt.Chess.Core.Game;
+using Apt.Chess.Core.Models;
 using Apt.Chess.WinUI.Events;
 using Apt.Chess.WinUI.Renderer;
 
@@ -7,6 +8,7 @@ namespace Apt.Chess.WinUI.Controls;
 public partial class StandardChessBoardView : UserControl
 {
    private IEventAggregator? _eventAggregator;
+   private IChessGameContext? _gameContext;
    private IChessBoardRenderer? _renderer;
 
    public StandardChessBoardView()
@@ -22,12 +24,13 @@ public partial class StandardChessBoardView : UserControl
    {
       _eventAggregator = eventAggregator ?? throw new ArgumentNullException(nameof(eventAggregator));
 
-      _eventAggregator.Subscribe<NewBoardEvent>(OnNewBoard);
+      _eventAggregator.Subscribe<NewGameEvent>(OnNewBoard);
    }
 
-   public void OnNewBoard(NewBoardEvent arg)
+   public void OnNewBoard(NewGameEvent arg)
    {
-      _renderer = new ChessBoardRenderer(arg?.Context?.Board);
+      _gameContext = arg?.Context;
+      _renderer = new ChessBoardRenderer(arg?.Context);
       theBoardPanel.Size = _renderer.BoardSize;
    }
 
@@ -66,7 +69,7 @@ public partial class StandardChessBoardView : UserControl
       _renderer.MouseOverPosition = postion;
       _eventAggregator!.Publish(new MouseHooverOnBoardEvent(postion));
 
-      if ( postion is not null)
+      if (postion is not null)
       {
          InvalidatePosition(postion);
       }
@@ -91,7 +94,8 @@ public partial class StandardChessBoardView : UserControl
    {
       if (_renderer is null || _eventAggregator is null)
          return;
-
+      if (_gameContext?.CurrentStep == GameStep.Unplayable)
+         return;
       if (_renderer.MouseOverPosition is null)
          return;
 
@@ -100,18 +104,32 @@ public partial class StandardChessBoardView : UserControl
          var priorSelected = _renderer.SelectedFromPosition;
          _renderer.SelectedFromPosition = null;
          InvalidatePosition(priorSelected);
-         _eventAggregator.Publish(new PositionClearedEvent());
+         _eventAggregator.Publish(new SourcePositionClearedEvent());
       }
-      else 
+      else
       {
-         if( _renderer.SelectedFromPosition is not null)
-         {
+         if (_renderer.SelectedFromPosition is not null)
             return;
-         }
 
-         InvalidatePosition(_renderer.MouseOverPosition);
-         _renderer.SelectedFromPosition = _renderer.MouseOverPosition;
-         _eventAggregator.Publish(new PositionSelectedEvent(_renderer.SelectedFromPosition));
+         if (_gameContext?.CurrentStep == GameStep.SelectMoveSourcePosition)
+         {
+            if (!_gameContext!.CanMovePieceFrom(_renderer.MouseOverPosition))
+               return;
+
+            InvalidatePosition(_renderer.MouseOverPosition);
+            _renderer.SelectedFromPosition = _renderer.MouseOverPosition;
+            _eventAggregator.Publish(new SourcePositionSelectedEvent(_renderer.SelectedFromPosition));
+         }
+         if ( _gameContext?.CurrentStep == GameStep.SelectMoveDestinationPosition)
+         {
+            if (!_gameContext!.IsValidMove(_renderer.SelectedFromPosition!, _renderer.MouseOverPosition))
+               return;
+
+
+            //InvalidatePosition(_renderer.MouseOverPosition);
+            //_renderer.SelectedFromPosition = _renderer.MouseOverPosition;
+            _eventAggregator.Publish(new DestinationPositionSelectedEvent(_renderer.MouseOverPosition));
+         }
       }
 
       //using var g = Graphics.FromHwndInternal(theBoardPanel.Handle);
@@ -335,9 +353,6 @@ public partial class StandardChessBoardView : UserControl
       //   }
       //}
    }
-
-
-
 }
 
 

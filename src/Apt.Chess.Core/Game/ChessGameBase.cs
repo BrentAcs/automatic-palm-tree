@@ -6,22 +6,15 @@ namespace Apt.Chess.Core.Game;
 
 public abstract class ChessGameBase : IChessGame
 {
-   public GameStep CurrentStep { get; set; } = GameStep.New;
-   public ChessColor CurrentPlayer { get; set; } = ChessColor.White;
-   public IBoardModel? Board { get; private set; }
-   public bool HasWhiteKingMoved { get; private set; }
-   public bool HasBlackKingMoved { get; private set; }
-
-   public bool HasKingMoved(ChessColor player) =>
-      player == ChessColor.White ? HasWhiteKingMoved : HasBlackKingMoved;
-
    protected abstract IDictionary<ChessPieceType, IPotentialMoveStrategy> PotentialMoveStrategies { get; }
 
-   public virtual void NewGame(IBoardModel? board, ChessColor player = ChessColor.White)
-   {
-      Board = board ?? throw new ArgumentNullException(nameof(board));
-      CurrentPlayer = player;
-   }
+   // ---------------------------------------------------------------------------------------------
+   // IChessGameContext
+   
+   public GameStep CurrentStep { get; protected set; } = GameStep.Unplayable;
+   public ChessColor CurrentPlayer { get; set; } = ChessColor.White;
+   public IBoardModel? Board { get; private set; }
+   public FileAndRank? SelectedPosition { get; private set; }
 
    public virtual bool CanMovePieceFrom(FileAndRank fromPosition)
       => CanMovePieceFrom(CurrentPlayer, fromPosition);
@@ -63,51 +56,9 @@ public abstract class ChessGameBase : IChessGame
       return strategy.Contains(toPosition);
    }
 
-   public virtual ChessPiece? MovePiece(FileAndRank fromPosition, FileAndRank toPosition)
-      => MovePiece(CurrentPlayer, fromPosition, toPosition);
-
-   public virtual ChessPiece? MovePiece(ChessColor player, FileAndRank fromPosition, FileAndRank toPosition)
-   {
-      if (Board is null)
-         throw new ChessGameException("Board is null.");
-
-      if (!IsValidMove(player, fromPosition, toPosition))
-         throw new ChessGameException("Move is invalid.");
-
-      var fromPiece = Board[ fromPosition ].Piece;
-      var toPiece = Board[ toPosition ].Piece;
-      Board[ fromPosition ].Piece = null;
-      Board[ toPosition ].Piece = fromPiece;
-
-      CheckHasKingMoved(fromPiece, player);
-
-      return toPiece;
-   }
-
-   public virtual void NextTurn() =>
-      CurrentPlayer = CurrentPlayer == ChessColor.White ? ChessColor.Black : ChessColor.White;
-
-   public FileAndRank? GetKingPosition()
-      => GetKingPosition(CurrentPlayer);
-
-   public FileAndRank? GetKingPosition(ChessColor player)
-   {
-      FileAndRank? kingPos = null;
-      Board!.ForEach((position) =>
-      {
-         var square = Board[ position! ];
-         if (!square!.HasPiece)
-         {
-            return;
-         }
-
-         if (square.Piece!.IsPlayer(player) && square.Piece.IsPieceType(ChessPieceType.King))
-            kingPos = position;
-      });
-
-      return kingPos;
-   }
-
+   public bool HasKingMoved(ChessColor player) =>
+      player == ChessColor.White ? HasWhiteKingMoved : HasBlackKingMoved;
+   
    public bool IsKingInCheck()
       => IsKingInCheck(CurrentPlayer);
 
@@ -149,6 +100,82 @@ public abstract class ChessGameBase : IChessGame
 
       return remainingKingMove.Any();
    }
+   
+   // ---------------------------------------------------------------------------------------------
+   // IChessGameCastling
+
+   public bool HasWhiteKingMoved { get; private set; }
+   public bool HasBlackKingMoved { get; private set; }
+
+   public FileAndRank? GetKingPosition()
+      => GetKingPosition(CurrentPlayer);
+
+   public FileAndRank? GetKingPosition(ChessColor player)
+   {
+      FileAndRank? kingPos = null;
+      Board!.ForEach((position) =>
+      {
+         var square = Board[ position! ];
+         if (!square!.HasPiece)
+         {
+            return;
+         }
+
+         if (square.Piece!.IsPlayer(player) && square.Piece.IsPieceType(ChessPieceType.King))
+            kingPos = position;
+      });
+
+      return kingPos;
+   }
+   
+   // ---------------------------------------------------------------------------------------------
+   // IChessGameActions
+   
+   public virtual void NewGame(IBoardModel? board, ChessColor player = ChessColor.White)
+   {
+      Board = board ?? throw new ArgumentNullException(nameof(board));
+      CurrentPlayer = player;
+      CurrentStep = GameStep.SelectMoveSourcePosition;
+   }
+
+   public virtual void SelectPositionToMoveFrom(FileAndRank fromPosition)
+   {
+      SelectedPosition = fromPosition;
+      CurrentStep = GameStep.SelectMoveDestinationPosition;
+   }
+
+   public virtual void ClearPositionToMoveFrom()
+   {
+      SelectedPosition = null;
+      CurrentStep = GameStep.SelectMoveSourcePosition;
+   }
+
+   public virtual ChessPiece? MovePiece(FileAndRank fromPosition, FileAndRank toPosition)
+      => MovePiece(CurrentPlayer, fromPosition, toPosition);
+
+   public virtual ChessPiece? MovePiece(ChessColor player, FileAndRank fromPosition, FileAndRank toPosition)
+   {
+      if (Board is null)
+         throw new ChessGameException("Board is null.");
+
+      if (!IsValidMove(player, fromPosition, toPosition))
+         throw new ChessGameException("Move is invalid.");
+
+      var fromPiece = Board[ fromPosition ].Piece;
+      var toPiece = Board[ toPosition ].Piece;
+      Board[ fromPosition ].Piece = null;
+      Board[ toPosition ].Piece = fromPiece;
+
+      CheckHasKingMoved(fromPiece, player);
+
+      return toPiece;
+   }
+
+   public virtual void NextTurn() =>
+      CurrentPlayer = CurrentPlayer == ChessColor.White ? ChessColor.Black : ChessColor.White;
+   
+   // ---------------------------------------------------------------------------------------------
+   // Privates
 
    private void CheckHasKingMoved(ChessPiece piece, ChessColor player)
    {
@@ -183,5 +210,4 @@ public abstract class ChessGameBase : IChessGame
 
       return false;
    }
-   
 }
